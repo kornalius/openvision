@@ -1,3 +1,4 @@
+<<<<<<< 5295d19cbec5d3bbe471f93a63cb4a0f715cfce2
 # Logs
 logs
 *.log
@@ -35,3 +36,8 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+=======
+node_modules/
+bower_components/
+build/
+>>>>>>> Initial commit

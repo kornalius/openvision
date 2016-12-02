@@ -1,0 +1,9 @@
+@font-face: {
+  font-family: 'SourceCodePro';
+  src: "url('./fonts/SourceCodePro-ExtraLight.otf') format('woff')";
+  font-weight: 100;
+}
+
+#screen {
+  font-family: 'SourceCodePro, monospace';
+}

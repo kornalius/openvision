@@ -1,0 +1,1878 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"storeL",
+				"storeListChanged"
+			],
+			[
+				"muta",
+				"mutateItem"
+			],
+			[
+				"ob",
+				"observer"
+			],
+			[
+				"as",
+				"async"
+			],
+			[
+				"obser",
+				"observeNodes"
+			],
+			[
+				"offs",
+				"offsetWidth\t(weekly-main.html)"
+			],
+			[
+				"RIGHT",
+				"rightSpacer"
+			],
+			[
+				"search",
+				"searchHeaders"
+			],
+			[
+				"gui-advanced",
+				"gui-advanced-filter-builder\t(gui-advanced-filter-builder.html)"
+			],
+			[
+				"gui-ad",
+				"gui-advanced-filter-context\t(gui-advanced-filter-context.html)"
+			],
+			[
+				"gui-",
+				"gui-field-text"
+			],
+			[
+				"alwa",
+				"always-collapsed\t(company-main.html)"
+			],
+			[
+				"cater",
+				"categoryCode"
+			],
+			[
+				"product",
+				"productSelector"
+			],
+			[
+				"Gui",
+				"GuiInputDropdownBehavior"
+			],
+			[
+				"unique",
+				"_.unique\tLodashArray"
+			],
+			[
+				"getElemby",
+				"getElementsByTagName\t(editable-group-behavior.html)"
+			],
+			[
+				"getElem",
+				"getElementsByTagName\t(editable-group-behavior.html)"
+			],
+			[
+				"searchCont",
+				"searchStoreContext"
+			],
+			[
+				"sear",
+				"searchPerson"
+			],
+			[
+				"get_pers",
+				"get_persons_summary\t(person-store.html)"
+			],
+			[
+				"auto-sugges",
+				"auto-suggestions-behavior.html\t(gui-input.html)"
+			],
+			[
+				"gui-auto-sugg",
+				"gui-auto-suggestions-tests.html"
+			],
+			[
+				"query",
+				"querySuggestions"
+			],
+			[
+				"on-key",
+				"on-keypress"
+			],
+			[
+				"sugges",
+				"suggestionsContext"
+			],
+			[
+				"inner",
+				"innerWidth\tjsWindow"
+			],
+			[
+				"res",
+				"results"
+			],
+			[
+				"immu",
+				"immutableOmni\t(immutable-search-store-behavior.html)"
+			],
+			[
+				"imm",
+				"immutableList\t(immutable-person-store-behavior.html)"
+			],
+			[
+				"flex",
+				"flex-grow"
+			],
+			[
+				"ass",
+				"assignColors"
+			],
+			[
+				"temp",
+				"template\tTag"
+			],
+			[
+				"abs",
+				"absolute"
+			],
+			[
+				"from",
+				"fromDateString\t(utils.js)"
+			],
+			[
+				"random",
+				"_.random\tLodashNumber"
+			],
+			[
+				"sticky",
+				"stickyProduct"
+			],
+			[
+				"querySele",
+				"querySelectorAll\tjsDOM"
+			],
+			[
+				"stickty",
+				"stickyProduct"
+			],
+			[
+				"assign",
+				"assignee_link"
+			],
+			[
+				"star",
+				"start_times"
+			],
+			[
+				"localEndpoi",
+				"localEndpointsUrlLabel"
+			],
+			[
+				"localSer",
+				"localServerUrl"
+			],
+			[
+				"isLoc",
+				"isLocalServer\t(globals.js)"
+			],
+			[
+				"assig",
+				"assignee_links"
+			],
+			[
+				"contract_",
+				"contract_product_code"
+			],
+			[
+				"obse",
+				"observer\t(app.html)"
+			],
+			[
+				"sched",
+				"schedules\t(order-item-schedule-group.html)"
+			],
+			[
+				"contr",
+				"contract_id"
+			],
+			[
+				"nextS",
+				"nextSibling\tjsDOM"
+			],
+			[
+				"addEventLis",
+				"addEventListener\tjsEvent"
+			],
+			[
+				"order-clie",
+				"order-client-fields\t(order-client-fields.html)"
+			],
+			[
+				"has",
+				"hasSearchRules"
+			],
+			[
+				"firstChi",
+				"firstChild\tjsDOM"
+			],
+			[
+				"removeChi",
+				"removeChild(childWrapper)\twebcomponents.js"
+			],
+			[
+				"overf",
+				"overflow-y"
+			],
+			[
+				"paper-grou",
+				"paper-fields-group"
+			],
+			[
+				"LEN",
+				"LENGTH_TOP"
+			],
+			[
+				"paper-ac",
+				"paper-action-button\t(paper-items-line-edit.html)"
+			],
+			[
+				"navig",
+				"navigation-disabled\t(main.html)"
+			],
+			[
+				"poin",
+				"cursor: pointer;\tProperty"
+			],
+			[
+				"tran",
+				"tran\ttranslate"
+			],
+			[
+				"transla",
+				"translate\t(Hose Coupling 3:4.scad)"
+			],
+			[
+				"noti",
+				"notifyPath\t(order-main.html)"
+			],
+			[
+				"day",
+				"day_off"
+			],
+			[
+				"billto",
+				"billto_distribution\t(order-billto-distribution-group.html)"
+			],
+			[
+				"order-heade",
+				"order-header-group\t(order-header-group.html)"
+			],
+			[
+				"deli",
+				"delivery_method"
+			],
+			[
+				"c",
+				"code\tcode block"
+			],
+			[
+				"se",
+				"sequelize"
+			],
+			[
+				"check",
+				"checkpoint"
+			],
+			[
+				"stop",
+				"stopResizeNotificationsFor\t(iron-resizable-behavior.html)"
+			],
+			[
+				"content",
+				"contentTemplate"
+			],
+			[
+				"inline-",
+				"inline-flex"
+			],
+			[
+				"non",
+				"display: none;\tProperty"
+			],
+			[
+				"_scrollTo",
+				"_scrollToRight"
+			],
+			[
+				"endpoi",
+				"endpointsUrl"
+			],
+			[
+				"user",
+				"username"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"gui",
+				"gui_api_endpoint"
+			],
+			[
+				"vert",
+				"verticalAlign\t(iron-dropdown.html)"
+			],
+			[
+				"logo_",
+				"logo_half_en.png"
+			],
+			[
+				"daily-person",
+				"daily-person-list-item.html\t(daily-main.html)"
+			],
+			[
+				"dai",
+				"daily-shift"
+			],
+			[
+				"fet",
+				"fetchData"
+			],
+			[
+				"add",
+				"addresses"
+			],
+			[
+				"addre",
+				"address_id"
+			],
+			[
+				"addr",
+				"address"
+			],
+			[
+				"tar",
+				"targetUrl"
+			],
+			[
+				"error",
+				"error-message"
+			],
+			[
+				"vaad",
+				"vaadin-upload.html\t(gui-input.html)"
+			],
+			[
+				"backgr",
+				"background-color"
+			],
+			[
+				"dele",
+				"deletable\t(editable-behavior.html)"
+			],
+			[
+				"time",
+				"timeline"
+			],
+			[
+				"hex",
+				"hex-svg\t(paper-radial-item.html)"
+			],
+			[
+				"backg",
+				"background-color"
+			],
+			[
+				"offset",
+				"offsetTop\t(radial-item-behavior.html)"
+			],
+			[
+				"poi",
+				"cursor: pointer;\tProperty"
+			],
+			[
+				"paper-radial",
+				"paper-radial-item\t(paper-radial-item.html)"
+			],
+			[
+				"paperadi",
+				"paper-radial-item\t(paper-radial-item.html)"
+			],
+			[
+				"paper-rad",
+				"paper-radial-item\t(paper-radial-item.html)"
+			],
+			[
+				"_opera",
+				"_operations"
+			],
+			[
+				"ra",
+				"random"
+			],
+			[
+				"_oper",
+				"_operations"
+			],
+			[
+				"parent",
+				"parent_uid"
+			],
+			[
+				"write",
+				"writeUInt32LE"
+			],
+			[
+				"comma_",
+				"comma_array"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app/screen.js",
+			"settings":
+			{
+				"buffer_size": 6331,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Better CoffeeScript/CoffeeScript.sublime-build",
+					""
+				],
+				[
+					"Packages/Better CoffeeScript/CoffeeScript.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/Better CoffeeScript/CoffeeScript.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/User/Gulp.sublime-build",
+					""
+				],
+				[
+					"Packages/User/npm_start.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/Gulp.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 400.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"STATUS",
+				"git: status"
+			],
+			[
+				"dash",
+				"Convert Case: dash-case"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"group",
+				"Group: Move to Group 2"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"git sta",
+				"git: status"
+			],
+			[
+				"stat",
+				"git: status"
+			],
+			[
+				"disab",
+				"Package Control: Disable Package"
+			],
+			[
+				"open",
+				"File: Open File"
+			],
+			[
+				"disa",
+				"Package Control: Disable Package"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"das",
+				"Convert Case: dash-case"
+			],
+			[
+				"split",
+				"MultiEditUtils: Split selection"
+			],
+			[
+				"camel",
+				"Convert Case: camelCase"
+			],
+			[
+				"lower",
+				"Convert Case: Lower Case"
+			],
+			[
+				"quot",
+				"ChangeQuotes"
+			],
+			[
+				"q",
+				"ChangeQuotes"
+			],
+			[
+				"PICO",
+				"Set Syntax: PICO-8"
+			],
+			[
+				"pic",
+				"Preferences: PICO-8 - Default"
+			],
+			[
+				"enab",
+				"Package Control: Enable Package"
+			],
+			[
+				"disable",
+				"Package Control: Disable Package"
+			],
+			[
+				"align",
+				"AlignTab: Live Preview Mode"
+			],
+			[
+				"conv doub",
+				"String Utilities: Convert Double Quotes To Single"
+			],
+			[
+				"json",
+				"JSON Reindent: reindent file or selection"
+			],
+			[
+				"ascii",
+				"Find non ascii"
+			],
+			[
+				"",
+				"AutoBackups: Open File Backup"
+			],
+			[
+				"convert dou",
+				"String Utilities: Convert Double Quotes To Single"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"string",
+				"String Utilities: Convert Single Quotes To Double"
+			],
+			[
+				"trim",
+				"MultiEditUtils: Remove Empty Regions"
+			],
+			[
+				"reinde",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"xm l",
+				"Set Syntax: XML"
+			],
+			[
+				"back",
+				"AutoBackups: Open File Backup"
+			],
+			[
+				"enable",
+				"Package Control: Enable Package"
+			],
+			[
+				"edit",
+				"Project: Edit Project"
+			],
+			[
+				"merge",
+				"Sublimerge"
+			],
+			[
+				"xml",
+				"Indent XML"
+			],
+			[
+				"haste",
+				"To Hastebin : send"
+			],
+			[
+				"hast",
+				"To Hastebin : send"
+			],
+			[
+				"inden",
+				"Indent XML"
+			],
+			[
+				"came",
+				"Convert Case: camelCase"
+			],
+			[
+				"ever",
+				"Evernote: Update Evernote Note"
+			],
+			[
+				"forma",
+				"Format Code"
+			],
+			[
+				"inde",
+				"Indentation: Indent"
+			],
+			[
+				"tit",
+				"Convert Case: Title Case"
+			],
+			[
+				"push",
+				"Git: Push"
+			],
+			[
+				"word",
+				"Word Wrap: Toggle"
+			],
+			[
+				"check",
+				"Git: Checkout"
+			],
+			[
+				"git",
+				"SublimeGit: Documentation"
+			],
+			[
+				"char",
+				"Character Table: Insert Unicode Character"
+			],
+			[
+				"debug",
+				"SimplestDebugger: Toggle"
+			],
+			[
+				"previ",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"preview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"cheat",
+				"Markdown Preview: Open Markdown Cheat sheet"
+			],
+			[
+				"orgm",
+				"Preferences: orgmode Settings – User"
+			],
+			[
+				"orgmode",
+				"View: Toggle Distraction Free Mode"
+			],
+			[
+				"org",
+				"Layout: Grid"
+			],
+			[
+				":",
+				"Git: Checkout"
+			],
+			[
+				"branch",
+				"Git: Checkout New Branch"
+			],
+			[
+				"fetc",
+				"Git: Fetch"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"bran",
+				"Git (SideBarGit): Branch: switch to…"
+			],
+			[
+				"status",
+				"Git: Status"
+			],
+			[
+				"copy",
+				"File: Copy Path"
+			],
+			[
+				"lint",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"checkou",
+				"Git: Checkout"
+			],
+			[
+				"backu",
+				"AutoBackups: Open Backups Folder"
+			],
+			[
+				"has",
+				"To Hastebin : send"
+			],
+			[
+				"case",
+				"Convert Case: camelCase"
+			],
+			[
+				"lowe",
+				"Convert Case: Lower Case"
+			],
+			[
+				"upgra",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"quo",
+				"ChangeQuotes"
+			],
+			[
+				"fetch",
+				"Git: Fetch"
+			],
+			[
+				"switch",
+				"Git (SideBarGit): Branch: switch to…"
+			],
+			[
+				"checkout",
+				"Git (SideBarGit): Checkout to…"
+			],
+			[
+				"branc",
+				"Git (SideBarGit): Branch: switch to…"
+			],
+			[
+				"chang",
+				"Git (SideBarGit): Diff: all changes since the last commit"
+			],
+			[
+				"reve",
+				"File: Reveal"
+			],
+			[
+				"revea",
+				"File: Reveal"
+			],
+			[
+				"num",
+				"King: Number: Number Sequence"
+			],
+			[
+				"number",
+				"King: Number: Number Sequence"
+			],
+			[
+				"updat",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"upgr",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"ins",
+				"Indentation: Use Spaces"
+			],
+			[
+				"ena",
+				"Package Control: Enable Package"
+			],
+			[
+				"editpro",
+				"Project: Edit Project"
+			],
+			[
+				"alig",
+				"AlignTab"
+			]
+		],
+		"width": 637.0
+	},
+	"console":
+	{
+		"height": 298.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Volumes/hd/sources/OpenVision",
+		"/Volumes/hd/sources/OpenVision/app"
+	],
+	"file_history":
+	[
+		"/Volumes/hd/sources/OpenVision/app/emitter.js",
+		"/Volumes/hd/sources/OpenVision/app/modes/focusable.js",
+		"/Volumes/hd/sources/OpenVision/app/mouse.js",
+		"/Volumes/hd/sources/OpenVision/app/main.js",
+		"/Volumes/hd/sources/OpenVision/app/keyboard.js",
+		"/Volumes/hd/sources/OpenVision/app/mode.js",
+		"/Volumes/hd/sources/OpenVision/src/index.js",
+		"/Volumes/hd/sources/OpenVision/index.html",
+		"/Volumes/hd/sources/OpenVision/LICENSE",
+		"/Volumes/hd/sources/OpenVision/package.json",
+		"/Volumes/hd/sources/OpenVision/webpack.config.js",
+		"/Volumes/hd/sources/OpenVision/README.md",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/styles/gui-field-dropdown-styles.html",
+		"/Users/alain/Library/Caches/Cleanup At Startup/Transmit/AB07FC26-CBFD-4420-B1D0-B93343B5BC1B/e107_config.php",
+		"/Users/alain/Library/Caches/Cleanup At Startup/Transmit/30B5130E-6FF1-43DE-A47B-3D9CA919F8D9/config.php",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-main.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-store.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/immutable-contract-store-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-main.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/page-main-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-advanced-filter-builder.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-main.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-advanced-filter-context.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-collapse-panel.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/filters/filter-base.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/filter-context-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/filters/filter-client-site.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/immutable-person-store-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-store.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-invoices-group.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/app/login-info.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/search/immutable-search-store-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/expanded-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/elements.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/styles/app-theme.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/gui-filter-builder-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/app/app.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/data-storage.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/search/search-store.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/search/search-results.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/header-store.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/site/site-list-item.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-card-list-item.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-field/gui-field-selector.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/collapse-list-detail.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/search/search-filter.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-shift.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-shift-info.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-page.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/orders-page.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/persons-page.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-main.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/company-main.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/clients-page.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/subcontractors-page.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-store.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/site/site-main.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-create.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/company-store.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-soap-api-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/site/sites-page.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/editable-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/site/immutable-site-store-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/immutable-order-store-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/immutable-company-store-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/immutable-store-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/store-mutator-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-create.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-store.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/paper-info.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/scripts/globals.js",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/addresses-group.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-list-item.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-list-item.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/gui-list-item-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/paper-info-group.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/scripts/utils.js",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/editable-group-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/paper-drawer-panel.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/help/tests/doorman-tests.html",
+		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/User/GoldenRatio.sublime-settings",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-selector-dialog.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-selector.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/help/tests/gui-product-selector-tests.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-sites.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-parameters-wizard.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-items.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-item-requirements-group.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-item-assignments-group.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-client-fields.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/reporting/reporting-page.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/help/tests/gui-search-tests.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/products/product-rates.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-products.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/company-sites.html",
+		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/GoldenRatio/GoldenRatio.sublime-settings",
+		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/User/ExpandGroup.sublime-keymap",
+		"/Users/alain/ziptemp/BetterZip Temporary Folder.dZwNtc/BetterZip Temporary Folder.5LI2GE/Default (OSX).sublime-keymap",
+		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/Expand Group/Default (OSX).sublime-keymap",
+		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/User/ExpandGroup.sublime-settings",
+		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/SideBarEnhancements/Side Bar.sublime-settings",
+		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/User/Side Bar.sublime-settings",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-contacts.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/company-contracts.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/company-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-soap-api-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/store-listener-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/addresses-group-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/contact-group-behavior.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/contact-group.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/contacts-group.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/contact-general-information-group.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/employment-contracts/employment-contracts-section.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/phones-group.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-row.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-timeline.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/schedule-open.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/schedule-weekly.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/schedule-product.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/schedule-site.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-item-patrol-schedule-group.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/bower_components/iron-flex-layout/test/iron-flex-layout.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/help/tests/gui-cards-tests.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/bower_components/iron-collapse/iron-collapse.html",
+		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-break.html"
+	],
+	"find":
+	{
+		"height": 36.0
+	},
+	"find_in_files":
+	{
+		"height": 112.0,
+		"where_history":
+		[
+			"($project),-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
+			"/Volumes/hd/sources/lsi/garda/GSKED_1_0/,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
+			"/Volumes/hd2/sources/lsi/garda/GSKED_1_0/,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
+			"<project>",
+			"/Volumes/hd2/sources/lsi/garda/GSKED_1_0/,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
+			"/Volumes/hd2/sources/lsi/garda/GSKED_1_0/,-node_modules/,-dist/,-.tmp/,*.js,*.html,*.css",
+			"/Volumes/hd2/sources/lsi/garda/GSKED_1_0/,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
+			"/Volumes/hd2/sources/lsi/garda/GSKED_1_0/bower_components",
+			"/Volumes/hd2/sources/lsi/garda/GSKED_1_0/,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
+			"/Volumes/hd2/sources/lsi/garda/GSKED_1_0/,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html",
+			"/Volumes/hd2/sources/lsi/garda/GSKED_1_0/,-node_modules/,-bower_components/,-dist/,-.tmp/",
+			"/Volumes/hd2/sources/lsi/garda/GSKED_1_0/app/elements",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"reset",
+			"_defaults",
+			"force_flip",
+			"force_update",
+			"data",
+			"screen",
+			"Screen",
+			"screen",
+			"_terminals",
+			"fang",
+			"_parseBranches",
+			"mutateItem",
+			"name",
+			"_collapsed",
+			"_opened",
+			"opened",
+			"close",
+			"open",
+			"opened",
+			"_expandIcon",
+			"_onClose",
+			"_onContextClose",
+			"checkbox",
+			"ExpandedBehavior",
+			"isexactly",
+			"_showOR",
+			"is exactly",
+			"Is exactly",
+			"_computeUnusedContexts",
+			"context",
+			"_isContext",
+			"value",
+			"newValue",
+			"availableContexts",
+			"contexts",
+			"Contexts",
+			"contexts",
+			"_contextChanged",
+			"_computeUnusedContexts",
+			"_usedContexts",
+			"_computeOpenedContexts",
+			"_openedContexts",
+			"filterContexts",
+			"search_path",
+			"seach_path",
+			"searchPaths",
+			"seach_path",
+			"filterContexts",
+			"filter-base",
+			"gui-advanced-filter-context-client-site",
+			"gui-advanced-filter-context-base",
+			"default",
+			"gui-advanced-filter-context-default",
+			"search_",
+			"this.$",
+			"operands",
+			"context",
+			"operands",
+			"_operandChanged",
+			"operand",
+			"_operandChanged",
+			"operand",
+			"context",
+			"Context",
+			"context",
+			"fromContext",
+			"name",
+			"getMethodName",
+			"store",
+			"map",
+			"mapped",
+			"fromContext",
+			"headersList",
+			"_computeSearchFetchMethod",
+			"context=",
+			"filter-context",
+			"filterContext",
+			"getAvailableFields",
+			"storeContext",
+			"mappedContext",
+			"mappings",
+			"this.mappings[context]",
+			"mappings",
+			"context",
+			"this.mappings[this.context]",
+			"context",
+			"storeMapping",
+			"updateStore",
+			"_search_results",
+			"contextSoapArguments",
+			"filtersChanged",
+			"_onApply",
+			"hasFilters",
+			"_computeHasFilters",
+			"getShifts",
+			"get",
+			"_currentChanged",
+			"_computeContexts",
+			"contexts",
+			"paths",
+			"search",
+			"company",
+			"'companies'",
+			"'company'",
+			"order-create",
+			"ImmutableCompanyStore",
+			"immutable-company-store",
+			"immutable-person-store",
+			"onCreateOrder",
+			"site",
+			"createSite",
+			"adjustItem",
+			"updateItems",
+			"adjustItem",
+			"setItem:",
+			"setItem(",
+			"setItem",
+			"\n        ",
+			"updateItem",
+			"selected",
+			"selectedId",
+			"noMutate",
+			"this.order",
+			"this",
+			"selectedChanged",
+			"store-mutator",
+			"StoreMutatorBehavior",
+			"contract"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			">",
+			"<gui-field-text $2</gui-field-text>",
+			"<gui-field-time $2$4</gui-field-time>",
+			"<gui-field-text $2$4</gui-field-text>",
+			"<gui-field-check $2$4</gui-field-check>",
+			"<gui-field-textarea $2$4</gui-field-textarea>",
+			"<gui-field-reveal $2$4</gui-field-reveal>",
+			"<gui-field-number $2$4</gui-field-number>",
+			"<gui-field-time-picker $2$4</gui-field-time-picker>",
+			"<gui-field-date-picker $2$4</gui-field-date-picker>",
+			"<gui-field-dropdown $2$4</gui-field-dropdown>",
+			"\"",
+			"'",
+			"  ",
+			"\"",
+			"gsked.todayString",
+			"gsked.momentToDateString(",
+			"gsked.dateStringToMoment(",
+			"\""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/screen.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6331,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								282,
+								282
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/screen.js",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"tabs_extra_last_activated": 1480708871.2,
+							"tabs_extra_last_activated_sheet_index": 0,
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 12.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 31.0
+	},
+	"input":
+	{
+		"height": 35.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.GitSavvy":
+	{
+		"height": 140.0
+	},
+	"output.exec":
+	{
+		"height": 266.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git-checkout":
+	{
+		"height": 54.0
+	},
+	"output.git-commit":
+	{
+		"height": 140.0
+	},
+	"output.git-fetch":
+	{
+		"height": 140.0
+	},
+	"output.git-merge":
+	{
+		"height": 140.0
+	},
+	"output.git-push":
+	{
+		"height": 140.0
+	},
+	"output.show_commit_info":
+	{
+		"height": 140.0
+	},
+	"output.unicode_preview":
+	{
+		"height": 79.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 140.0
+	},
+	"pinned_build_system": "Packages/User/Gulp.sublime-build",
+	"project": "openvision.sublime-project",
+	"replace":
+	{
+		"height": 58.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"pagemain",
+				"GSKED_1_0/app/elements/shared/behaviors/page-main-behavior.html"
+			],
+			[
+				"orderinvoi",
+				"GSKED_1_0/app/elements/sales/orders/order-invoices-group.html"
+			],
+			[
+				"ordermain",
+				"GSKED_1_0/app/elements/sales/orders/order-main.html"
+			],
+			[
+				"orderst",
+				"GSKED_1_0/app/elements/sales/orders/order-store.html"
+			],
+			[
+				"immstore",
+				"search/immutable-search-store-behavior.html"
+			],
+			[
+				"elem",
+				"GSKED_1_0/app/elements/elements.html"
+			],
+			[
+				"element",
+				"GSKED_1_0/app/elements/elements.html"
+			],
+			[
+				"theme",
+				"GSKED_1_0/app/styles/app-theme.html"
+			],
+			[
+				"elemen",
+				"GSKED_1_0/app/elements/elements.html"
+			],
+			[
+				"collap",
+				"GSKED_1_0/app/elements/shared/gui/gui-collapse-panel.html"
+			],
+			[
+				"header-sto",
+				"GSKED_1_0/app/elements/shared/header-store.html"
+			],
+			[
+				"immustore",
+				"GSKED_1_0/app/elements/shared/behaviors/immutable-store-behavior.html"
+			],
+			[
+				"storemut",
+				"GSKED_1_0/app/elements/shared/behaviors/store-mutator-behavior.html"
+			],
+			[
+				"addgrou",
+				"GSKED_1_0/app/elements/info-groups/addresses-group.html"
+			],
+			[
+				"personsoa",
+				"GSKED_1_0/app/elements/person/person-soap-api-behavior.html"
+			],
+			[
+				"personstor",
+				"GSKED_1_0/app/elements/person/person-store.html"
+			],
+			[
+				"editgrou",
+				"GSKED_1_0/app/elements/shared/behaviors/editable-group-behavior.html"
+			],
+			[
+				"editable",
+				"GSKED_1_0/app/elements/shared/behaviors/editable-behavior.html"
+			],
+			[
+				"eleme",
+				"GSKED_1_0/app/elements/elements.html"
+			],
+			[
+				"compacontr",
+				"GSKED_1_0/app/elements/company/company-contracts.html"
+			],
+			[
+				"editab",
+				"GSKED_1_0/app/elements/shared/behaviors/editable-group-behavior.html"
+			],
+			[
+				"emplocontr",
+				"GSKED_1_0/app/elements/person/employment-contracts/employment-contracts-section.html"
+			],
+			[
+				"searchres",
+				"search/search-results.html"
+			],
+			[
+				"person-list",
+				"GSKED_1_0/app/elements/person/person-list-item.html"
+			],
+			[
+				"searesult",
+				"search/search-results.html"
+			],
+			[
+				"collaps",
+				"GSKED_1_0/app/elements/shared/gui/collapse-list-detail.html"
+			],
+			[
+				"shadow",
+				"GSKED_1_0/bower_components/paper-styles/classes/shadow.html"
+			],
+			[
+				"iron-colla",
+				"GSKED_1_0/bower_components/iron-collapse/iron-collapse.html"
+			],
+			[
+				"iron-list",
+				"GSKED_1_0/bower_components/iron-list/iron-list.html"
+			],
+			[
+				"paper-info",
+				"GSKED_1_0/app/elements/shared/gui/paper-info.html"
+			],
+			[
+				"guilistitem",
+				"GSKED_1_0/app/elements/shared/behaviors/gui-list-item-behavior.html"
+			],
+			[
+				"guilistit",
+				"GSKED_1_0/app/elements/shared/gui/gui-list-item.html"
+			],
+			[
+				"paperinfo",
+				"GSKED_1_0/app/elements/shared/gui/paper-info.html"
+			],
+			[
+				"guiselect",
+				"GSKED_1_0/app/elements/shared/gui/gui-selector.html"
+			],
+			[
+				"guifieldsele",
+				"GSKED_1_0/app/elements/shared/gui/gui-field/gui-field-selector.html"
+			],
+			[
+				"contractman",
+				"GSKED_1_0/app/elements/company/contracts/contract-main.html"
+			],
+			[
+				"orderitemreq",
+				"GSKED_1_0/app/elements/sales/orders/order-item-requirements-group.html"
+			],
+			[
+				"sitema",
+				"GSKED_1_0/app/elements/site/site-main.html"
+			],
+			[
+				"-main",
+				"GSKED_1_0/app/elements/company/contracts/contract-main.html"
+			],
+			[
+				"compamain",
+				"GSKED_1_0/app/elements/company/company-main.html"
+			],
+			[
+				"-store",
+				"GSKED_1_0/app/elements/person/person-store.html"
+			],
+			[
+				"ironbutt",
+				"GSKED_1_0/bower_components/iron-behaviors/iron-button-state.html"
+			],
+			[
+				"paperbvu",
+				"GSKED_1_0/bower_components/paper-behaviors/paper-button-behavior.html"
+			],
+			[
+				"iron-contr",
+				"GSKED_1_0/bower_components/iron-behaviors/iron-control-state.html"
+			],
+			[
+				"button",
+				"GSKED_1_0/bower_components/paper-behaviors/paper-button-behavior.html"
+			],
+			[
+				"ripple",
+				"GSKED_1_0/bower_components/paper-ripple/paper-ripple.html"
+			],
+			[
+				"iron-sele",
+				"GSKED_1_0/bower_components/iron-selector/iron-selectable.html"
+			],
+			[
+				"gui-selec",
+				"GSKED_1_0/app/elements/shared/gui/gui-selector.html"
+			],
+			[
+				"soap-ca",
+				"GSKED_1_0/app/elements/shared/soap/soap-call.html"
+			],
+			[
+				"itemsedit",
+				"GSKED_1_0/app/elements/shared/behaviors/items-edit-behavior.html"
+			],
+			[
+				"paper-items-",
+				"GSKED_1_0/app/elements/shared/gui/paper-items-edit.html"
+			],
+			[
+				"paper-items",
+				"GSKED_1_0/app/elements/shared/gui/paper-items-line-edit.html"
+			],
+			[
+				"paper-list",
+				"app/elements/shared/gui/paper-list-headers.html"
+			],
+			[
+				"guifo",
+				"app/elements/shared/gui/gui-list-footer.html"
+			],
+			[
+				"paperlis",
+				"app/elements/shared/gui/paper-list-headers.html"
+			],
+			[
+				"paperlish",
+				"app/elements/shared/gui/paper-list-headers.html"
+			],
+			[
+				"paperhea",
+				"app/elements/shared/gui/paper-list-headers.html"
+			],
+			[
+				"papermate",
+				"bower_components/paper-material/paper-material-shared-styles.html"
+			],
+			[
+				"papermater",
+				"bower_components/paper-material/paper-material.html"
+			],
+			[
+				"papermae",
+				"bower_components/paper-material/paper-material-shared-styles.html"
+			],
+			[
+				"papermat",
+				"bower_components/paper-material/paper-material-shared-styles.html"
+			],
+			[
+				"paper-tool",
+				"bower_components/paper-toolbar/paper-toolbar.html"
+			],
+			[
+				"paper-listhea",
+				"app/elements/shared/gui/paper-list-headers.html"
+			],
+			[
+				"personmain",
+				"app/elements/person/person-main.html"
+			],
+			[
+				"contrmain",
+				"app/elements/company/contracts/contract-main.html"
+			],
+			[
+				"sitemain",
+				"app/elements/site/site-main.html"
+			],
+			[
+				"sitma",
+				"app/elements/site/site-main.html"
+			],
+			[
+				"weekmain",
+				"app/elements/schedule/weekly/weekly-main.html"
+			],
+			[
+				"ordersmain",
+				"app/elements/sales/orders/order-main.html"
+			],
+			[
+				"personma",
+				"app/elements/person/person-main.html"
+			],
+			[
+				"contrac-main",
+				"app/elements/company/contracts/contract-main.html"
+			],
+			[
+				"collapsa",
+				"app/elements/shared/gui/collapse-list-detail.html"
+			],
+			[
+				"colla",
+				"app/elements/shared/gui/collapse-list-detail.html"
+			],
+			[
+				"tabsbeha",
+				"app/elements/shared/behaviors/tabs-behavior.html"
+			],
+			[
+				"compmani",
+				"app/elements/company/company-main.html"
+			],
+			[
+				"paper-fields",
+				"app/elements/shared/gui/paper-fields-group.html"
+			],
+			[
+				"app",
+				"app/elements/app/app.html"
+			],
+			[
+				"paper-drawer-panel",
+				"bower_components/paper-drawer-panel/paper-drawer-panel.html"
+			],
+			[
+				"ironpages",
+				"bower_components/iron-pages/iron-pages.html"
+			],
+			[
+				"entities",
+				"app/elements/shared/behaviors/entities-page-tabs-behavior.html"
+			],
+			[
+				"orderitems",
+				"app/elements/sales/orders/order-items.html"
+			],
+			[
+				"flex",
+				"bower_components/iron-flex-layout/iron-flex-layout.html"
+			],
+			[
+				"guisele",
+				"app/elements/shared/gui/gui-selector.html"
+			],
+			[
+				"report",
+				"app/elements/reporting/reporting-page.html"
+			],
+			[
+				"guiselec",
+				"app/elements/shared/gui/gui-selector.html"
+			],
+			[
+				"reporting",
+				"app/elements/reporting/reporting-page.html"
+			],
+			[
+				"ironmenube",
+				"bower_components/iron-menu-behavior/iron-menu-behavior.html"
+			],
+			[
+				"polymer",
+				"bower_components/polymer/polymer-mini.html"
+			],
+			[
+				"poly",
+				"bower_components/polymer/polymer.html"
+			],
+			[
+				"entit",
+				"app/elements/shared/behaviors/entities-page-tabs-behavior.html"
+			],
+			[
+				"ironselec",
+				"bower_components/iron-selector/iron-selectable.html"
+			],
+			[
+				"data",
+				"app/elements/shared/data-storage.html"
+			],
+			[
+				"paperauto",
+				"bower_components/paper-input-autocomplete/paper-input-autocomplete.html"
+			],
+			[
+				"ironelement",
+				"bower_components/iron-form-element-behavior/iron-form-element-behavior.html"
+			],
+			[
+				"paper-dropdown-menu",
+				"bower_components/paper-dropdown-menu/paper-dropdown-menu.html"
+			],
+			[
+				"paper-input",
+				"bower_components/paper-input/paper-input.html"
+			],
+			[
+				"glo",
+				"app/scripts/globals.js"
+			],
+			[
+				"release",
+				"app/elements/help/release-notes.html"
+			],
+			[
+				"glob",
+				"app/scripts/globals.js"
+			],
+			[
+				"releas",
+				"app/elements/help/release-notes.html"
+			],
+			[
+				"rel",
+				"app/elements/help/release-notes.html"
+			],
+			[
+				"checkb",
+				"bower_components/paper-checkbox/paper-checkbox.html"
+			],
+			[
+				"paper-over",
+				"bower_components/paper-dialog-behavior/paper-dialog-behavior.html"
+			],
+			[
+				"freez",
+				"bower_components/freezer-js/README.md"
+			],
+			[
+				"freezread",
+				"bower_components/freezer-js/README.md"
+			],
+			[
+				"freezer",
+				"bower_components/freezer-js/README.md"
+			],
+			[
+				"free",
+				"bower_components/freezer-js/build/freezer.js"
+			],
+			[
+				"layout",
+				"bower_components/iron-flex-layout/iron-flex-layout-classes.html"
+			],
+			[
+				"paper-dialog",
+				"bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html"
+			],
+			[
+				"paper-dia",
+				"bower_components/paper-dialog/paper-dialog.html"
+			],
+			[
+				"styles",
+				"bower_components/paper-styles/paper-styles.html"
+			],
+			[
+				"material",
+				"bower_components/paper-material/paper-material-shared-styles.html"
+			],
+			[
+				"paper-mate",
+				"bower_components/paper-material/paper-material.html"
+			],
+			[
+				"soap.js",
+				"app/scripts/soap.js"
+			],
+			[
+				"states",
+				"app/elements/shared/behaviors/states-behavior.html"
+			],
+			[
+				"promi",
+				"bower_components/promise-polyfill/Promise.js"
+			],
+			[
+				"gui-fie",
+				"app/elements/shared/gui/gui-field.html"
+			],
+			[
+				"gui-input",
+				"app/elements/shared/gui/gui-input.html"
+			],
+			[
+				"paper-butt",
+				"bower_components/paper-button/paper-button.html"
+			],
+			[
+				"paperbutton",
+				"app/elements/shared/gui/paper-action-button.html"
+			],
+			[
+				"them",
+				"app/styles/app-theme.html"
+			],
+			[
+				"gulp",
+				"gulpfile.js"
+			],
+			[
+				"papewrdrop",
+				"bower_components/paper-dropdown-menu/paper-dropdown-menu.html"
+			],
+			[
+				"index",
+				"app/index.html"
+			],
+			[
+				"rout",
+				"app/elements/routing.html"
+			],
+			[
+				"dropdown",
+				"app/elements/shared/behaviors/dropdown-values-behavior.html"
+			],
+			[
+				"guiiun",
+				"app/elements/shared/gui/gui-input.html"
+			],
+			[
+				"group",
+				"app/elements/info-groups/group-data-behavior.html"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"/Volumes/hd2/sources/lsi/garda/GSKED_1_0/gsked.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 400.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 727.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 501.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

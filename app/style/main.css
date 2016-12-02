@@ -1,0 +1,11 @@
+@import url(./font.css);
+@import url(./colors.css);
+
+body {
+  background-color: var(--main-color);
+  margin: 0;
+}
+
+canvas {
+  cursor: none !important;
+}
