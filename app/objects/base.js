@@ -1,18 +1,12 @@
-import { updates } from './updates.js'
+import { PluginMixin } from '../plugin.js'
+import { ModeMixin } from '../mode.js'
+import { mixin } from '../globals.js'
 
-class OpenObject extends PIXI.DisplayObject {
+class Base extends PIXI.utils.EventEmitter {
 
   tick (delta) {
     // this.emit('tick', { delta })
     return this
-  }
-
-  destroy () {
-    if (updates) {
-      updates.remove(this)
-    }
-    this.emit('destroy')
-    super.destroy()
   }
 
   async (fn, args, delay) {
@@ -40,4 +34,6 @@ class OpenObject extends PIXI.DisplayObject {
 
 }
 
-export { OpenObject }
+mixin(Base.prototype, PluginMixin.prototype, ModeMixin.prototype)
+
+export { Base }

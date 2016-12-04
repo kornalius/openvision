@@ -1,6 +1,6 @@
-import { OpenObject } from './openobject.js'
+import { Display, Sprite, Text } from './objects/objects.js'
 
-export default class Screen extends OpenObject {
+export default class Screen extends Display {
 
   constructor (main, width = 640, height = 480, scale = 1) {
     super()
@@ -210,10 +210,10 @@ export default class Screen extends OpenObject {
   }
 
   test () {
-    let t = new PIXI.Sprite(this.loadTexture('test.png'))
+    let t = new Sprite(this.loadTexture('test.png'))
     this._stage.addChild(t)
 
-    let text = new PIXI.Text('This is a pixi text', { font: '20px "Glass TTY VT220"', fill: 0xFFFFFF })
+    let text = new Text('This is a pixi text', { font: '20px "Glass TTY VT220"', fill: 0xFFFFFF })
     text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
     text.context.canvas.style['font-smoothing'] = 'never'
     text.context.canvas.style['-webkit-font-smoothing'] = 'none'

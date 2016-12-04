@@ -1,6 +1,6 @@
-import { OpenObject } from './openobject.js'
+import { Base } from './objects/base.js'
 
-export default class Mouse extends OpenObject {
+export default class Mouse extends Base {
 
   constructor (main) {
     super()

@@ -1,6 +1,6 @@
-import { OpenObject } from './openobject.js'
+import { Base } from './objects/base.js'
 
-export default class Keyboard extends OpenObject {
+export default class Keyboard extends Base {
 
   constructor (main) {
     super()

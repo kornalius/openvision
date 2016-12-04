@@ -1,4 +1,3 @@
-
 class Updates {
 
   constructor () {
@@ -7,17 +6,16 @@ class Updates {
 
   get queue () { return this._queue }
 
-  add (options) {
-    let o = _.get(options, 'object')
-    if (o && !o.__addedToUpdates) {
-      o.__addedToUpdates = true
-      this._queue.push(options)
+  add (obj, cb, options = {}) {
+    if (obj && !obj.__addedToUpdates) {
+      obj.__addedToUpdates = true
+      this._queue.push(_.extend({ args: [], render: false }, options, { obj, cb }))
     }
   }
 
-  remove (o) {
-    this._queue = _.reject(this.queue, { object: o })
-    o.__addedToUpdates = false
+  remove (obj) {
+    obj.__addedToUpdates = false
+    _.pullAllBy(this.queue, obj, 'obj')
   }
 
   clear () {

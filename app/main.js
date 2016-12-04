@@ -1,23 +1,10 @@
-import 'pixi.js'
-import 'web-audio-daw'
-
-import { _ } from 'lodash'
-window._ = _
-_.templateSettings.interpolate = /#{([\s\S]+?)}/g
-
-PIXI.Point.prototype.distance = function (target) {
-  return Math.sqrt((this.x - target.x) * (this.x - target.x) + (this.y - target.y) * (this.y - target.y))
-}
-
-PIXI.Point.prototype.toString = function () {
-  return _.template('(#{x}, #{y})')(this)
-}
-
-PIXI.Rectangle.prototype.toString = function () {
-  return _.template('(#{x}, #{y}, #{x + width}, #{y + height})(#{width}, #{height})')(this)
-}
-
+import './utils.js'
 import './globals.js'
+
+import { loadPlugins, unloadPlugins } from './plugin.js'
+import { loadModes, unloadModes } from './mode.js'
+import { Command } from './command.js'
+import { Shortcut } from './shortcut.js'
 
 import './style/main.css'
 // import t from './html/main.html'
@@ -26,19 +13,18 @@ import './style/main.css'
 // el.innerHTML = t
 // document.body.appendChild(el)
 
-import { OpenObject } from './openobject.js'
+import { Base } from './objects/base.js'
 import { updates } from './updates.js'
 
 import Screen from './screen.js'
 import Keyboard from './keyboard.js'
 import Mouse from './mouse.js'
 
-
 export const _STOPPED = 0
 export const _RUNNING = 1
 export const _PAUSED = 2
 
-export class Main extends OpenObject {
+export class Main extends Base {
 
   constructor (options) {
     super()
@@ -82,12 +68,12 @@ export class Main extends OpenObject {
         let render = false
 
         for (let q of updates.queue) {
-          q.object.__addedToUpdates = false
+          q.obj.__addedToUpdates = false
           if (q.render) {
             render = true
           }
           if (q.cb) {
-            q.cb(q.object, ...(q.args || []))
+            q.cb(q.obj, ...q.args)
           }
         }
 
@@ -148,11 +134,17 @@ export class Main extends OpenObject {
 
   start () {
     this.status = _RUNNING
-    this.test()
+    loadPlugins(() => {
+      loadModes(() => {
+        this.test()
+      })
+    })
     return this
   }
 
   stop () {
+    unloadPlugins()
+    unloadModes()
     this.status = _STOPPED
     return this
   }
