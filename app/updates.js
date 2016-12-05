@@ -6,16 +6,16 @@ class Updates {
 
   get queue () { return this._queue }
 
-  add (obj, cb, options = {}) {
+  add (obj, options = {}) {
     if (obj && !obj.__addedToUpdates) {
       obj.__addedToUpdates = true
-      this._queue.push(_.extend({ args: [], render: false }, options, { obj, cb }))
+      this._queue.push(_.extend({ args: [], render: false }, options))
     }
   }
 
   remove (obj) {
     obj.__addedToUpdates = false
-    _.pullAllBy(this.queue, obj, 'obj')
+    _.pullAllBy(this.queue, obj, 'object')
   }
 
   clear () {

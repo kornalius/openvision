@@ -1,11 +1,39 @@
 export var mixin = (proto, ...mixins) => {
+  let exceptions = ['constructor']
   mixins.forEach(mixin => {
-    Object.getOwnPropertyNames(mixin).forEach(key => {
-      if (key !== 'constructor') {
-        let descriptor = Object.getOwnPropertyDescriptor(mixin, key)
-        Object.defineProperty(proto, key, descriptor)
-      }
-    })
+    if (_.isString(mixin)) { // exception
+      exceptions.push(mixin)
+    }
+    else if (_.isArray(mixin)) { // exceptions
+      exceptions = exceptions.concat(mixin)
+    }
+    else {
+      Object.getOwnPropertyNames(mixin).forEach(key => {
+        if (!_.contains(exceptions, key)) {
+          let descriptor = Object.getOwnPropertyDescriptor(mixin, key)
+          Object.defineProperty(proto, key, descriptor)
+        }
+      })
+    }
+  })
+}
+
+export var unmixin = (proto, ...mixins) => {
+  let exceptions = ['constructor']
+  mixins.forEach(mixin => {
+    if (_.isString(mixin)) { // exception
+      exceptions.push(mixin)
+    }
+    else if (_.isArray(mixin)) { // exceptions
+      exceptions = exceptions.concat(mixin)
+    }
+    else {
+      Object.getOwnPropertyNames(mixin).forEach(key => {
+        if (!_.contains(exceptions, key) && _.has(proto, key)) {
+          delete proto[key]
+        }
+      })
+    }
   })
 }
 

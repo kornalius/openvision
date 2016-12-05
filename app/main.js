@@ -125,6 +125,10 @@ export class Main extends Base {
     }
   }
 
+  key (shortcut, commands) {
+    return new Shortcut(shortcut, commands)
+  }
+
   resize () {
     this.screen.emit('resize')
     this.keyboard.emit('resize')

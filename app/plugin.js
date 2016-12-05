@@ -1,4 +1,8 @@
 import { fs, dirs, path } from './utils.js'
+import { mixin, unmixin } from './globals.js'
+import { Meta, metaExceptions } from './meta.js'
+import async from 'async'
+
 
 export var plugins = {}
 
@@ -20,6 +24,7 @@ export class PluginMixin {
 
 }
 
+
 export class Plugin extends PIXI.utils.EventEmitter {
 
   constructor () {
@@ -28,27 +33,23 @@ export class Plugin extends PIXI.utils.EventEmitter {
   }
 
   destroy () {
+    for (let o of this._loaded) {
+      this.unload(o)
+    }
     plugins[this.name] = undefined
   }
 
+  get exceptions () { return _.concat(metaExceptions, ['destroy', 'loaded', 'load', 'unload']) }
+
   get loaded () { return this._loaded }
 
-  get name () { return '' }
-
-  get tags () { return ['plugin', this.name] }
-
-  get desc () { return '' }
-
-  get author () { return '' }
-
-  get version () { return '1.0.0' }
-
-  get date () { return '' }
+  get tags () { return _.concat([super.tags, 'plugin']) }
 
   load (obj, options = {}) {
     if (!obj.__plugins) {
       obj.__plugins = []
     }
+    mixin(obj.constructor.prototype, this.exceptions, this.constructor.prototype)
     this._loaded.push(obj)
     obj.__plugins.push(this)
   }
@@ -56,6 +57,7 @@ export class Plugin extends PIXI.utils.EventEmitter {
   unload (obj) {
     _.pull(this._loaded, obj)
     if (_.isArray(obj.__plugins)) {
+      unmixin(obj.constructor.prototype, this.exceptions, this.constructor.prototype)
       _.pull(obj.__plugins, this)
       if (_.isEmpty(obj.__plugins)) {
         obj.__plugins = undefined
@@ -65,27 +67,35 @@ export class Plugin extends PIXI.utils.EventEmitter {
 
 }
 
+mixin(Plugin.prototype, Meta.prototype)
+
+
 export var loadPlugins = done => {
-  fs.traverseTree(dirs.cwd,
-    file => {
-      if (path.extname(file) === '.js') {
-        let p
-        try {
-          let P = require(file)
-          p = new P()
+  async.each(_.concat(dirs.cwd, dirs.app, dirs.user), (d, next) => {
+    console.log('Scanning plugins', path.join(d, '/plugins') + '...')
+    fs.traverseTree(path.join(d, '/plugins'),
+      file => {
+        if (path.extname(file) === '.js') {
+          let p
+          try {
+            let P = require(file)
+            p = new P()
+          }
+          catch (e) {
+          }
+          if (p instanceof Plugin) {
+            plugins[p.name] = p
+          }
         }
-        catch (e) {
-        }
-        if (p instanceof Plugin) {
-          plugins[p.name] = p
-        }
-      }
-      return false
-    },
-    folder => {},
-    () => { done() }
-  )
+        return false
+      },
+      folder => { return true },
+      () => { next() }
+    )
+  },
+  () => done())
 }
+
 
 export var unloadPlugins = done => {
   let keys = _.keys(plugins)

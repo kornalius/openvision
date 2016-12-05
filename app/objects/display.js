@@ -12,14 +12,10 @@ class Display extends PIXI.DisplayObject {
     super.destroy()
   }
 
-  update (cb) {
-    updates.add(this, cb)
+  update (options = {}) {
+    updates.add(this, options)
     this.emit('update')
     this.updateTransform()
-  }
-
-  render () {
-    this.emit('render')
   }
 
 }

@@ -1,7 +1,9 @@
 import { fs, dirs, path } from './utils.js'
 import { Plugin, PluginMixin, plugins } from './plugin.js'
+import async from 'async'
 
 export var modes = {}
+
 
 export class ModeMixin extends PluginMixin {
 
@@ -20,6 +22,7 @@ export class ModeMixin extends PluginMixin {
   }
 
 }
+
 
 export class Mode extends Plugin {
 
@@ -78,28 +81,34 @@ export class Mode extends Plugin {
 
 }
 
+
 export var loadModes = done => {
-  fs.traverseTree(dirs.cwd,
-    file => {
-      if (path.extname(file) === '.js') {
-        let m
-        try {
-          let M = require(file)
-          m = new M()
+  async.each(_.concat(dirs.cwd, dirs.app, dirs.user), (d, next) => {
+    console.log('Scanning modes', path.join(d, '/modes') + '...')
+    fs.traverseTree(path.join(d, '/modes'),
+      file => {
+        if (path.extname(file) === '.js') {
+          let m
+          try {
+            let M = require(file)
+            m = new M()
+          }
+          catch (e) {
+          }
+          if (m instanceof Mode) {
+            modes[m.name] = m
+          }
+          return m instanceof Mode
         }
-        catch (e) {
-        }
-        if (m instanceof Mode) {
-          modes[m.name] = m
-        }
-        return m instanceof Mode
-      }
-      return false
-    },
-    folder => {},
-    () => { done() }
-  )
+        return false
+      },
+      folder => { return true },
+      () => { next() }
+    )
+  },
+  () => done())
 }
+
 
 export var unloadModes = done => {
   let keys = _.keys(modes)
