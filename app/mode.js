@@ -1,45 +1,39 @@
 import { fs, dirs, path } from './utils.js'
 import { Plugin, PluginMixin, plugins } from './plugin.js'
-import async from 'async'
+
 
 export var modes = {}
 
 
-export class ModeMixin extends PluginMixin {
-
-  use (name, options = {}) {
-    let m = modes[name]
-    if (m) {
-      m.load(this, options)
-    }
-  }
-
-  unuse (name) {
-    let m = modes[name]
-    if (m) {
-      m.unload(this)
-    }
-  }
-
-}
-
-
 export class Mode extends Plugin {
 
-  constructor () {
-    super(...arguments)
+  constructor (options = {}) {
+    super(options)
     this._plugins = []
   }
 
   destroy () {
+    for (let o of this._loaded) {
+      this.unload(o)
+    }
     modes[this.name] = undefined
   }
 
-  get tags () { return ['mode', this.name] }
+  get tags () {
+    let tags = _.pull(_.clone(super.tags), 'plugin')
+    tags.push('mode')
+    for (let plug of this._plugins) {
+      let p = plugins[plug.name]
+      if (p) {
+        tags = _.concat(tags, p.tags)
+      }
+    }
+    return tags
+  }
 
   get plugins () { return this._plugins }
 
-  plug (name, options) {
+  plug (name, options = {}) {
     this._plugins.push({ name, options })
   }
 
@@ -82,38 +76,64 @@ export class Mode extends Plugin {
 }
 
 
-export var loadModes = done => {
-  async.each(_.concat(dirs.cwd, dirs.app, dirs.user), (d, next) => {
-    console.log('Scanning modes', path.join(d, '/modes') + '...')
-    fs.traverseTree(path.join(d, '/modes'),
-      file => {
-        if (path.extname(file) === '.js') {
-          let m
-          try {
-            let M = require(file)
-            m = new M()
-          }
-          catch (e) {
-          }
-          if (m instanceof Mode) {
-            modes[m.name] = m
-          }
-          return m instanceof Mode
-        }
-        return false
-      },
-      folder => { return true },
-      () => { next() }
-    )
-  },
-  () => done())
+export class ModeMixin extends PluginMixin {
+
+  use (name, options = {}) {
+    if (_.isObject(name)) {
+      options = name
+      name = _.get(options, 'name')
+    }
+    let m = modes[name]
+    if (m) {
+      m.load(this, _.extend(options, { name }))
+    }
+  }
+
+  unuse (name) {
+    let m = modes[name]
+    if (m) {
+      m.unload(this)
+    }
+  }
+
 }
 
 
-export var unloadModes = done => {
-  let keys = _.keys(modes)
-  for (let k of keys) {
-    modes[k].destroy()
+export var loadModes = () => {
+  let walker = d => {
+    return new Promise((resolve, reject) => {
+      console.log('Scanning modes', path.join(d, '/modes') + '...')
+      fs.walk(path.join(d, '/modes'), { fs }).then(files => {
+        for (let file of files) {
+          if (!file.stats.isDirectory() && path.extname(file.path) === '.js') {
+            console.log('    loading', path.basename(file.path) + '...')
+            SystemJS.import(file.path).then(m => {
+              console.log(new m.default.TestPlugin())
+              resolve()
+            })
+          }
+        }
+      })
+      .catch(resolve)
+    })
   }
-  modes = {}
+
+  let promises = []
+  for (let d of _.concat(dirs.cwd, dirs.app, dirs.user)) {
+    promises.push(walker(d))
+  }
+
+  return Promise.all(promises)
+}
+
+
+export var unloadModes = () => {
+  return new Promise((resolve, reject) => {
+    let keys = _.keys(modes)
+    for (let k of keys) {
+      modes[k].destroy()
+    }
+    modes = {}
+    resolve()
+  })
 }

@@ -1,28 +1,44 @@
 import { mixin } from './globals.js'
 import { Base } from './objects/base.js'
-import { Meta } from './meta.js'
+import { Meta, extractMetaFromOptions } from './meta.js'
 
 
 export var commands = {}
 
+export var Command = class {}
 
-export class Command extends Base {
+if (Base) {
+  Command = class extends Base {
 
-  constructor () {
-    super()
-    commands[this.name] = this
+    constructor (options = {}) {
+      super()
+      extractMetaFromOptions(this, options)
+      commands[this.name] = this
+    }
+
+    destroy () {
+      commands[this.name] = undefined
+      super.destroy()
+    }
+
+    get tags () { return _.concat(this._tags, 'command') }
+
+    exec (options = {}) {
+    }
+
   }
 
-  destroy () {
-    super.destroy()
-    commands[this.name] = undefined
-  }
+  mixin(Command.prototype, Meta.prototype)
+}
 
-  get tags () { return _.concat([super.tags, 'command']) }
+export class CommandMixin {
 
-  exec (options = {}) {
+  command (name, options = {}) {
+    if (_.isObject(name)) {
+      options = name
+      name = _.get(options, 'name')
+    }
+    return new Command(_.extend(options, { name }))
   }
 
 }
-
-mixin(Command.prototype, Meta.prototype)

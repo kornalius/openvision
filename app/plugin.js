@@ -1,34 +1,16 @@
 import { fs, dirs, path } from './utils.js'
 import { mixin, unmixin } from './globals.js'
-import { Meta, metaExceptions } from './meta.js'
-import async from 'async'
+import { Meta, metaProperties, extractMetaFromOptions } from './meta.js'
 
 
 export var plugins = {}
 
-export class PluginMixin {
-
-  plug (name, options = {}) {
-    let p = plugins[name]
-    if (p) {
-      p.load(this, options)
-    }
-  }
-
-  unplug (name) {
-    let p = plugins[name]
-    if (p) {
-      p.unload(this)
-    }
-  }
-
-}
-
 
 export class Plugin extends PIXI.utils.EventEmitter {
 
-  constructor () {
+  constructor (options = {}) {
     super()
+    extractMetaFromOptions(this, options)
     this._loaded = []
   }
 
@@ -39,11 +21,11 @@ export class Plugin extends PIXI.utils.EventEmitter {
     plugins[this.name] = undefined
   }
 
-  get exceptions () { return _.concat(metaExceptions, ['destroy', 'loaded', 'load', 'unload']) }
+  get exceptions () { return _.concat(metaProperties, ['destroy', 'loaded', 'load', 'unload', 'exceptions']) }
 
   get loaded () { return this._loaded }
 
-  get tags () { return _.concat([super.tags, 'plugin']) }
+  get tags () { return _.concat(this._tags, 'plugin') }
 
   load (obj, options = {}) {
     if (!obj.__plugins) {
@@ -70,37 +52,64 @@ export class Plugin extends PIXI.utils.EventEmitter {
 mixin(Plugin.prototype, Meta.prototype)
 
 
-export var loadPlugins = done => {
-  async.each(_.concat(dirs.cwd, dirs.app, dirs.user), (d, next) => {
-    console.log('Scanning plugins', path.join(d, '/plugins') + '...')
-    fs.traverseTree(path.join(d, '/plugins'),
-      file => {
-        if (path.extname(file) === '.js') {
-          let p
-          try {
-            let P = require(file)
-            p = new P()
-          }
-          catch (e) {
-          }
-          if (p instanceof Plugin) {
-            plugins[p.name] = p
-          }
-        }
-        return false
-      },
-      folder => { return true },
-      () => { next() }
-    )
-  },
-  () => done())
+export class PluginMixin {
+
+  plug (name, options = {}) {
+    if (_.isObject(name)) {
+      options = name
+      name = _.get(options, 'name')
+    }
+    let p = plugins[name]
+    if (p) {
+      p.load(this, _.extend(options, { name }))
+    }
+  }
+
+  unplug (name) {
+    let p = plugins[name]
+    if (p) {
+      p.unload(this)
+    }
+  }
+
 }
 
 
-export var unloadPlugins = done => {
-  let keys = _.keys(plugins)
-  for (let k of keys) {
-    plugins[k].destroy()
+export var loadPlugins = () => {
+  let walker = d => {
+    return new Promise((resolve, reject) => {
+      console.log('Scanning plugins', path.join(d, '/plugins') + '...')
+      fs.walk(path.join(d, '/plugins'), { fs }).then(files => {
+        for (let file of files) {
+          if (!file.stats.isDirectory() && path.extname(file.path) === '.js') {
+            console.log('    loading', path.basename(file.path) + '...')
+            System.import(file.path).then(m => {
+              console.log(new m.default())
+              resolve()
+            })
+          }
+        }
+      })
+      .catch(resolve)
+    })
   }
-  plugins = {}
+
+  let promises = []
+  for (let d of _.concat(dirs.cwd, dirs.app, dirs.user)) {
+    promises.push(walker(d))
+  }
+
+  return Promise.all(promises)
+}
+
+
+export var unloadPlugins = () => {
+  return new Promise((resolve, reject) => {
+    let keys = _.keys(plugins)
+    for (let k of keys) {
+      plugins[k].destroy()
+    }
+    plugins = {}
+    resolve()
+  })
 }

@@ -1,11 +1,6 @@
 import './utils.js'
 import './globals.js'
 
-import { loadPlugins, unloadPlugins } from './plugin.js'
-import { loadModes, unloadModes } from './mode.js'
-import { Command } from './command.js'
-import { Shortcut } from './shortcut.js'
-
 import './style/main.css'
 // import t from './html/main.html'
 
@@ -14,11 +9,13 @@ import './style/main.css'
 // document.body.appendChild(el)
 
 import { Base } from './objects/base.js'
+
+import { loadPlugins, unloadPlugins } from './plugin.js'
+import { loadModes, unloadModes } from './mode.js'
+
 import { updates } from './updates.js'
 
 import Screen from './screen.js'
-import Keyboard from './keyboard.js'
-import Mouse from './mouse.js'
 
 export const _STOPPED = 0
 export const _RUNNING = 1
@@ -55,8 +52,6 @@ export class Main extends Base {
     this._dblClickDistance = _.get(options, 'dblClickDistance', this._defaults.dblClickDistance)
 
     this.screen = new Screen(this, this._width, this._height, this._scale)
-    this.keyboard = new Keyboard(this)
-    this.mouse = new Mouse(this)
 
     window.addEventListener('resize', this.resize.bind(this))
 
@@ -90,8 +85,6 @@ export class Main extends Base {
 
   destroy () {
     this.screen.destroy()
-    this.keyboard.destroy()
-    this.mouse.destroy()
     super.destroy()
   }
 
@@ -125,21 +118,15 @@ export class Main extends Base {
     }
   }
 
-  key (shortcut, commands) {
-    return new Shortcut(shortcut, commands)
-  }
-
   resize () {
     this.screen.emit('resize')
-    this.keyboard.emit('resize')
-    this.mouse.emit('resize')
     return this
   }
 
   start () {
     this.status = _RUNNING
-    loadPlugins(() => {
-      loadModes(() => {
+    loadPlugins().then(() => {
+      loadModes().then(() => {
         this.test()
       })
     })
@@ -147,9 +134,12 @@ export class Main extends Base {
   }
 
   stop () {
-    unloadPlugins()
-    unloadModes()
-    this.status = _STOPPED
+    unloadPlugins().then(() => {
+      unloadModes().then(() => {
+        this.status = _STOPPED
+      })
+    }
+    )
     return this
   }
 
@@ -165,8 +155,6 @@ export class Main extends Base {
 
   tick (time) {
     this.screen.tick(time)
-    this.keyboard.tick(time)
-    this.mouse.tick(time)
     for (let c of this.screen.stage.children) {
       if (_.isFunction(c.tick)) {
         c.tick(time)

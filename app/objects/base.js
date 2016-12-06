@@ -1,5 +1,7 @@
 import { PluginMixin } from '../plugin.js'
 import { ModeMixin } from '../mode.js'
+import { CommandMixin } from '../command.js'
+import { ShortcutMixin } from '../shortcut.js'
 import { mixin } from '../globals.js'
 
 class Base extends PIXI.utils.EventEmitter {
@@ -34,6 +36,6 @@ class Base extends PIXI.utils.EventEmitter {
 
 }
 
-mixin(Base.prototype, PluginMixin.prototype, ModeMixin.prototype)
+mixin(Base.prototype, PluginMixin.prototype, ModeMixin.prototype, CommandMixin.prototype, ShortcutMixin.prototype)
 
 export { Base }

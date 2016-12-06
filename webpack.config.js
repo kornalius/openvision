@@ -3,6 +3,7 @@ var path = require('path')
 var externals = require('./package.json').dependencies
 
 var ElectronConnectWebpackPlugin = require('electron-connect-webpack-plugin')
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   debug: true,
@@ -26,6 +27,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel',
         query: {
+          plugins: ['transform-runtime'],
           presets: ['es2015']
         }
       },
@@ -57,6 +59,9 @@ module.exports = {
 
   plugins: [
     new ElectronConnectWebpackPlugin(),
+    new CopyWebpackPlugin([
+      { from: 'node_modules/systemjs-plugin-babel', to: 'systemjs-plugin-babel' },
+    ]),
   ],
 
   externals: Object.keys(externals || {}),

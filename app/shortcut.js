@@ -1,40 +1,71 @@
 import { Base } from './objects/base.js'
 import { commands } from './command.js'
-import Combokeys from 'combokeys'
+import { keyboard } from 'keyboardjs'
 
 
 export var shortcuts = {}
 
-var combokeys = new Combokeys(document.documentElement)
+
+export { keyboard }
 
 
-export class Shortcut extends Base {
+export var Shortcut = class {}
 
-  constructor (shortcut, commands) {
-    super()
-    this._shortcut = shortcut
-    this._commands = commands
-    shortcuts[this.shortcut] = this
-    combokeys.bind(this.shortcut, this.exec.bind(this))
-  }
+if (Base) {
+  Shortcut = class extends Base {
 
-  destroy () {
-    super.destroy()
-    shortcuts[this.shortcut] = undefined
-    combokeys.unbind(this.shortcut)
-  }
+    constructor (options = {}) {
+      super()
+      this._shortcut = _.get(options, 'shortcut', '')
+      this._commands = _.get(options, 'commands', [])
+      shortcuts[this.shortcut] = this
+      keyboard.bind(this.shortcut, this.exec.bind(this))
+    }
 
-  get shortcut () { return this._shortcut }
+    destroy () {
+      shortcuts[this.shortcut] = undefined
+      keyboard.unbind(this.shortcut)
+      super.destroy()
+    }
 
-  get commands () { return this._commands }
+    get tags () {
+      let tags = ['shortcut']
+      for (let cmd of this._commands) {
+        let c = commands[cmd.command]
+        if (c) {
+          tags = _.concat(tags, c.tags)
+        }
+      }
+      return tags
+    }
 
-  exec () {
-    for (let cmd of this.commands) {
-      let c = commands[cmd.name]
-      if (c) {
-        c.exec(cmd.options)
+    get shortcut () { return this._shortcut }
+
+    get commands () { return this._commands }
+
+    exec () {
+      for (let cmd of this._commands) {
+        let c = commands[cmd.command]
+        if (c) {
+          c.exec(cmd.options)
+        }
       }
     }
+
+  }
+}
+
+
+export class ShortcutMixin {
+
+  shortcut (shortcut, options = {}) {
+    if (_.isObject(shortcut)) {
+      options = shortcut
+      shortcut = _.get(options, 'shortcut')
+    }
+    return new Shortcut(_.extend(options, { shortcut }))
   }
 
 }
+
+

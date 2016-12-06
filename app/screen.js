@@ -30,7 +30,23 @@ export default class Screen extends Display {
     document.body.appendChild(this._renderer.view)
 
     this._stage = new PIXI.Container()
-    this._stage.scale = new PIXI.Point(this._scale, this._scale)
+
+    let stage = this._stage
+
+    stage.scale = new PIXI.Point(this._scale, this._scale)
+
+    stage.interactive = true
+
+    stage.on('mousedown', this.onMouseDown.bind(this))
+    stage.on('rightdown', this.onMouseDown.bind(this))
+    stage.on('touchstart', this.onMouseDown.bind(this))
+
+    stage.on('mousemove', this.onMouseMove.bind(this))
+
+    stage.on('mouseup', this.onMouseUp.bind(this))
+    stage.on('touchend', this.onMouseUp.bind(this))
+    stage.on('mouseupoutside', this.onMouseUp.bind(this))
+    stage.on('touchendoutside', this.onMouseUp.bind(this))
 
     this.on('resize', this.resize.bind(this))
 
@@ -223,6 +239,15 @@ export default class Screen extends Display {
     text.updateText()
     this._stage.addChild(text)
     this.refresh()
+  }
+
+  onMouseDown (e) {
+  }
+
+  onMouseMove (e) {
+  }
+
+  onMouseUp (e) {
   }
 
   onScroll (e) {
