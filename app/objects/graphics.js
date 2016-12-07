@@ -1,10 +1,10 @@
-import { Container } from './container.js'
-import { mixin } from '../globals.js'
+import { ContainerMixin } from './container.js'
+import { mix, Mixin } from 'mixwith'
 
-class Graphics extends PIXI.Graphics {
 
-}
+export let GraphicsMixin = Mixin(superclass => class extends superclass {
 
-mixin(Graphics.prototype, Container.prototype)
+})
 
-export { Graphics }
+
+export class Graphics extends mix(PIXI.Graphics).with(GraphicsMixin, ContainerMixin) {}

@@ -1,6 +1,8 @@
 import { Plugin } from '../plugin.js'
 
+
 export let focused = null
+
 
 export class Focusable extends Plugin {
 

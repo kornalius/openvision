@@ -1,6 +1,6 @@
-import { mixin } from './globals.js'
 import { Base } from './objects/base.js'
-import { Meta, extractMetaFromOptions } from './meta.js'
+import { MetaMixin, extractMetaFromOptions } from './meta.js'
+import { mix, Mixin } from 'mixwith'
 
 
 export var commands = {}
@@ -8,7 +8,7 @@ export var commands = {}
 export var Command = class {}
 
 if (Base) {
-  Command = class extends Base {
+  Command = class extends mix(Base).with(MetaMixin) {
 
     constructor (options = {}) {
       super()
@@ -27,11 +27,10 @@ if (Base) {
     }
 
   }
-
-  mixin(Command.prototype, Meta.prototype)
 }
 
-export class CommandMixin {
+
+export let CommandMixin = Mixin(superclass => class extends superclass {
 
   command (name, options = {}) {
     if (_.isObject(name)) {
@@ -41,4 +40,4 @@ export class CommandMixin {
     return new Command(_.extend(options, { name }))
   }
 
-}
+})

@@ -1,5 +1,4 @@
 import './utils.js'
-import './globals.js'
 
 import './style/main.css'
 // import t from './html/main.html'
@@ -9,17 +8,19 @@ import './style/main.css'
 // document.body.appendChild(el)
 
 import { Base } from './objects/base.js'
-
-import { loadPlugins, unloadPlugins } from './plugin.js'
-import { loadModes, unloadModes } from './mode.js'
-
+import { plugins, Plugin, loadPlugins, unloadPlugins } from './plugin.js'
+import { modes, Mode, loadModes, unloadModes } from './mode.js'
 import { updates } from './updates.js'
-
-import Screen from './screen.js'
+import { commands } from './command.js'
+import { shortcuts, keyboard } from './shortcut.js'
+import { Screen } from './screen.js'
 
 export const _STOPPED = 0
 export const _RUNNING = 1
 export const _PAUSED = 2
+
+export var currentOver = null
+
 
 export class Main extends Base {
 
@@ -27,7 +28,14 @@ export class Main extends Base {
     super()
 
     this._status = 0
-    this._currentOver = null
+
+    this.plugins = plugins
+    this.modes = modes
+    this.Plugin = Plugin
+    this.Mode = Mode
+    this.commands = commands
+    this.shortcuts = shortcuts
+    this.keyboard = keyboard
 
     // Check for littleEndian
     let b = new ArrayBuffer(4)
@@ -52,8 +60,6 @@ export class Main extends Base {
     this._dblClickDistance = _.get(options, 'dblClickDistance', this._defaults.dblClickDistance)
 
     this.screen = new Screen(this, this._width, this._height, this._scale)
-
-    window.addEventListener('resize', this.resize.bind(this))
 
     let that = this
     PIXI.ticker.shared.add(time => {
@@ -90,10 +96,10 @@ export class Main extends Base {
 
   get defaults () { return this._defaults }
 
-  get currentOver () { return this._currentOver }
+  get currentOver () { return currentOver }
   set currentOver (value) {
-    if (this._currentOver !== value) {
-      this._currentOver = value
+    if (currentOver !== value) {
+      currentOver = value
     }
   }
 
@@ -116,11 +122,6 @@ export class Main extends Base {
     if (this._dblClickDistance !== value) {
       this._dblClickDistance = value
     }
-  }
-
-  resize () {
-    this.screen.emit('resize')
-    return this
   }
 
   start () {

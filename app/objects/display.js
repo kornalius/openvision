@@ -1,8 +1,9 @@
-import { Base } from './base.js'
-import { mixin } from '../globals.js'
+import { BaseMixin } from './base.js'
 import { updates } from '../updates.js'
+import { mix, Mixin } from 'mixwith'
 
-class Display extends PIXI.DisplayObject {
+
+export let DisplayMixin = Mixin(superclass => class extends superclass {
 
   destroy () {
     if (updates) {
@@ -18,8 +19,7 @@ class Display extends PIXI.DisplayObject {
     this.updateTransform()
   }
 
-}
+})
 
-mixin(Display.prototype, Base.prototype)
 
-export { Display }
+export class Display extends mix(PIXI.DisplayObject).with(DisplayMixin, BaseMixin) {}

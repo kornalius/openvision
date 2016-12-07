@@ -1,6 +1,6 @@
 import { Display, Sprite, Text } from './objects/objects.js'
 
-export default class Screen extends Display {
+export class Screen extends Display {
 
   constructor (main, width = 640, height = 480, scale = 1) {
     super()
@@ -48,11 +48,11 @@ export default class Screen extends Display {
     stage.on('mouseupoutside', this.onMouseUp.bind(this))
     stage.on('touchendoutside', this.onMouseUp.bind(this))
 
-    this.on('resize', this.resize.bind(this))
-
     this._renderer.view.addEventListener('wheel', this.onScroll.bind(this), false)
 
     this.resize()
+
+    window.addEventListener('resize', this.resize.bind(this))
 
     this.test()
   }

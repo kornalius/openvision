@@ -1,5 +1,5 @@
 {
-  "name": "openvision",
+  "name": "OpenVision",
   "version": "0.0.1",
   "description": "",
   "main": "./src/index.js",
@@ -21,6 +21,7 @@
     "is": "^3.0.1",
     "keyboardjs": "^2.3.3",
     "lodash": "^4.0.0",
+    "mixwith": "^0.1.1",
     "performance-now": "^0.2.0",
     "pixi.js": "^3.0.9",
     "raf": "^3.3.0",

@@ -1,10 +1,13 @@
+import { Mixin } from 'mixwith'
+
 
 export var currentContext = null
+
 
 export var contextsStack = []
 
 
-export class ContextsMixin {
+export let ContextsMixin = Mixin(superclass => class extends superclass {
 
   setContext (name) {
     this.unsetContext()
@@ -36,7 +39,7 @@ export class ContextsMixin {
   }
 
   hasContext (name) {
-    return this.isContext(name) || _.contains(contextsStack, name)
+    return this.isContext(name) || _.includes(contextsStack, name)
   }
 
-}
+})

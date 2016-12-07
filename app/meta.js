@@ -1,15 +1,7 @@
-export var metaProperties = [
-  'name',
-  'private',
-  'tags',
-  'desc',
-  'author',
-  'version',
-  'date',
-]
+import { Mixin } from 'mixwith'
 
 
-export class Meta {
+export let MetaMixin = Mixin(superclass => class extends superclass {
 
   get name () { return this._name }
 
@@ -25,15 +17,15 @@ export class Meta {
 
   get date () { return this._date }
 
-}
+})
 
 
 export var extractMetaFromOptions = (instance, options) => {
-  instance._name = _.get(instance, options, 'name', '')
-  instance._private = _.get(instance, options, 'private', false)
-  instance._desc = _.get(instance, options, 'desc', '')
-  instance._author = _.get(instance, options, 'author', '')
-  instance._version = _.get(instance, options, 'version', '1.0.0')
-  instance._date = _.get(instance, options, 'date', new Date().toISOString().split('T')[0])
-  instance._tags = _.concat([this.name], _.get(instance, options, 'tags', []))
+  instance._name = _.get(options, 'name', '')
+  instance._private = _.get(options, 'private', false)
+  instance._desc = _.get(options, 'desc', '')
+  instance._author = _.get(options, 'author', '')
+  instance._version = _.get(options, 'version', '1.0.0')
+  instance._date = _.get(options, 'date', new Date().toISOString().split('T')[0])
+  instance._tags = _.get(options, 'tags', [])
 }

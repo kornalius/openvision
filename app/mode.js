@@ -1,5 +1,6 @@
 import { fs, dirs, path } from './utils.js'
-import { Plugin, PluginMixin, plugins } from './plugin.js'
+import { Plugin, plugins } from './plugin.js'
+import { Mixin } from 'mixwith'
 
 
 export var modes = {}
@@ -76,7 +77,7 @@ export class Mode extends Plugin {
 }
 
 
-export class ModeMixin extends PluginMixin {
+export let ModeMixin = Mixin(superclass => class extends superclass {
 
   use (name, options = {}) {
     if (_.isObject(name)) {
@@ -96,25 +97,29 @@ export class ModeMixin extends PluginMixin {
     }
   }
 
-}
+})
 
 
 export var loadModes = () => {
   let walker = d => {
     return new Promise((resolve, reject) => {
       console.log('Scanning modes', path.join(d, '/modes') + '...')
-      fs.walk(path.join(d, '/modes'), { fs }).then(files => {
-        for (let file of files) {
-          if (!file.stats.isDirectory() && path.extname(file.path) === '.js') {
-            console.log('    loading', path.basename(file.path) + '...')
-            SystemJS.import(file.path).then(m => {
-              console.log(new m.default.TestPlugin())
-              resolve()
-            })
+
+      fs.walk(path.join(d, '/modes'), { fs })
+        .then(files => {
+          for (let file of files) {
+            if (!file.stats.isDirectory() && path.extname(file.path) === '.js') {
+              console.log('    loading', path.basename(file.path) + '...')
+
+              System.import(file.path).then(m => {
+                let p = new m.default()
+                modes[p.name] = p
+                resolve()
+              })
+            }
           }
-        }
-      })
-      .catch(resolve)
+        })
+        .catch(resolve)
     })
   }
 

@@ -1,10 +1,10 @@
-import { Sprite } from './sprite.js'
-import { mixin } from '../globals.js'
+import { SpriteMixin } from './sprite.js'
+import { mix, Mixin } from 'mixwith'
 
-class Text extends PIXI.Text {
 
-}
+export let TextMixin = Mixin(superclass => class extends superclass {
 
-mixin(Text.prototype, Sprite.prototype)
+})
 
-export { Text }
+
+export class Text extends mix(PIXI.Text).with(TextMixin, SpriteMixin) {}

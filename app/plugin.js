@@ -1,15 +1,15 @@
-import { fs, dirs, path } from './utils.js'
-import { mixin, unmixin } from './globals.js'
-import { Meta, metaProperties, extractMetaFromOptions } from './meta.js'
+import { fs, dirs, path, mixin, unmixin } from './utils.js'
+import { MetaMixin, extractMetaFromOptions } from './meta.js'
+import { mix, Mixin } from 'mixwith'
 
 
 export var plugins = {}
 
 
-export class Plugin extends PIXI.utils.EventEmitter {
+export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
 
   constructor (options = {}) {
-    super()
+    super(...arguments)
     extractMetaFromOptions(this, options)
     this._loaded = []
   }
@@ -21,11 +21,9 @@ export class Plugin extends PIXI.utils.EventEmitter {
     plugins[this.name] = undefined
   }
 
-  get exceptions () { return _.concat(metaProperties, ['destroy', 'loaded', 'load', 'unload', 'exceptions']) }
-
   get loaded () { return this._loaded }
 
-  get tags () { return _.concat(this._tags, 'plugin') }
+  get tags () { return _.concat(this._tags, this._name, 'plugin') }
 
   load (obj, options = {}) {
     if (!obj.__plugins) {
@@ -49,10 +47,8 @@ export class Plugin extends PIXI.utils.EventEmitter {
 
 }
 
-mixin(Plugin.prototype, Meta.prototype)
 
-
-export class PluginMixin {
+export let PluginMixin = Mixin(superclass => class extends superclass {
 
   plug (name, options = {}) {
     if (_.isObject(name)) {
@@ -72,25 +68,29 @@ export class PluginMixin {
     }
   }
 
-}
+})
 
 
 export var loadPlugins = () => {
   let walker = d => {
     return new Promise((resolve, reject) => {
       console.log('Scanning plugins', path.join(d, '/plugins') + '...')
-      fs.walk(path.join(d, '/plugins'), { fs }).then(files => {
-        for (let file of files) {
-          if (!file.stats.isDirectory() && path.extname(file.path) === '.js') {
-            console.log('    loading', path.basename(file.path) + '...')
-            System.import(file.path).then(m => {
-              console.log(new m.default())
-              resolve()
-            })
+
+      fs.walk(path.join(d, '/plugins'), { fs })
+        .then(files => {
+          for (let file of files) {
+            if (!file.stats.isDirectory() && path.extname(file.path) === '.js') {
+              console.log('    loading', path.basename(file.path) + '...')
+
+              System.import(file.path).then(m => {
+                let p = new m.default()
+                plugins[p.name] = p
+                resolve()
+              })
+            }
           }
-        }
-      })
-      .catch(resolve)
+        })
+        .catch(resolve)
     })
   }
 

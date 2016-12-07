@@ -1,5 +1,7 @@
+import { Mixin } from 'mixwith'
 
-export class StatesMixin {
+
+export let StatesMixin = Mixin(superclass => class extends superclass {
 
   addState (state) {
     if (_.isString(state) && !this.hasState(state)) {
@@ -67,4 +69,18 @@ export class StatesMixin {
     return false
   }
 
-}
+  toggleState (state) {
+    return this.setState(state, !this.hasState(state))
+  }
+
+  setState (state, value) {
+    if (value === true) {
+      this.addState(state)
+    }
+    else if (value === false) {
+      this.removeState(state)
+    }
+    return this
+  }
+
+})

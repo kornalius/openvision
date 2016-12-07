@@ -1,6 +1,7 @@
 import { Base } from './objects/base.js'
 import { commands } from './command.js'
 import { keyboard } from 'keyboardjs'
+import { Mixin } from 'mixwith'
 
 
 export var shortcuts = {}
@@ -10,6 +11,7 @@ export { keyboard }
 
 
 export var Shortcut = class {}
+
 
 if (Base) {
   Shortcut = class extends Base {
@@ -56,7 +58,7 @@ if (Base) {
 }
 
 
-export class ShortcutMixin {
+export let ShortcutMixin = Mixin(superclass => class extends superclass {
 
   shortcut (shortcut, options = {}) {
     if (_.isObject(shortcut)) {
@@ -66,6 +68,4 @@ export class ShortcutMixin {
     return new Shortcut(_.extend(options, { shortcut }))
   }
 
-}
-
-
+})
