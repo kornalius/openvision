@@ -1,6 +1,5 @@
 import { Base } from './objects/base.js'
 import { MetaMixin, extractMetaFromOptions } from './meta.js'
-import { mix, Mixin } from 'mixwith'
 
 
 export var commands = {}
@@ -21,7 +20,7 @@ if (Base) {
       super.destroy()
     }
 
-    get tags () { return _.concat(this._tags, 'command') }
+    get tags () { return _.concat(this._tags, this._name, 'command') }
 
     exec (options = {}) {
     }

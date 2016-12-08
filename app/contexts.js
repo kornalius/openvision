@@ -1,5 +1,3 @@
-import { Mixin } from 'mixwith'
-
 
 export var currentContext = null
 

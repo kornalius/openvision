@@ -1,6 +1,5 @@
-import { fs, dirs, path, mixin, unmixin } from './utils.js'
+import { fs, dirs, path } from './utils.js'
 import { MetaMixin, extractMetaFromOptions } from './meta.js'
-import { mix, Mixin } from 'mixwith'
 
 
 export var plugins = {}
@@ -29,7 +28,9 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
     if (!obj.__plugins) {
       obj.__plugins = []
     }
-    mixin(obj.constructor.prototype, this.exceptions, this.constructor.prototype)
+    obj.__old_proto = Object.getPrototypeOf(obj)
+    let c = class extends mix(obj.constructor).with(this.__Mixin) {}
+    Object.setPrototypeOf(obj, c.prototype)
     this._loaded.push(obj)
     obj.__plugins.push(this)
   }
@@ -37,7 +38,7 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
   unload (obj) {
     _.pull(this._loaded, obj)
     if (_.isArray(obj.__plugins)) {
-      unmixin(obj.constructor.prototype, this.exceptions, this.constructor.prototype)
+      Object.setPrototypeOf(obj, obj.__old_proto)
       _.pull(obj.__plugins, this)
       if (_.isEmpty(obj.__plugins)) {
         obj.__plugins = undefined
@@ -59,6 +60,7 @@ export let PluginMixin = Mixin(superclass => class extends superclass {
     if (p) {
       p.load(this, _.extend(options, { name }))
     }
+    return this
   }
 
   unplug (name) {
@@ -66,6 +68,7 @@ export let PluginMixin = Mixin(superclass => class extends superclass {
     if (p) {
       p.unload(this)
     }
+    return this
   }
 
 })
@@ -83,7 +86,8 @@ export var loadPlugins = () => {
               console.log('    loading', path.basename(file.path) + '...')
 
               System.import(file.path).then(m => {
-                let p = new m.default()
+                let p = new m.C()
+                p.__Mixin = m.M
                 plugins[p.name] = p
                 resolve()
               })

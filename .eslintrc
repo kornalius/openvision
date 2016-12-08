@@ -41,7 +41,9 @@
     "setTimeout": false,
     "clearTimeout": false,
     "setInterval": false,
-    "clearInterval": false
+    "clearInterval": false,
+    "Mixin": false,
+    "mix": false
   },
 
   "extends": [

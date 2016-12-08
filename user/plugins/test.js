@@ -1,4 +1,5 @@
-export default class TestPlugin extends app.Plugin {
+
+export let C = class extends app.Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -9,12 +10,19 @@ export default class TestPlugin extends app.Plugin {
   }
 
   load (obj, options = {}) {
-    super.load(obj, options)
+    return super.load(obj, options)
   }
 
   unload (obj, options = {}) {
     super.unload(obj, options)
   }
 
-
 }
+
+export let M = Mixin(superclass => class extends superclass {
+
+  test () {
+    console.log('test')
+  }
+
+})

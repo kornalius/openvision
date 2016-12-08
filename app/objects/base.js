@@ -2,7 +2,6 @@ import { PluginMixin } from '../plugin.js'
 import { ModeMixin } from '../mode.js'
 import { CommandMixin } from '../command.js'
 import { ShortcutMixin } from '../shortcut.js'
-import { mix, Mixin } from 'mixwith'
 
 
 export let BaseMixin = Mixin(superclass => class extends superclass {

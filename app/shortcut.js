@@ -1,7 +1,6 @@
 import { Base } from './objects/base.js'
 import { commands } from './command.js'
 import { keyboard } from 'keyboardjs'
-import { Mixin } from 'mixwith'
 
 
 export var shortcuts = {}
@@ -31,7 +30,7 @@ if (Base) {
     }
 
     get tags () {
-      let tags = ['shortcut']
+      let tags = [this._shortcut, 'shortcut']
       for (let cmd of this._commands) {
         let c = commands[cmd.command]
         if (c) {

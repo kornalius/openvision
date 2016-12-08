@@ -5,6 +5,10 @@ import now from 'performance-now'
 import 'pixi.js'
 import 'web-audio-daw'
 
+import { Mixin, mix } from 'mixwith'
+window.Mixin = Mixin
+window.mix = mix
+
 const electron = require('electron')
 const { remote, screen, dialog } = electron
 const { app, BrowserWindow } = remote
@@ -96,47 +100,6 @@ let messageBox = (...args) => {
   return null
 }
 
-let mixin = (proto, ...mixins) => {
-  let exceptions = ['constructor']
-  mixins.forEach(mixin => {
-    if (_.isString(mixin)) { // exception
-      exceptions.push(mixin)
-    }
-    else if (_.isArray(mixin)) { // exceptions
-      exceptions = exceptions.concat(mixin)
-    }
-    else {
-      Object.getOwnPropertyNames(mixin).forEach(key => {
-        if (!_.includes(exceptions, key)) {
-          if (!Object.getOwnPropertyDescriptor(proto, key)) {
-            let descriptor = Object.getOwnPropertyDescriptor(mixin, key)
-            Object.defineProperty(proto, key, descriptor)
-          }
-        }
-      })
-    }
-  })
-}
-
-let unmixin = (proto, ...mixins) => {
-  let exceptions = ['constructor']
-  mixins.forEach(mixin => {
-    if (_.isString(mixin)) { // exception
-      exceptions.push(mixin)
-    }
-    else if (_.isArray(mixin)) { // exceptions
-      exceptions = exceptions.concat(mixin)
-    }
-    else {
-      Object.getOwnPropertyNames(mixin).forEach(key => {
-        if (!_.includes(exceptions, key) && _.has(proto, key)) {
-          delete proto[key]
-        }
-      })
-    }
-  })
-}
-
 let map_getters = (source, target, defs) => {
   for (let k in defs) {
     let fn = defs[k]
@@ -219,7 +182,6 @@ let error = (instance, ...message) => {
   let args = normalizeMessages(...message)
   console.error(...args)
   instance.errors++
-  debugger;
   return null
 }
 
@@ -320,8 +282,6 @@ export {
   dirs,
   raf,
   now,
-  mixin,
-  unmixin,
   map_getters,
   map_getters_return_this,
   delay,
@@ -332,5 +292,5 @@ export {
   hex,
   buffer_dump,
   utoa,
-  atou  ,
+  atou,
 }

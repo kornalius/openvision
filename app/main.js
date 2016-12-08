@@ -94,6 +94,10 @@ export class Main extends Base {
     super.destroy()
   }
 
+  get stage () { return this.screen.stage }
+
+  get children () { return this.stage.children }
+
   get defaults () { return this._defaults }
 
   get currentOver () { return currentOver }

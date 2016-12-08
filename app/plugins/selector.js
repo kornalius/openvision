@@ -1,6 +1,5 @@
 import { Plugin } from '../plugin.js'
 import { StatesMixin } from '../states.js'
-import { mix } from 'mixwith'
 
 
 export class Selector extends mix(Plugin).with(StatesMixin) {

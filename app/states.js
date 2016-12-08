@@ -1,5 +1,3 @@
-import { Mixin } from 'mixwith'
-
 
 export let StatesMixin = Mixin(superclass => class extends superclass {
 

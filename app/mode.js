@@ -1,6 +1,5 @@
 import { fs, dirs, path } from './utils.js'
 import { Plugin, plugins } from './plugin.js'
-import { Mixin } from 'mixwith'
 
 
 export var modes = {}
@@ -88,6 +87,7 @@ export let ModeMixin = Mixin(superclass => class extends superclass {
     if (m) {
       m.load(this, _.extend(options, { name }))
     }
+    return this
   }
 
   unuse (name) {
@@ -95,6 +95,7 @@ export let ModeMixin = Mixin(superclass => class extends superclass {
     if (m) {
       m.unload(this)
     }
+    return this
   }
 
 })
