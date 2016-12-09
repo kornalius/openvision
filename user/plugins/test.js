@@ -1,5 +1,5 @@
 
-export let C = class extends app.Plugin {
+export let C = class extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -7,14 +7,17 @@ export let C = class extends app.Plugin {
   }
 
   destroy () {
+    super.destroy()
   }
 
   load (obj, options = {}) {
-    return super.load(obj, options)
+    obj._test = true
+    super.load(obj, options)
   }
 
-  unload (obj, options = {}) {
-    super.unload(obj, options)
+  unload (obj) {
+    delete obj._test
+    super.unload(obj)
   }
 
 }

@@ -13,7 +13,7 @@ export class Mode extends Plugin {
   }
 
   destroy () {
-    for (let o of this._loaded) {
+    for (let o of this.__loaded) {
       this.unload(o)
     }
     modes[this.name] = undefined
@@ -45,7 +45,7 @@ export class Mode extends Plugin {
     if (!obj.__modes) {
       obj.__modes = []
     }
-    this._loaded.push(obj)
+    this.__loaded.push(obj)
     obj.__modes.push(this)
     for (let i = 0; i < this._plugins.length; i++) {
       let pp = this._plugins[i]
@@ -57,7 +57,7 @@ export class Mode extends Plugin {
   }
 
   unload (obj) {
-    _.pull(this._loaded, obj)
+    _.pull(this.__loaded, obj)
     if (_.isArray(obj.__modes)) {
       for (let i = this._plugins.length - 1; i >= 0; i--) {
         let pp = this._plugins[i]
@@ -68,7 +68,7 @@ export class Mode extends Plugin {
       }
       _.pull(obj.__modes, this)
       if (_.isEmpty(obj.__modes)) {
-        obj.__modes = undefined
+        delete obj.__modes
       }
     }
   }
@@ -84,24 +84,26 @@ export let ModeMixin = Mixin(superclass => class extends superclass {
       name = _.get(options, 'name')
     }
     let m = modes[name]
-    if (m) {
+    if (m && !_.includes(this.__modes, m)) {
       m.load(this, _.extend(options, { name }))
+      return this
     }
-    return this
+    return null
   }
 
   unuse (name) {
     let m = modes[name]
-    if (m) {
+    if (m && _.includes(this.__modes, m)) {
       m.unload(this)
+      return this
     }
-    return this
+    return null
   }
 
 })
 
 
-export var loadModes = () => {
+export var loadModes = (extraPaths = []) => {
   let walker = d => {
     return new Promise((resolve, reject) => {
       console.log('Scanning modes', path.join(d, '/modes') + '...')
@@ -125,7 +127,7 @@ export var loadModes = () => {
   }
 
   let promises = []
-  for (let d of _.concat(dirs.cwd, dirs.app, dirs.user)) {
+  for (let d of _.concat(path.join(dirs.cwd, '/build'), dirs.app, dirs.user, extraPaths)) {
     promises.push(walker(d))
   }
 

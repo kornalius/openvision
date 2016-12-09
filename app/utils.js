@@ -10,7 +10,7 @@ window.Mixin = Mixin
 window.mix = mix
 
 const electron = require('electron')
-const { remote, screen, dialog } = electron
+const { remote, dialog } = electron
 const { app, BrowserWindow } = remote
 
 const fs = require('fs-promise')
@@ -259,23 +259,24 @@ let utoa = str => window.btoa(unescape(encodeURIComponent(str)))
 
 let atou = str => decodeURIComponent(escape(window.atob(str)))
 
+window.utoa = utoa
+window.atou = atou
+
+
 export {
   _,
   p,
   name,
   version,
   electron,
-  dialog,
+  app,
+  BrowserWindow,
   openFile,
   saveFile,
   messageBox,
-  remote,
-  screen,
-  BrowserWindow,
-  app,
+  process,
   fs,
   path,
-  userPath,
   IS_WIN,
   IS_OSX,
   IS_LINUX,

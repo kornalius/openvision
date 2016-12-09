@@ -37,16 +37,16 @@ export class Screen extends Display {
 
     stage.interactive = true
 
-    stage.on('mousedown', this.onMouseDown.bind(this))
-    stage.on('rightdown', this.onMouseDown.bind(this))
-    stage.on('touchstart', this.onMouseDown.bind(this))
+    // stage.on('mousedown', this.onMouseDown.bind(this))
+    // stage.on('rightdown', this.onMouseDown.bind(this))
+    // stage.on('touchstart', this.onMouseDown.bind(this))
 
-    stage.on('mousemove', this.onMouseMove.bind(this))
+    // stage.on('mousemove', this.onMouseMove.bind(this))
 
-    stage.on('mouseup', this.onMouseUp.bind(this))
-    stage.on('touchend', this.onMouseUp.bind(this))
-    stage.on('mouseupoutside', this.onMouseUp.bind(this))
-    stage.on('touchendoutside', this.onMouseUp.bind(this))
+    // stage.on('mouseup', this.onMouseUp.bind(this))
+    // stage.on('touchend', this.onMouseUp.bind(this))
+    // stage.on('mouseupoutside', this.onMouseUp.bind(this))
+    // stage.on('touchendoutside', this.onMouseUp.bind(this))
 
     this._renderer.view.addEventListener('wheel', this.onScroll.bind(this), false)
 
@@ -241,7 +241,12 @@ export class Screen extends Display {
     this.refresh()
   }
 
+  getMouseEventInfo (e) {
+    return { x: e.data.global.x, y: e.data.global.y, button: e.data.originalEvent.button }
+  }
+
   onMouseDown (e) {
+    // let { x, y, button } = this.getMouseEventInfo(e)
   }
 
   onMouseMove (e) {

@@ -1,4 +1,4 @@
-import './utils.js'
+import { p, name, version, electron, openFile, saveFile, messageBox, BrowserWindow, app, fs, path, IS_WIN, IS_OSX, IS_LINUX, dirs, raf, now, process } from './utils.js'
 
 import './style/main.css'
 // import t from './html/main.html'
@@ -14,6 +14,8 @@ import { updates } from './updates.js'
 import { commands } from './command.js'
 import { shortcuts, keyboard } from './shortcut.js'
 import { Screen } from './screen.js'
+
+window.Plugin = Plugin
 
 export const _STOPPED = 0
 export const _RUNNING = 1
@@ -37,12 +39,31 @@ export class Main extends Base {
     this.shortcuts = shortcuts
     this.keyboard = keyboard
 
+    this.p = p
+    this.name = name
+    this.version = version
+    this.app = app
+    this.BrowserWindow = BrowserWindow
+    this.electron = electron
+    this.openFile = openFile
+    this.saveFile = saveFile
+    this.messageBox = messageBox
+    this.fs = fs
+    this.path = path
+    this.IS_WIN = IS_WIN
+    this.IS_OSX = IS_OSX
+    this.IS_LINUX = IS_LINUX
+    this.dirs = dirs
+    this.raf = raf
+    this.now = now
+    this.process = process
+
     // Check for littleEndian
     let b = new ArrayBuffer(4)
     let a = new Uint32Array(b)
     let c = new Uint8Array(b)
     a[0] = 0xdeadbeef
-    this.LE = c[0] === 0xef
+    this.littleEndian = c[0] === 0xef
 
     this._defaults = _.get(options, 'defaults', {
       width: 640,
@@ -69,12 +90,12 @@ export class Main extends Base {
         let render = false
 
         for (let q of updates.queue) {
-          q.obj.__addedToUpdates = false
+          q.object.__addedToUpdates = false
           if (q.render) {
             render = true
           }
           if (q.cb) {
-            q.cb(q.obj, ...q.args)
+            q.cb(q.object, ...q.args)
           }
         }
 
@@ -143,8 +164,7 @@ export class Main extends Base {
       unloadModes().then(() => {
         this.status = _STOPPED
       })
-    }
-    )
+    })
     return this
   }
 

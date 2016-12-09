@@ -1,24 +1,29 @@
-import { Plugin } from '../plugin.js'
-import { StatesMixin } from '../states.js'
 
+export let C = class extends Plugin {
 
-export class Selector extends mix(Plugin).with(StatesMixin) {
-
-  get name () { return 'selector' }
-  get desc () { return 'Allow child containers to be selectable.' }
-  get author () { return 'Alain Deschenes' }
-  get version () { return '1.0.0' }
-  get date () { return '12/07/2016' }
+  constructor (options = {}) {
+    super(options)
+    this._name = 'selector'
+    this._desc = 'Allow child containers to be selectable.'
+    this._author = 'Alain Deschenes'
+    this._version = '1.0.0'
+    this._date = '12/04/2016'
+  }
 
   load (obj, options) {
     super.load(obj, options)
-    this._selectables = []
+    obj._selectables = []
   }
 
   unload (obj) {
+    delete obj._selectables
     super.unload(obj)
-    delete this._selectables
   }
+
+}
+
+
+export let M = Mixin(superclass => class extends superclass {
 
   get selectables () { return this._selectables }
 
@@ -77,4 +82,4 @@ export class Selector extends mix(Plugin).with(StatesMixin) {
     return this
   }
 
-}
+})

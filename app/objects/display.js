@@ -18,7 +18,6 @@ export let DisplayMixin = Mixin(superclass => class extends superclass {
 
   update (options = {}) {
     updates.add(this, options)
-    this.emit('update')
     this.updateTransform()
   }
 

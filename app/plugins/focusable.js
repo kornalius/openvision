@@ -1,58 +1,33 @@
-import { Plugin } from '../plugin.js'
-
-
 export let focused = null
 
 
-export class Focusable extends Plugin {
+export let C = class extends Plugin {
 
-  get name () { return 'focusable' }
-  get desc () { return 'Allow container to be focused with mouse and tab key.' }
-  get author () { return 'Alain Deschenes' }
-  get version () { return '1.0.0' }
-  get date () { return '12/04/2016' }
+  constructor (options = {}) {
+    super(options)
+    this._name = 'focusable'
+    this._desc = 'Allow container to be focused with mouse and tab key.'
+    this._author = 'Alain Deschenes'
+    this._version = '1.0.0'
+    this._date = '12/04/2016'
+  }
 
   load (obj, options) {
     super.load(obj, options)
-
     obj._tabIndex = _.get(options, 'tabIndex', -1)
-
-    // obj.on('layers.create', () => {
-    //   this._focusLayer = new PIXI.Graphics()
-    //   this._focusLayer.cacheAsBitmap = true
-    //   this._container.addChild(this._focusLayer)
-    // })
-
-    // obj.on('layers.update', () => {
-    //   let b = this._focusLayer
-    //   if (b) {
-    //     let s = this._focusStyle
-    //     b.clear()
-    //     b.lineStyle(s.width, s.fg, s.alpha)
-    //     let w = s.width * 0.5
-    //     b.drawRect(w - s.offset, w - s.offset, Math.ceil(this.rectInPixel.width - w + s.offset * 2), Math.ceil(this.rectInPixel.height - w + s.offset * 2))
-    //     // b.cacheAsBitmap = false
-    //     // b.cacheAsBitmap = true
-    //     b.visible = this.focused
-    //   }
-    // })
-
-    // obj.on('layers.remove', () => {
-    //   if (this._focusLayer) {
-    //     this._removeLayer(this._focusLayer)
-    //     this._focusLayer = null
-    //   }
-    // })
-
-    obj.on('mouse.down', () => {
-      this.focus()
-    })
+    obj.on('mousedown', () => { this.focus() })
   }
 
   unload (obj) {
-    obj._tabIndex = undefined
+    obj.off('mouse.down')
+    delete obj._tabIndex
     super.unload(obj)
   }
+
+}
+
+
+export let M = Mixin(superclass => class extends superclass {
 
   get focused () { return focused === this }
 
@@ -120,4 +95,4 @@ export class Focusable extends Plugin {
     return this
   }
 
-}
+})

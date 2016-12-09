@@ -28,11 +28,11 @@ export let BaseMixin = Mixin(superclass => class extends superclass {
     return _.extend({ time: performance.now(), defaultPrevented: false }, d || {})
   }
 
-  emit (name, detail) {
-    let d = this.__detail(detail)
+  // emit (name, detail) {
+    // let d = this.__detail(detail)
     // super.emit(name, d)
-    return d
-  }
+    // return d
+  // }
 
 })
 

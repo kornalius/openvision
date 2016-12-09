@@ -10,17 +10,17 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
   constructor (options = {}) {
     super(...arguments)
     extractMetaFromOptions(this, options)
-    this._loaded = []
+    this.__loaded = []
   }
 
   destroy () {
-    for (let o of this._loaded) {
+    for (let o of this.__loaded) {
       this.unload(o)
     }
     plugins[this.name] = undefined
   }
 
-  get loaded () { return this._loaded }
+  get loaded () { return this.__loaded }
 
   get tags () { return _.concat(this._tags, this._name, 'plugin') }
 
@@ -28,20 +28,23 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
     if (!obj.__plugins) {
       obj.__plugins = []
     }
-    obj.__old_proto = Object.getPrototypeOf(obj)
     let c = class extends mix(obj.constructor).with(this.__Mixin) {}
+    c.__old_proto = Object.getPrototypeOf(obj)
     Object.setPrototypeOf(obj, c.prototype)
-    this._loaded.push(obj)
+    this.__loaded.push(obj)
     obj.__plugins.push(this)
   }
 
   unload (obj) {
-    _.pull(this._loaded, obj)
+    _.pull(this.__loaded, obj)
     if (_.isArray(obj.__plugins)) {
-      Object.setPrototypeOf(obj, obj.__old_proto)
+      let proto = Object.getPrototypeOf(obj)
+      if (proto.__old_proto) {
+        Object.setPrototypeOf(obj, proto.__old_proto)
+      }
       _.pull(obj.__plugins, this)
       if (_.isEmpty(obj.__plugins)) {
-        obj.__plugins = undefined
+        delete obj.__plugins
       }
     }
   }
@@ -57,24 +60,26 @@ export let PluginMixin = Mixin(superclass => class extends superclass {
       name = _.get(options, 'name')
     }
     let p = plugins[name]
-    if (p) {
+    if (p && !_.includes(this.__plugins, p)) {
       p.load(this, _.extend(options, { name }))
+      return this
     }
-    return this
+    return null
   }
 
   unplug (name) {
     let p = plugins[name]
-    if (p) {
+    if (p && _.includes(this.__plugins, p)) {
       p.unload(this)
+      return this
     }
-    return this
+    return null
   }
 
 })
 
 
-export var loadPlugins = () => {
+export var loadPlugins = (extraPaths = []) => {
   let walker = d => {
     return new Promise((resolve, reject) => {
       console.log('Scanning plugins', path.join(d, '/plugins') + '...')
@@ -99,7 +104,7 @@ export var loadPlugins = () => {
   }
 
   let promises = []
-  for (let d of _.concat(dirs.cwd, dirs.app, dirs.user)) {
+  for (let d of _.concat(path.join(dirs.cwd, '/build'), dirs.app, dirs.user, extraPaths)) {
     promises.push(walker(d))
   }
 

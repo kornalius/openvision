@@ -43,7 +43,8 @@
     "setInterval": false,
     "clearInterval": false,
     "Mixin": false,
-    "mix": false
+    "mix": false,
+    "Plugin": false
   },
 
   "extends": [
