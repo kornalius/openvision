@@ -28,9 +28,10 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
     if (!obj.__plugins) {
       obj.__plugins = []
     }
-    let c = class extends mix(obj.constructor).with(this.__Mixin) {}
-    c.__old_proto = Object.getPrototypeOf(obj)
-    Object.setPrototypeOf(obj, c.prototype)
+    let C = class extends mix(obj.constructor).with(this.__Mixin) {}
+    C.__old_proto = Object.getPrototypeOf(obj)
+    C.prototype.name = this.__MixinName
+    Object.setPrototypeOf(obj, C.prototype)
     this.__loaded.push(obj)
     obj.__plugins.push(this)
   }
@@ -91,10 +92,20 @@ export var loadPlugins = (extraPaths = []) => {
               console.log('    loading', path.basename(file.path) + '...')
 
               System.import(file.path).then(m => {
-                let p = new m.C()
-                p.__Mixin = m.M
-                plugins[p.name] = p
-                resolve()
+                let C = _.find(m, (v, k) => k.endsWith('Class'))
+                let M = _.find(m, (v, k) => k.endsWith('Mixin'))
+                if (C && M) {
+                  let p = new C()
+                  console.log(m);
+                  p.__ClassName = _.findKey(m, v => v === C)
+                  p.__MixinName = _.findKey(m, v => v === M)
+                  p.__Mixin = M
+                  plugins[p.name] = p
+                  resolve()
+                }
+                else {
+                  reject(new Error('Could not find Class and/or Mixin exports in ' + file.path))
+                }
               })
             }
           }

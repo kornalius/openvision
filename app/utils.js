@@ -1,7 +1,7 @@
 import 'systemjs'
 import path from 'path'
 import raf from 'raf'
-import now from 'performance-now'
+import 'performance-now'
 import 'pixi.js'
 import 'web-audio-daw'
 
@@ -45,12 +45,16 @@ let dirs = {
   build: __dirname,
   cwd: app.getAppPath(),
   home: app.getPath('home'),
-  app: app.getPath('appData'),
+  app: path.join(app.getPath('appData'), '/openvision'),
   user: userPath,
   tmp: app.getPath('temp'),
   root: app.getPath('exe'),
   node_modules: path.join(userPath, 'node_modules'),
   user_pkg: path.join(userPath, 'package.json'),
+}
+
+if (!fs.existsSync(dirs.app)) {
+  fs.makeTreeSync(dirs.app)
 }
 
 System.config({
@@ -282,7 +286,6 @@ export {
   IS_LINUX,
   dirs,
   raf,
-  now,
   map_getters,
   map_getters_return_this,
   delay,

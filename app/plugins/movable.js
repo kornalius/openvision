@@ -1,5 +1,5 @@
 
-export let C = class extends Plugin {
+export let MovableClass = class extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -29,31 +29,35 @@ export let C = class extends Plugin {
 }
 
 
-export let M = Mixin(superclass => class extends superclass {
+export let MovableMixin = Mixin(superclass => class extends superclass {
 
   onMouseDown (e) {
-    if (e.data.originalEvent.button === 0) {
-      this._pressed.down = { time: Date.now(), x: e.data.global.x, y: e.data.global.y, button: e.data.originalEvent.button }
-      this._pressed.move = _.clone(this._pressed.down)
+    let info = app.mouseInfo(e)
+    if (info.leftButton) {
+      this._pressed.down = info
     }
   }
 
   onMouseMove (e) {
-    if (this._pressed.down) {
-      let x = e.data.global.x
-      let y = e.data.global.y
-      let dx = x - this._pressed.move.x
-      let dy = y - this._pressed.move.y
-      this.position.x += dx
-      this.position.y += dy
-      this.update()
+    let info = app.mouseInfo(e)
+    if (info.target === this) {
+      if (this._pressed.down) {
+        let x = info.x - this._pressed.down.dx
+        let y = info.y - this._pressed.down.dy
+        if (this.position.x !== x) {
+          this.position.x = x
+          this.update()
+        }
+        if (this.position.y !== y) {
+          this.position.y = y
+          this.update()
+        }
+      }
     }
-    this._pressed.move = { time: Date.now(), x: e.data.global.x, y: e.data.global.y, button: e.data.originalEvent.button }
   }
 
   onMouseUp (e) {
-    delete this._pressed.down
-    delete this._pressed.move
+    this._pressed = {}
   }
 
 })

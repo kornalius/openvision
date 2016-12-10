@@ -188,6 +188,26 @@ export class Main extends Base {
     super.tick(time)
   }
 
+  mouseInfo (e) {
+    let local = e.data.getLocalPosition(this.stage)
+    let dist = e.data.getLocalPosition(e.target)
+    return {
+      time: performance.now(),
+      button: e.data.originalEvent.button,
+      leftButton: e.data.originalEvent.button === 0,
+      middleButton: e.data.originalEvent.button === 1,
+      rightButton: e.data.originalEvent.button === 2,
+      x: local.x,
+      y: local.y,
+      gx: e.data.global.x,
+      gy: e.data.global.y,
+      dx: dist.x,
+      dy: dist.y,
+      target: e.target,
+      over: e.target._over,
+    }
+  }
+
   test () {
   }
 

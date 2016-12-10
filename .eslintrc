@@ -44,7 +44,8 @@
     "clearInterval": false,
     "Mixin": false,
     "mix": false,
-    "Plugin": false
+    "Plugin": false,
+    "app": false
   },
 
   "extends": [

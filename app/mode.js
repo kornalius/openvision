@@ -115,9 +115,14 @@ export var loadModes = (extraPaths = []) => {
               console.log('    loading', path.basename(file.path) + '...')
 
               System.import(file.path).then(m => {
-                let p = new m.default()
-                modes[p.name] = p
-                resolve()
+                if (m.default) {
+                  let p = new m.default()
+                  modes[p.name] = p
+                  resolve()
+                }
+                else {
+                  reject(new Error('No default export found in ' + file.path))
+                }
               })
             }
           }
