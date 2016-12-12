@@ -1,5 +1,5 @@
 
-export class SelectorClass extends Plugin {
+export default class extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -19,11 +19,6 @@ export class SelectorClass extends Plugin {
     delete obj._selectables
     super.unload(obj)
   }
-
-}
-
-
-export let SelectorMixin = Mixin(superclass => class SelectorMixin extends superclass {
 
   get selectables () { return this._selectables }
 
@@ -82,4 +77,4 @@ export let SelectorMixin = Mixin(superclass => class SelectorMixin extends super
     return this
   }
 
-})
+}

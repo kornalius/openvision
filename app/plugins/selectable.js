@@ -1,5 +1,5 @@
 
-export class SelectableClass extends Plugin {
+export default class extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -20,11 +20,6 @@ export class SelectableClass extends Plugin {
     super.unload(obj)
   }
 
-}
-
-
-export let SelectableMixin = Mixin(superclass => class SelectableMixin extends superclass {
-
   get canSelect () { return !_.isNil(this._parentSelector) }
 
   get selected () { return this._selected }
@@ -40,4 +35,4 @@ export let SelectableMixin = Mixin(superclass => class SelectableMixin extends s
     this.selected = !this.selected
   }
 
-})
+}

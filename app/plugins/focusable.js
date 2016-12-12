@@ -1,7 +1,7 @@
 export let focused = null
 
 
-export class FocusableClass extends Plugin {
+export default class extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -19,15 +19,10 @@ export class FocusableClass extends Plugin {
   }
 
   unload (obj) {
-    obj.off('mouse.down')
+    obj.off('mousedown')
     delete obj._tabIndex
     super.unload(obj)
   }
-
-}
-
-
-export let FocusableMixin = Mixin(superclass => class FocusableMixin extends superclass {
 
   get focused () { return focused === this }
 
@@ -95,4 +90,4 @@ export let FocusableMixin = Mixin(superclass => class FocusableMixin extends sup
     return this
   }
 
-})
+}

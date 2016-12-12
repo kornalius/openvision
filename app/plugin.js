@@ -24,13 +24,18 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
 
   get tags () { return _.concat(this._tags, this._name, 'plugin') }
 
+  get propertyNames () {
+    let pluginProps = Object.getOwnPropertyNames(Object.getPrototypeOf(new Plugin()))
+    return _.filter(Object.getOwnPropertyNames(Object.getPrototypeOf(this)), k => !k.startsWith('_') && !_.includes(pluginProps, k))
+  }
+
   load (obj, options = {}) {
     if (!obj.__plugins) {
       obj.__plugins = []
     }
-    let C = class extends mix(obj.constructor).with(this.__Mixin) {}
-    C.__old_proto = Object.getPrototypeOf(obj)
-    Object.setPrototypeOf(obj, C.prototype)
+    for (let k of this.propertyNames) {
+      obj[k] = this[k]
+    }
     this.__loaded.push(obj)
     obj.__plugins.push(this)
   }
@@ -38,9 +43,8 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
   unload (obj) {
     _.pull(this.__loaded, obj)
     if (_.isArray(obj.__plugins)) {
-      let proto = Object.getPrototypeOf(obj)
-      if (proto.__old_proto) {
-        Object.setPrototypeOf(obj, proto.__old_proto)
+      for (let k of this.propertyNames) {
+        delete obj[k]
       }
       _.pull(obj.__plugins, this)
       if (_.isEmpty(obj.__plugins)) {
@@ -62,18 +66,16 @@ export let PluginMixin = Mixin(superclass => class PluginMixin extends superclas
     let p = plugins[name]
     if (p && !_.includes(this.__plugins, p)) {
       p.load(this, _.extend(options, { name }))
-      return this
     }
-    return null
+    return this
   }
 
   unplug (name) {
     let p = plugins[name]
     if (p && _.includes(this.__plugins, p)) {
       p.unload(this)
-      return this
     }
-    return null
+    return this
   }
 
 })
@@ -91,13 +93,8 @@ export var loadPlugins = (extraPaths = []) => {
               console.log('    loading', path.basename(file.path) + '...')
 
               System.import(file.path).then(m => {
-                let C = _.find(m, (v, k) => k.endsWith('Class'))
-                let M = _.find(m, (v, k) => k.endsWith('Mixin'))
-                if (C && M) {
-                  let p = new C()
-                  p.__ClassName = _.findKey(m, v => v === C)
-                  p.__MixinName = _.findKey(m, v => v === M)
-                  p.__Mixin = M
+                if (m.default) {
+                  let p = new m.default()
                   plugins[p.name] = p
                   resolve()
                 }

@@ -1,5 +1,5 @@
 
-export class MovableClass extends Plugin {
+export default class extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -25,11 +25,6 @@ export class MovableClass extends Plugin {
     obj.off('mouseup', obj.onMouseUp)
     super.unload(obj)
   }
-
-}
-
-
-export let MovableMixin = Mixin(superclass => class MovableMixin extends superclass {
 
   onMouseDown (e) {
     let info = app.mouseInfo(e)
@@ -60,4 +55,4 @@ export let MovableMixin = Mixin(superclass => class MovableMixin extends supercl
     this._pressed = {}
   }
 
-})
+}

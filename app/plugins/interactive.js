@@ -1,5 +1,5 @@
 
-export class InteractiveClass extends Plugin {
+export default class extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -21,8 +21,3 @@ export class InteractiveClass extends Plugin {
   }
 
 }
-
-
-export let InteractiveMixin = Mixin(superclass => class InteractiveMixin extends superclass {
-
-})
