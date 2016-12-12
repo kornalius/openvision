@@ -9,11 +9,11 @@ export var shortcuts = {}
 export { keyboard }
 
 
-export var Shortcut = class {}
+export var Shortcut = class Shortcut {}
 
 
 if (Base) {
-  Shortcut = class extends Base {
+  Shortcut = class Shortcut extends Base {
 
     constructor (options = {}) {
       super()
@@ -57,7 +57,7 @@ if (Base) {
 }
 
 
-export let ShortcutMixin = Mixin(superclass => class extends superclass {
+export let ShortcutMixin = Mixin(superclass => class ShortcutMixin extends superclass {
 
   shortcut (shortcut, options = {}) {
     if (_.isObject(shortcut)) {

@@ -8,7 +8,7 @@ import { ContainerMixin } from './container.js'
 import { SpriteMixin } from './sprite.js'
 
 
-export let TextMixin = Mixin(superclass => class extends superclass {
+export let TextMixin = Mixin(superclass => class TextMixin extends superclass {
 
 })
 

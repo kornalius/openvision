@@ -28,7 +28,7 @@ module.exports = {
         loader: 'babel',
         query: {
           plugins: ['transform-runtime'],
-          presets: ['es2015']
+          presets: ['latest']
         }
       },
 

@@ -1,7 +1,7 @@
 export let focused = null
 
 
-export let FocusableClass = class extends Plugin {
+export class FocusableClass extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -27,7 +27,7 @@ export let FocusableClass = class extends Plugin {
 }
 
 
-export let FocusableMixin = Mixin(superclass => class extends superclass {
+export let FocusableMixin = Mixin(superclass => class FocusableMixin extends superclass {
 
   get focused () { return focused === this }
 

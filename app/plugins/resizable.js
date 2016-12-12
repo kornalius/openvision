@@ -1,5 +1,5 @@
 
-export let ResizableClass = class extends Plugin {
+export class ResizableClass extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -21,6 +21,6 @@ export let ResizableClass = class extends Plugin {
 }
 
 
-export let ResizableMixin = Mixin(superclass => class extends superclass {
+export let ResizableMixin = Mixin(superclass => class ResizableMixin extends superclass {
 
 })

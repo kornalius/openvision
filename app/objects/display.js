@@ -6,7 +6,7 @@ import { ShortcutMixin } from '../shortcut.js'
 import { updates } from '../updates.js'
 
 
-export let DisplayMixin = Mixin(superclass => class extends superclass {
+export let DisplayMixin = Mixin(superclass => class DisplayMixin extends superclass {
 
   destroy () {
     if (updates) {

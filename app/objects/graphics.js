@@ -7,7 +7,7 @@ import { DisplayMixin } from './display.js'
 import { ContainerMixin } from './container.js'
 
 
-export let GraphicsMixin = Mixin(superclass => class extends superclass {
+export let GraphicsMixin = Mixin(superclass => class GraphicsMixin extends superclass {
 
 })
 

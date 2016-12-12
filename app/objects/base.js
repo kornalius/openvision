@@ -4,7 +4,7 @@ import { CommandMixin } from '../command.js'
 import { ShortcutMixin } from '../shortcut.js'
 
 
-export let BaseMixin = Mixin(superclass => class extends superclass {
+export let BaseMixin = Mixin(superclass => class BaseMixin extends superclass {
 
   tick (delta) {
     // this.emit('tick', { delta })
@@ -35,8 +35,6 @@ export let BaseMixin = Mixin(superclass => class extends superclass {
   // }
 
 })
-
-BaseMixin.constructor.__name = 'BaseMixin'
 
 
 export class Base extends mix(PIXI.utils.EventEmitter).with(BaseMixin, PluginMixin, ModeMixin, CommandMixin, ShortcutMixin) {}

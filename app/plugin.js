@@ -30,7 +30,6 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
     }
     let C = class extends mix(obj.constructor).with(this.__Mixin) {}
     C.__old_proto = Object.getPrototypeOf(obj)
-    C.prototype.name = this.__MixinName
     Object.setPrototypeOf(obj, C.prototype)
     this.__loaded.push(obj)
     obj.__plugins.push(this)
@@ -53,7 +52,7 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
 }
 
 
-export let PluginMixin = Mixin(superclass => class extends superclass {
+export let PluginMixin = Mixin(superclass => class PluginMixin extends superclass {
 
   plug (name, options = {}) {
     if (_.isObject(name)) {
@@ -96,7 +95,6 @@ export var loadPlugins = (extraPaths = []) => {
                 let M = _.find(m, (v, k) => k.endsWith('Mixin'))
                 if (C && M) {
                   let p = new C()
-                  console.log(m);
                   p.__ClassName = _.findKey(m, v => v === C)
                   p.__MixinName = _.findKey(m, v => v === M)
                   p.__Mixin = M

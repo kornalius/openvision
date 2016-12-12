@@ -1,5 +1,5 @@
 
-export let StatesMixin = Mixin(superclass => class extends superclass {
+export let StatesMixin = Mixin(superclass => class StatesMixin extends superclass {
 
   addState (state) {
     if (_.isString(state) && !this.hasState(state)) {

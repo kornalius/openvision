@@ -1,5 +1,5 @@
 
-export let SelectorClass = class extends Plugin {
+export class SelectorClass extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -23,7 +23,7 @@ export let SelectorClass = class extends Plugin {
 }
 
 
-export let SelectorMixin = Mixin(superclass => class extends superclass {
+export let SelectorMixin = Mixin(superclass => class SelectorMixin extends superclass {
 
   get selectables () { return this._selectables }
 

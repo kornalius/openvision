@@ -6,7 +6,7 @@ import { ShortcutMixin } from '../shortcut.js'
 import { DisplayMixin } from './display.js'
 
 
-export let ContainerMixin = Mixin(superclass => class extends superclass {
+export let ContainerMixin = Mixin(superclass => class ContainerMixin extends superclass {
 
 })
 

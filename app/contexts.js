@@ -5,7 +5,7 @@ export var currentContext = null
 export var contextsStack = []
 
 
-export let ContextsMixin = Mixin(superclass => class extends superclass {
+export let ContextsMixin = Mixin(superclass => class ContextsMixin extends superclass {
 
   setContext (name) {
     this.unsetContext()

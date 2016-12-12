@@ -1,5 +1,5 @@
 
-export let TestClass = class extends Plugin {
+export class TestClass extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -22,7 +22,7 @@ export let TestClass = class extends Plugin {
 
 }
 
-export let TestMixin = Mixin(superclass => class extends superclass {
+export let TestMixin = Mixin(superclass => class TestMixin extends superclass {
 
   test () {
     console.log('test')

@@ -1,5 +1,5 @@
 
-export let MovableClass = class extends Plugin {
+export class MovableClass extends Plugin {
 
   constructor (options = {}) {
     super(options)
@@ -29,7 +29,7 @@ export let MovableClass = class extends Plugin {
 }
 
 
-export let MovableMixin = Mixin(superclass => class extends superclass {
+export let MovableMixin = Mixin(superclass => class MovableMixin extends superclass {
 
   onMouseDown (e) {
     let info = app.mouseInfo(e)

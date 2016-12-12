@@ -76,7 +76,7 @@ export class Mode extends Plugin {
 }
 
 
-export let ModeMixin = Mixin(superclass => class extends superclass {
+export let ModeMixin = Mixin(superclass => class ModeMixin extends superclass {
 
   use (name, options = {}) {
     if (_.isObject(name)) {

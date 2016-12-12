@@ -1,5 +1,5 @@
 
-export let MetaMixin = Mixin(superclass => class extends superclass {
+export let MetaMixin = Mixin(superclass => class MetaMixin extends superclass {
 
   get name () { return this._name }
 

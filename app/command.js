@@ -4,10 +4,10 @@ import { MetaMixin, extractMetaFromOptions } from './meta.js'
 
 export var commands = {}
 
-export var Command = class {}
+export var Command = class Command {}
 
 if (Base) {
-  Command = class extends mix(Base).with(MetaMixin) {
+  Command = class Command extends mix(Base).with(MetaMixin) {
 
     constructor (options = {}) {
       super()
@@ -29,7 +29,7 @@ if (Base) {
 }
 
 
-export let CommandMixin = Mixin(superclass => class extends superclass {
+export let CommandMixin = Mixin(superclass => class CommandMixin extends superclass {
 
   command (name, options = {}) {
     if (_.isObject(name)) {
