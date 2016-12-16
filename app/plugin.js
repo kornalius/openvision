@@ -1,6 +1,21 @@
 import { fs, dirs, path } from './utils.js'
 import { MetaMixin, extractMetaFromOptions } from './meta.js'
 
+System.defaultJSExtensions = true
+
+System.config({
+  transpiler: 'plugin-babel',
+
+  map: {
+    'plugin-babel': 'build/systemjs-plugin-babel/plugin-babel.js',
+    'systemjs-babel-build': 'build/systemjs-plugin-babel/systemjs-babel-browser.js',
+    'app-plugins': 'build/plugins',
+    'app-modes': 'build/modes',
+    'user-plugins': path.join(dirs.user, '/plugins'),
+    'user-modes': path.join(dirs.user, '/modes'),
+  },
+})
+
 
 export var plugins = {}
 

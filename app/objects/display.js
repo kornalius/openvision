@@ -12,13 +12,18 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
     if (updates) {
       updates.remove(this)
     }
-    this.emit('destroy')
     super.destroy()
   }
 
   update (options = {}) {
-    updates.add(this, options)
-    this.updateTransform()
+    updates.add(this, _.extend(options, {
+      cb: () => {
+        if (_.isFunction(this.render)) {
+          this.render()
+        }
+        this.updateTransform()
+      }
+    }))
   }
 
 })

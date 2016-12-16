@@ -9,7 +9,7 @@ class Updates {
   add (obj, options = {}) {
     if (obj && !obj.__addedToUpdates) {
       obj.__addedToUpdates = true
-      this._queue.push(_.extend({ object: obj, args: [], render: true }, options))
+      this._queue.push(_.extend({ object: obj, args: [], flip: true, render: true }, options))
     }
   }
 

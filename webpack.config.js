@@ -12,7 +12,7 @@ module.exports = {
 
   target: 'electron-renderer',
 
-  entry: './app/main.js',
+  entry: './app/app.js',
 
   output: {
     path: path.join(__dirname, 'build'),

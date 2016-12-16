@@ -1,11 +1,15 @@
 import { Display, Sprite, Text } from './objects/objects.js'
 
+
+export var currentOver = null
+
+
 export class Screen extends Display {
 
-  constructor (main, width = 640, height = 480, scale = 1) {
+  constructor (app, width = 640, height = 480, scale = 1) {
     super()
 
-    this._main = main
+    this._app = app
 
     this._sprite = null
     this._texture = null
@@ -37,18 +41,18 @@ export class Screen extends Display {
 
     stage.interactive = true
 
-    // stage.on('mousedown', this.onMouseDown.bind(this))
-    // stage.on('rightdown', this.onMouseDown.bind(this))
-    // stage.on('touchstart', this.onMouseDown.bind(this))
+    stage.on('mousedown', this.onMouseDown.bind(this))
+    stage.on('rightdown', this.onMouseDown.bind(this))
+    stage.on('touchstart', this.onMouseDown.bind(this))
 
-    // stage.on('mousemove', this.onMouseMove.bind(this))
+    stage.on('mousemove', this.onMouseMove.bind(this))
 
-    // stage.on('mouseup', this.onMouseUp.bind(this))
-    // stage.on('touchend', this.onMouseUp.bind(this))
-    // stage.on('mouseupoutside', this.onMouseUp.bind(this))
-    // stage.on('touchendoutside', this.onMouseUp.bind(this))
+    stage.on('mouseup', this.onMouseUp.bind(this))
+    stage.on('touchend', this.onMouseUp.bind(this))
+    stage.on('mouseupoutside', this.onMouseUp.bind(this))
+    stage.on('touchendoutside', this.onMouseUp.bind(this))
 
-    this._renderer.view.addEventListener('wheel', this.onScroll.bind(this), false)
+    this._renderer.view.addEventListener('wheel', this.onScroll.bind(this), { capture: false, passive: true })
 
     this.resize()
 
@@ -115,10 +119,14 @@ export class Screen extends Display {
     return this
   }
 
-  get main () { return this._main }
+  get app () { return this._app }
 
-  get currentOver () { return this._main.currentOver }
-  set currentOver (value) { this._main.currentOver = value }
+  get currentOver () { return currentOver }
+  set currentOver (value) {
+    if (currentOver !== value) {
+      currentOver = value
+    }
+  }
 
   get scale () { return this._scale }
   set scale (value) {
@@ -181,9 +189,8 @@ export class Screen extends Display {
   }
 
   rescale (width, height) {
-    if (!this.emit('rescale', { width, height }).defaultPrevented) {
-      this.scale = Math.ceil(Math.min(width / this._renderer.width, height / this._renderer.height))
-    }
+    this.scale = Math.ceil(Math.min(width / this._renderer.width, height / this._renderer.height))
+    this.emit('scale', { scale: this.scale })
     return this
   }
 
@@ -193,10 +200,12 @@ export class Screen extends Display {
       this.flip()
     }
     this.emit('refresh', { flip })
+    return this
   }
 
   clear () {
     this._context.clearRect(0, 0, this._width, this._height)
+    this.emit('clear')
     return this.refresh(true)
   }
 
@@ -241,12 +250,8 @@ export class Screen extends Display {
     this.refresh()
   }
 
-  getMouseEventInfo (e) {
-    return { x: e.data.global.x, y: e.data.global.y, button: e.data.originalEvent.button }
-  }
-
   onMouseDown (e) {
-    // let { x, y, button } = this.getMouseEventInfo(e)
+    // let info = app.mouseInfo(e)
   }
 
   onMouseMove (e) {
@@ -257,12 +262,12 @@ export class Screen extends Display {
 
   onScroll (e) {
     let t = this.currentOver
-    if (t && t.scrollable) {
+    if (t && t._scrollable) {
       let res = -120
       let deltaX = 0
       let deltaY = 0
 
-      if (t.scrollable.x) {
+      if (t._scrollable.x) {
         deltaX = e.wheelDeltaX * res
         if (deltaX <= res) {
           deltaX = -1
@@ -272,7 +277,7 @@ export class Screen extends Display {
         }
       }
 
-      if (t.scrollable.y) {
+      if (t._scrollable.y) {
         deltaY = e.wheelDeltaY * res
         if (deltaY <= res) {
           deltaY = -1
@@ -282,11 +287,12 @@ export class Screen extends Display {
         }
       }
 
-      if (!e.detail) {
-        e.detail = {}
+      if (t._scrollable.x || t._scrollable.y) {
+        t.emit('scroll', {
+          delta: new PIXI.Point(deltaX, deltaY),
+          wheelDelta: new PIXI.Point(e.wheelDeltaX, e.wheelDeltaY)
+        })
       }
-      e.detail.scroll = new PIXI.Point(deltaX, deltaY)
-      t.onScroll(e)
     }
 
     e.stopPropagation()

@@ -14,6 +14,19 @@ const { remote, dialog } = electron
 const { app, BrowserWindow } = remote
 
 const fs = require('fs-promise')
+const os = require('os')
+const _vm = require('vm')
+const child_process = require('child_process')
+const dns = require('dns')
+const http = require('http')
+const https = require('https')
+const net = require('net')
+const querystring = require('querystring')
+const stream = require('stream')
+const tls = require('tls')
+const tty = require('tty')
+const url = require('url')
+const zlib = require('zlib')
 
 const _ = require('underscore-plus')
 _.extend(_, require('lodash'))
@@ -56,18 +69,6 @@ let dirs = {
 if (!fs.existsSync(dirs.app)) {
   fs.makeTreeSync(dirs.app)
 }
-
-System.config({
-  map: {
-    'plugin-babel': 'build/systemjs-plugin-babel/plugin-babel.js',
-    'systemjs-babel-build': 'build/systemjs-plugin-babel/systemjs-babel-browser.js',
-    'app-plugins': 'build/plugins',
-    'app-modes': 'build/modes',
-    'user-plugins': path.join(dirs.user, '/plugins'),
-    'user-modes': path.join(dirs.user, '/modes'),
-  },
-  transpiler: 'plugin-babel'
-})
 
 let p = (...args) => path.join(__dirname, ...args)
 
@@ -267,13 +268,28 @@ window.utoa = utoa
 window.atou = atou
 
 
+let electronApp = app
+
 export {
   _,
+  _vm,
+  os,
+  child_process,
+  dns,
+  http,
+  https,
+  net,
+  querystring,
+  stream,
+  tls,
+  tty,
+  url,
+  zlib,
   p,
   name,
   version,
   electron,
-  app,
+  electronApp,
   BrowserWindow,
   openFile,
   saveFile,

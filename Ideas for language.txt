@@ -3,97 +3,93 @@ Ideas for language
 Verbs
 =====
 
-  =       set
-  +       add
-  -       delete
-  g       group
-  !g      ungroup
-  t       toggle
-  l       list
+  =                 set
+  +                 add
+  -                 delete
+  g                 group
+  !g                ungroup
+  t                 toggle
+  ls                list
 
 Adjectives
 ==========
 
-  x       by
-  @       at / to
-  from    from
-  all     all
-  first   first
-  last    last
-  e       enter
-  ex      exit
+  x                 by
+  ~                 at / to
+  from              from
+  all               all
+  first             first
+  last              last
+  e                 enter
+  ex                exit
 
 Objects
 =======
 
-  con     container
-  spr     sprite
-  txt     text
-  gfx     graphics
-  tex     texture
-  frm     frame (tex + rect)
-  c       cursor
-  s       selection
-  ?[]     query
-  pt      point
-  rect    rect
-  sz      size (width, height)
-  col     color (rbga)
-  deg     angle
-          dict
-          list
+  con               container
+  spr               sprite
+  txt               text
+  gfx               graphics
+  tex               texture
+  frm               frame (tex + rect)
+  sel               selection
+  pt                point
+  rect              rect
+  sz                size (width, height)
+  col               color (rbga)
+  deg               angle
+                    regexp
+                    path
+  [name:expr]       dict
+  [exprs]           list
+  expr .. expr      range
+  ' '               string
+  name$             variable
+                    number / hex
 
 Syntax
 ======
 
-  :                 line separator
+  ;                 separator
   ? expr block      if
   |? expr block     else if
   | block           else
+  ?{ }              query
   @ expr fn         each
   @? expr block     while
-  args => block     fn
+  args -> block     fn
   <- expr           return
   brk               break
   name args         fn call
-                    path
-  [                 start
-  ]                 end
-  ;                 comment
-                    dict
-                    array
-  expr .. expr      range
-  <expr, expr>      point
-  <expr, expr, expr, expr> rect
-  name              variable
+  {                 start
+  }                 end
+  // | /* */        comments
   .name             property
-  ' '               string
   &                 and
   |                 or
+  !                 not
+
 
 Examples
 ========
 
-  s[mc last]        ; start selection, move cursor to last, end selection
+  +sel{mc last}                             // add selection, start selection, move cursor to last, end selection
 
-  x = 110 * 2
+  x$ = 110 * 2
 
-  ?x>123[dc]|[sa]   ; if x > 123 then delete cursor else select all
+  ?x$>123{-all sel}|{sel all}               // if x > 123 then delete all selections else select all
 
-  ? x > 123 [
+  ? x$ > 123 {
     dc
-  ] | [
+  } | {
     sa
-  ]
+  }
 
-  +c@<10,50>        ; add cursor at point 10, 50
+  ?{.width<10&.height>10}                   // from all cursors, query all with .width < 10 and .height > 10
 
-  ?[.width<10&.height>10]   ; from all cursors, query all with .width < 10 and .height > 10
+  x$=0;@?x$<10{x$++}                        // x=0 while x < 10 do x++
 
-  x=0:@?x<10[x++]   ; x=0 while x < 10 do x++
+  10..100x2                                 // range from 10 to 100 by 2
 
-  10..100x2         ; range from 10 to 100 by 2
-
-  ?[<x,y>]          ; query all touching point x, y
-
+  ?{.x == x$ & .y == y$]}                   // query all touching point x, y
 

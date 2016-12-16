@@ -27,7 +27,7 @@ export default class extends Plugin {
   set selected (value) {
     if (value !== this._selected) {
       this._selected = value
-      this.emit(value ? 'select' : 'unselect', this)
+      this.emit(value ? 'select' : 'unselect')
     }
   }
 

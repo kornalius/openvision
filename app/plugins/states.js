@@ -1,11 +1,27 @@
 
-export let StatesMixin = Mixin(superclass => class StatesMixin extends superclass {
+export default class extends Plugin {
+
+  constructor (options = {}) {
+    super(options)
+    this._name = 'states'
+    this._desc = 'Add states functions to a container.'
+    this._author = 'Alain Deschenes'
+    this._version = '1.0.0'
+    this._date = '12/14/2016'
+  }
+
+  load (obj, options = {}) {
+    super.load(obj, options)
+    this._states = {}
+  }
+
+  unload (obj) {
+    super.unload(obj)
+    delete this._states
+  }
 
   addState (state) {
     if (_.isString(state) && !this.hasState(state)) {
-      if (!_.isObject(this._states)) {
-        this._states = {}
-      }
       this._states[state] = true
     }
     else if (_.isArray(state)) {
@@ -81,4 +97,4 @@ export let StatesMixin = Mixin(superclass => class StatesMixin extends superclas
     return this
   }
 
-})
+}

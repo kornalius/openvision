@@ -50,18 +50,18 @@ export default class extends Plugin {
   }
 
   blur () {
-    if (!this.emit('blur').defaultPrevented) {
-      focused = null
-    }
+    focused = null
+    this.emit('blur')
     return this
   }
 
   focus () {
-    if (this.focusable && !this.emit('focus').defaultPrevented) {
+    if (this.focusable) {
       if (focused) {
         focused.blur()
       }
       focused = this // eslint-disable-line consistent-this
+      this.emit('focus')
     }
     return this
   }

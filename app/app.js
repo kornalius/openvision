@@ -1,7 +1,7 @@
-import { p, name, version, electron, openFile, saveFile, messageBox, BrowserWindow, app, fs, path, IS_WIN, IS_OSX, IS_LINUX, dirs, raf, now, process } from './utils.js'
+import { p, name, version, electron, openFile, saveFile, messageBox, BrowserWindow, electronApp, fs, path, IS_WIN, IS_OSX, IS_LINUX, dirs, raf, now, process, _vm, os, child_process, dns, http, https, net, querystring, stream, tls, tty, url, zlib } from './utils.js'
 
-import './style/main.css'
-// import t from './html/main.html'
+import './style/app.css'
+// import t from './html/app.html'
 
 // let el = document.createElement('div')
 // el.innerHTML = t
@@ -14,6 +14,7 @@ import { updates } from './updates.js'
 import { commands } from './command.js'
 import { shortcuts, keyboard } from './shortcut.js'
 import { Screen } from './screen.js'
+import { vm } from './vm.js'
 
 window.Plugin = Plugin
 
@@ -21,10 +22,8 @@ export const _STOPPED = 0
 export const _RUNNING = 1
 export const _PAUSED = 2
 
-export var currentOver = null
 
-
-export class Main extends Base {
+export class App extends Base {
 
   constructor (options) {
     super()
@@ -39,10 +38,12 @@ export class Main extends Base {
     this.shortcuts = shortcuts
     this.keyboard = keyboard
 
+    this.vm = vm
+
     this.p = p
     this.name = name
     this.version = version
-    this.app = app
+    this.app = electronApp
     this.BrowserWindow = BrowserWindow
     this.electron = electron
     this.openFile = openFile
@@ -57,6 +58,19 @@ export class Main extends Base {
     this.raf = raf
     this.now = now
     this.process = process
+    this._vm = _vm
+    this.os = os
+    this.child_process = child_process
+    this.dns = dns
+    this.http = http
+    this.https = https
+    this.net = net
+    this.querystring = querystring
+    this.stream = stream
+    this.tls = tls
+    this.tty = tty
+    this.url = url
+    this.zlib = zlib
 
     // Check for littleEndian
     let b = new ArrayBuffer(4)
@@ -87,21 +101,21 @@ export class Main extends Base {
       if (that.status === _RUNNING) {
         that.tick(time)
 
-        let render = false
+        let flip = false
 
         for (let q of updates.queue) {
           q.object.__addedToUpdates = false
-          if (q.render) {
-            render = true
+          if (q.flip) {
+            flip = true
           }
           if (q.cb) {
-            q.cb(q.object, ...q.args)
+            q.cb.call(q.object, ...q.args)
           }
         }
 
         updates.clear()
 
-        if (render) {
+        if (flip) {
           that.screen.renderer.render(that.screen.stage)
         }
       }
@@ -121,12 +135,7 @@ export class Main extends Base {
 
   get defaults () { return this._defaults }
 
-  get currentOver () { return currentOver }
-  set currentOver (value) {
-    if (currentOver !== value) {
-      currentOver = value
-    }
-  }
+  get currentOver () { return this._screen.currentOver }
 
   get status () { return this._status }
   set status (value) {
@@ -213,5 +222,5 @@ export class Main extends Base {
 
 }
 
-export let main = new Main()
-window.app = main
+export let app = new App()
+window.app = app

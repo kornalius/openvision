@@ -7,7 +7,6 @@ import { ShortcutMixin } from '../shortcut.js'
 export let BaseMixin = Mixin(superclass => class BaseMixin extends superclass {
 
   tick (delta) {
-    // this.emit('tick', { delta })
     return this
   }
 
@@ -27,12 +26,6 @@ export let BaseMixin = Mixin(superclass => class BaseMixin extends superclass {
   __detail (d) {
     return _.extend({ time: performance.now(), defaultPrevented: false }, d || {})
   }
-
-  // emit (name, detail) {
-    // let d = this.__detail(detail)
-    // super.emit(name, d)
-    // return d
-  // }
 
 })
 
