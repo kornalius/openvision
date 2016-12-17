@@ -21,7 +21,9 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
         if (_.isFunction(this.render)) {
           this.render()
         }
-        this.updateTransform()
+        if (this.parent) {
+          this.updateTransform()
+        }
       }
     }))
   }

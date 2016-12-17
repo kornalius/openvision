@@ -10,6 +10,22 @@ import { SpriteMixin } from './sprite.js'
 
 export let TextMixin = Mixin(superclass => class TextMixin extends superclass {
 
+  get charWidth () { return this.getTextWidth(' ') }
+
+  get charHeight () {
+    let p = this.determineFontProperties(this._style.font)
+    return this._style.lineHeight || p.fontSize + this._style.strokeThickness
+  }
+
+  getTextWidth (s) {
+    return this.context.measureText(s).width + (s.length - 1) * this._style.letterSpacing
+  }
+
+  get lines () {
+    let outputText = this._style.wordWrap ? this.wordWrap(this._text) : this._text
+    return outputText.split(/(?:\r\n|\r|\n)/)
+  }
+
 })
 
 

@@ -15,6 +15,8 @@ export let MetaMixin = Mixin(superclass => class MetaMixin extends superclass {
 
   get date () { return this._date }
 
+  get interface () { return this._interface }
+
 })
 
 
@@ -26,4 +28,5 @@ export var extractMetaFromOptions = (instance, options) => {
   instance._version = _.get(options, 'version', '1.0.0')
   instance._date = _.get(options, 'date', new Date().toISOString().split('T')[0])
   instance._tags = _.get(options, 'tags', [])
+  instance._interface = _.get(options, 'interface', {})
 }

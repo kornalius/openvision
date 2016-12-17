@@ -12,28 +12,15 @@ export default class extends Plugin {
 
   load (obj, options = {}) {
     super.load(obj, options)
-    obj._pressed = {}
-    obj.on('mousedown', obj.onMouseDown)
-    obj.on('mousemove', obj.onMouseMove)
-    obj.on('mouseup', obj.onMouseUp)
+    obj.on('mousemove', obj.onMouseMoveMovable)
   }
 
   unload (obj) {
-    delete obj._pressed
-    obj.off('mousedown', obj.onMouseDown)
-    obj.off('mousemove', obj.onMouseMove)
-    obj.off('mouseup', obj.onMouseUp)
+    obj.off('mousemove', obj.onMouseMoveMovable)
     super.unload(obj)
   }
 
-  onMouseDown (e) {
-    let info = app.mouseInfo(e)
-    if (info.leftButton) {
-      this._pressed.down = info
-    }
-  }
-
-  onMouseMove (e) {
+  onMouseMoveMovable (e) {
     let info = app.mouseInfo(e)
     if (info.target === this) {
       if (this._pressed.down) {
@@ -49,10 +36,6 @@ export default class extends Plugin {
         }
       }
     }
-  }
-
-  onMouseUp (e) {
-    this._pressed = {}
   }
 
 }

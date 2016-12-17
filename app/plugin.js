@@ -45,26 +45,45 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
   }
 
   load (obj, options = {}) {
-    if (!obj.__plugins) {
-      obj.__plugins = []
-    }
     for (let k of this.propertyNames) {
-      obj[k] = this[k]
+      let d = Object.getOwnPropertyDescriptor(obj, k)
+      if (!d && _.get(this.interface, k + '.declared', false)) {
+        console.error('Missing interface declaration ' + k)
+        return
+      }
     }
+
+    let pn = '__' + this.name
+    if (!_.has(obj, pn)) {
+      obj[pn] = {}
+    }
+
+    for (let k of this.propertyNames) {
+      if (!_.get(this.interface, k + '.declared', false)) {
+        let d = Object.getOwnPropertyDescriptor(obj, k)
+        if (d) {
+          Object.defineProperty(obj[pn], k, d)
+        }
+        d = Object.getOwnPropertyDescriptor(this.constructor.prototype, k)
+        Object.defineProperty(obj, k, d)
+      }
+    }
+
     this.__loaded.push(obj)
-    obj.__plugins.push(this)
   }
 
   unload (obj) {
     _.pull(this.__loaded, obj)
-    if (_.isArray(obj.__plugins)) {
+    let pn = '__' + this.name
+    if (_.has(obj, pn)) {
       for (let k of this.propertyNames) {
         delete obj[k]
+        if (obj[pn][k]) {
+          let d = Object.getOwnPropertyDescriptor(obj[pn], k)
+          Object.defineProperty(obj, k, d)
+        }
       }
-      _.pull(obj.__plugins, this)
-      if (_.isEmpty(obj.__plugins)) {
-        delete obj.__plugins
-      }
+      delete obj[pn]
     }
   }
 
@@ -74,20 +93,32 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
 export let PluginMixin = Mixin(superclass => class PluginMixin extends superclass {
 
   plug (name, options = {}) {
+    if (_.isArray(name)) {
+      for (let n of name) {
+        this.plug(n, options)
+      }
+      return this
+    }
     if (_.isObject(name)) {
       options = name
       name = _.get(options, 'name')
     }
     let p = plugins[name]
-    if (p && !_.includes(this.__plugins, p)) {
+    if (p && !this['__' + name]) {
       p.load(this, _.extend(options, { name }))
     }
     return this
   }
 
   unplug (name) {
+    if (_.isArray(name)) {
+      for (let n of name) {
+        this.unplug(n)
+      }
+      return this
+    }
     let p = plugins[name]
-    if (p && _.includes(this.__plugins, p)) {
+    if (p && this['__' + name]) {
       p.unload(this)
     }
     return this

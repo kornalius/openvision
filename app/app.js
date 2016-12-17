@@ -1,4 +1,4 @@
-import { p, name, version, electron, openFile, saveFile, messageBox, BrowserWindow, electronApp, fs, path, IS_WIN, IS_OSX, IS_LINUX, dirs, raf, now, process, _vm, os, child_process, dns, http, https, net, querystring, stream, tls, tty, url, zlib } from './utils.js'
+import { p, name, version, electron, openFile, saveFile, messageBox, BrowserWindow, electronApp, fs, path, IS_WIN, IS_OSX, IS_LINUX, dirs, raf, now, process, _vm, os, child_process, dns, http, https, net, querystring, stream, tls, tty, url, zlib, jsonquery, alasql, q } from './utils.js'
 
 import './style/app.css'
 // import t from './html/app.html'
@@ -6,6 +6,8 @@ import './style/app.css'
 // let el = document.createElement('div')
 // el.innerHTML = t
 // document.body.appendChild(el)
+
+import './protos/index.js'
 
 import { Base } from './objects/base.js'
 import { plugins, Plugin, loadPlugins, unloadPlugins } from './plugin.js'
@@ -15,8 +17,12 @@ import { commands } from './command.js'
 import { shortcuts, keyboard } from './shortcut.js'
 import { Screen } from './screen.js'
 import { vm } from './vm.js'
+import { Container, Graphics, Sprite, Text, Rectangle } from './objects/objects.js'
 
 window.Plugin = Plugin
+
+window.q = q
+window.sql = alasql
 
 export const _STOPPED = 0
 export const _RUNNING = 1
@@ -30,6 +36,12 @@ export class App extends Base {
 
     this._status = 0
 
+    this.Container = Container
+    this.Graphics = Graphics
+    this.Sprite = Sprite
+    this.Text = Text
+    this.Rectangle = Rectangle
+
     this.plugins = plugins
     this.modes = modes
     this.Plugin = Plugin
@@ -37,7 +49,6 @@ export class App extends Base {
     this.commands = commands
     this.shortcuts = shortcuts
     this.keyboard = keyboard
-
     this.vm = vm
 
     this.p = p
@@ -71,6 +82,8 @@ export class App extends Base {
     this.tty = tty
     this.url = url
     this.zlib = zlib
+    this.jsonquery = jsonquery
+    this.alasql = alasql
 
     // Check for littleEndian
     let b = new ArrayBuffer(4)

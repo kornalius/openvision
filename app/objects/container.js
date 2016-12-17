@@ -4,21 +4,20 @@ import { ModeMixin } from '../mode.js'
 import { CommandMixin } from '../command.js'
 import { ShortcutMixin } from '../shortcut.js'
 import { DisplayMixin } from './display.js'
+import { jsonquery } from '../utils.js'
 
 
 export let ContainerMixin = Mixin(superclass => class ContainerMixin extends superclass {
 
   constructor () {
     super(...arguments)
-    this.onMouseOverBounded = this.onMouseOver.bind(this)
-    this.onMouseOutBounded = this.onMouseOut.bind(this)
-    this.on('mouseover', this.onMouseOverBounded)
-    this.on('mouseout', this.onMouseOverBounded)
+    this.on('mouseover', this.onMouseOver)
+    this.on('mouseout', this.onMouseOver)
   }
 
   destroy () {
-    this.off('mouseover', this.onMouseOverBounded)
-    this.off('mouseout', this.onMouseOverBounded)
+    this.off('mouseover', this.onMouseOver)
+    this.off('mouseout', this.onMouseOver)
     super.destroy()
   }
 
@@ -29,6 +28,16 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
   onMouseOut (e) {
     app.screen.currentOver = null
   }
+
+  get root () {
+    let p = this.parent
+    while (p && p.parent) {
+      p = p.parent
+    }
+    return p
+  }
+
+  q (expr) { return jsonquery(expr, { data: this.root, parent: this.parent, source: this.children, allowRegexp: true }).value }
 
 })
 

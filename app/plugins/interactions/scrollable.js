@@ -16,12 +16,11 @@ export default class extends Plugin {
       x: _.get(options, 'horizontal', true),
       y: _.get(options, 'vertical', true),
     }
-    this._onScrollBounded = this.onScroll.bind(obj)
-    obj.on('scroll', this._onScrollBounded)
+    obj.on('scroll', this.onScroll)
   }
 
   unload (obj) {
-    obj.off('scroll', this._onScrollBounded)
+    obj.off('scroll', this.onScroll)
     delete obj._scrollable
     super.unload(obj)
   }

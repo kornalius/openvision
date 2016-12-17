@@ -1,4 +1,4 @@
-import { Display, Sprite, Text } from './objects/objects.js'
+import { Container, Display, Sprite, Text } from './objects/objects.js'
 
 
 export var currentOver = null
@@ -33,7 +33,7 @@ export class Screen extends Display {
     this._renderer.view.id = 'screen'
     document.body.appendChild(this._renderer.view)
 
-    this._stage = new PIXI.Container()
+    this._stage = new Container()
 
     let stage = this._stage
 
@@ -238,7 +238,7 @@ export class Screen extends Display {
     let t = new Sprite(this.loadTexture('test.png'))
     this._stage.addChild(t)
 
-    let text = new Text('This is a pixi text', { font: '20px "Glass TTY VT220"', fill: 0xFFFFFF })
+    let text = new Text('This is a pixi text\nHere is another line\nAnd another!', { font: '20px "Glass TTY VT220"', fill: 0xFFFFFF })
     text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
     text.context.canvas.style['font-smoothing'] = 'never'
     text.context.canvas.style['-webkit-font-smoothing'] = 'none'

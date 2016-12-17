@@ -1,9 +1,12 @@
 import 'systemjs'
+import alasql from 'alasql'
+import jsonquery from 'json-query'
 import path from 'path'
 import raf from 'raf'
 import 'performance-now'
 import 'pixi.js'
 import 'web-audio-daw'
+import is from 'is_js'
 
 import { Mixin, mix } from 'mixwith'
 window.Mixin = Mixin
@@ -33,6 +36,8 @@ _.extend(_, require('lodash'))
 window._ = _
 
 _.templateSettings.interpolate = /#{([\s\S]+?)}/g
+
+window.is = is
 
 PIXI.Point.prototype.distance = function (target) {
   return Math.sqrt((this.x - target.x) * (this.x - target.x) + (this.y - target.y) * (this.y - target.y))
@@ -268,7 +273,30 @@ window.utoa = utoa
 window.atou = atou
 
 
+let instanceFunction = (target, name, fn) => {
+  if (!target.hasOwnProperty(name)) {
+    Object.defineProperty(target, name, {
+      value: fn,
+      writable: true,
+    })
+  }
+}
+
+let instanceFunctions = (target, source, names) => {
+  for (let n of names) {
+    if (_.isArray(n)) {
+      instanceFunction(target, n[0], source[n[1]])
+    }
+    else {
+      instanceFunction(target, n, source[n])
+    }
+  }
+}
+
+
 let electronApp = app
+
+let q = (data, expr) => jsonquery(expr, { data, allowRegexp: true }).value
 
 export {
   _,
@@ -313,4 +341,9 @@ export {
   buffer_dump,
   utoa,
   atou,
+  jsonquery,
+  instanceFunction,
+  instanceFunctions,
+  alasql,
+  q,
 }

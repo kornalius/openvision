@@ -79,6 +79,12 @@ export class Mode extends Plugin {
 export let ModeMixin = Mixin(superclass => class ModeMixin extends superclass {
 
   use (name, options = {}) {
+    if (_.isArray(name)) {
+      for (let n of name) {
+        this.use(n, options)
+      }
+      return this
+    }
     if (_.isObject(name)) {
       options = name
       name = _.get(options, 'name')
@@ -92,6 +98,12 @@ export let ModeMixin = Mixin(superclass => class ModeMixin extends superclass {
   }
 
   unuse (name) {
+    if (_.isArray(name)) {
+      for (let n of name) {
+        this.unuse(n)
+      }
+      return this
+    }
     let m = modes[name]
     if (m && _.includes(this.__modes, m)) {
       m.unload(this)
