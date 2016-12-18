@@ -23,10 +23,6 @@ export let BaseMixin = Mixin(superclass => class BaseMixin extends superclass {
     }, delay || 1)
   }
 
-  __detail (d) {
-    return _.extend({ time: performance.now(), defaultPrevented: false }, d || {})
-  }
-
 })
 
 

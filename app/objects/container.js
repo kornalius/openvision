@@ -37,6 +37,15 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
     return p
   }
 
+  each (fn, deep = false) {
+    for (let c of this.children) {
+      if (deep) {
+        c.each(fn, deep)
+      }
+      fn(c)
+    }
+  }
+
   q (expr) { return jsonquery(expr, { data: this.root, parent: this.parent, source: this.children, allowRegexp: true }).value }
 
 })

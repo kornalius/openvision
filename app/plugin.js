@@ -1,6 +1,7 @@
 import { fs, dirs, path } from './utils.js'
 import { MetaMixin, extractMetaFromOptions } from './meta.js'
 
+
 System.defaultJSExtensions = true
 
 System.config({
@@ -41,10 +42,27 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
 
   get propertyNames () {
     let pluginProps = Object.getOwnPropertyNames(Object.getPrototypeOf(new Plugin()))
-    return _.filter(Object.getOwnPropertyNames(Object.getPrototypeOf(this)), k => !k.startsWith('_') && !_.includes(pluginProps, k))
+    return _.filter(Object.getOwnPropertyNames(Object.getPrototypeOf(this)), k => !_.includes(pluginProps, k))
   }
 
   load (obj, options = {}) {
+    for (let i = this.deps.length - 1; i >= 0; i--) {
+      let d = this.deps[i]
+      let _name = ''
+      let _options = {}
+      if (_.isString(d)) {
+        _name = d
+      }
+      else if (_.isObject(d)) {
+        _name = d.name
+        _options = d.options
+      }
+      let p = plugins[_name]
+      if (p && !obj['__' + _name]) {
+        p.load(obj, _options)
+      }
+    }
+
     for (let k of this.propertyNames) {
       let d = Object.getOwnPropertyDescriptor(obj, k)
       if (!d && _.get(this.interface, k + '.declared', false)) {

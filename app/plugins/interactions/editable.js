@@ -4,26 +4,25 @@ export default class extends Plugin {
   constructor (options = {}) {
     super(options)
     this._name = 'editable'
-    this._desc = 'Allow text to be edited.'
+    this._desc = 'Allow container to be editable.'
     this._author = 'Alain Deschenes'
     this._version = '1.0.0'
     this._date = '12/16/2016'
+    this._deps = ['focusable']
   }
 
   load (obj, options = {}) {
     super.load(obj, options)
+    obj._readonly = false
   }
 
   unload (obj) {
+    delete obj._readonly
     super.unload(obj)
   }
 
-  get cursorWidth () { return this.charWidth }
+  get readonly () { return this._readonly }
 
-  get cursorHeight () { return this.charHeight }
-
-  get cursorMaxX () { return this.lines[this.cursorY].length }
-
-  get cursorMaxY () { return this.lines.length - 1 }
+  set readonly (value) { this._readonly = value }
 
 }

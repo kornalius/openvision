@@ -36,6 +36,7 @@ export class App extends Base {
 
     this._status = 0
 
+    this.Base = Base
     this.Container = Container
     this.Graphics = Graphics
     this.Sprite = Sprite

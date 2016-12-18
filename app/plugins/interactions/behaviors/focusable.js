@@ -10,17 +10,22 @@ export default class extends Plugin {
     this._author = 'Alain Deschenes'
     this._version = '1.0.0'
     this._date = '12/04/2016'
+    this._deps = ['interactive', 'mouse', 'keyboard']
   }
 
   load (obj, options) {
     super.load(obj, options)
     obj._tabIndex = _.get(options, 'tabIndex', -1)
-    obj.on('mousedown', () => { this.focus() })
+    obj.on('mousedown', obj.focus)
+    obj._onKeyDownFocusable = obj.onKeyDownFocusable.bind(obj)
+    window.addEventListener('keydown', obj._onKeyDownFocusable, false)
   }
 
   unload (obj) {
-    obj.off('mousedown')
+    window.removeEventListener('keydown', obj._onKeyDownFocusable, false)
     delete obj._tabIndex
+    delete obj._onKeyDownFocusable
+    obj.off('mousedown', obj.focus)
     super.unload(obj)
   }
 
@@ -88,6 +93,19 @@ export default class extends Plugin {
       return false
     }
     return this
+  }
+
+  onKeyDownFocusable (e) {
+    if (this.focused) {
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          this.focusPrev()
+        }
+        else {
+          this.focusNext()
+        }
+      }
+    }
   }
 
 }
