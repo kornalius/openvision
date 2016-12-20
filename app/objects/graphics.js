@@ -1,6 +1,5 @@
 import { BaseMixin } from './base.js'
 import { PluginMixin } from '../plugin.js'
-import { ModeMixin } from '../mode.js'
 import { CommandMixin } from '../command.js'
 import { ShortcutMixin } from '../shortcut.js'
 import { DisplayMixin } from './display.js'
@@ -12,4 +11,4 @@ export let GraphicsMixin = Mixin(superclass => class GraphicsMixin extends super
 })
 
 
-export class Graphics extends mix(PIXI.Graphics).with(GraphicsMixin, DisplayMixin, ContainerMixin, BaseMixin, PluginMixin, ModeMixin, CommandMixin, ShortcutMixin) {}
+export class Graphics extends mix(PIXI.Graphics).with(GraphicsMixin, DisplayMixin, ContainerMixin, BaseMixin, PluginMixin, CommandMixin, ShortcutMixin) {}

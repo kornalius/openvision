@@ -11,9 +11,7 @@ System.config({
     'plugin-babel': 'build/systemjs-plugin-babel/plugin-babel.js',
     'systemjs-babel-build': 'build/systemjs-plugin-babel/systemjs-babel-browser.js',
     'app-plugins': 'build/plugins',
-    'app-modes': 'build/modes',
     'user-plugins': path.join(dirs.user, '/plugins'),
-    'user-modes': path.join(dirs.user, '/modes'),
   },
 })
 
@@ -46,6 +44,11 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
   }
 
   load (obj, options = {}) {
+    if (this.containers.length && !_.includes(this.containers, obj.constructor.name)) {
+      console.error('Container', obj, 'must be', this.containers)
+      return
+    }
+
     for (let i = this.deps.length - 1; i >= 0; i--) {
       let d = this.deps[i]
       let _name = ''
@@ -77,7 +80,7 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
     }
 
     for (let k of this.propertyNames) {
-      if (!_.get(this.interface, k + '.declared', false)) {
+      if (!_.get(this.interface, k + '.declared', false) && !_.get(this.interface, k + '.exclude', false)) {
         let d = Object.getOwnPropertyDescriptor(obj, k)
         if (d) {
           Object.defineProperty(obj[pn], k, d)

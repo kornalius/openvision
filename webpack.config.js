@@ -63,7 +63,6 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: 'node_modules/systemjs-plugin-babel', to: 'systemjs-plugin-babel' },
       { from: 'app/plugins', to: 'plugins' },
-      { from: 'app/modes', to: 'modes' },
     ]),
   ],
 

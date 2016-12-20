@@ -11,7 +11,6 @@ import './protos/index.js'
 
 import { Base } from './objects/base.js'
 import { plugins, Plugin, loadPlugins, unloadPlugins } from './plugin.js'
-import { modes, Mode, loadModes, unloadModes } from './mode.js'
 import { updates } from './updates.js'
 import { commands } from './command.js'
 import { shortcuts, keyboard } from './shortcut.js'
@@ -44,9 +43,7 @@ export class App extends Base {
     this.Rectangle = Rectangle
 
     this.plugins = plugins
-    this.modes = modes
     this.Plugin = Plugin
-    this.Mode = Mode
     this.commands = commands
     this.shortcuts = shortcuts
     this.keyboard = keyboard
@@ -175,18 +172,14 @@ export class App extends Base {
   start () {
     this.status = _RUNNING
     loadPlugins().then(() => {
-      loadModes().then(() => {
-        this.test()
-      })
+      this.test()
     })
     return this
   }
 
   stop () {
     unloadPlugins().then(() => {
-      unloadModes().then(() => {
-        this.status = _STOPPED
-      })
+      this.status = _STOPPED
     })
     return this
   }

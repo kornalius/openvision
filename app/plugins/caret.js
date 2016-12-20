@@ -13,6 +13,8 @@ export default class extends Plugin {
       caretHeight: { declared: true },
       caretMaxX: { declared: true },
       caretMaxY: { declared: true },
+      caretToPos: { declared: true },
+      posToCaret: { declared: true },
     }
     this._deps = ['editable']
   }
@@ -58,8 +60,15 @@ export default class extends Plugin {
   get caretWidth () { return 0 }
   get caretHeight () { return 0 }
 
-  get caretMaxX () { return 0 }
-  get caretMaxY () { return 0 }
+  caretMinX (y) { return 0 }
+  caretMinY (x) { return 0 }
+  caretMaxX (y) { return 0 }
+  caretMaxY (x) { return 0 }
+
+  caretToPos (x, y) { return 0 }
+  posToCaret (pos) { return 0 }
+
+  get caretPos () { return this.caretToPos(this.caretX, this.caretY) }
 
   get caretX () { return this._caret._posX }
   get caretY () { return this._caret._posY }
@@ -77,10 +86,10 @@ export default class extends Plugin {
   }
 
   moveCaret (x, y) {
-    y = Math.max(0, Math.min(this.caretMaxY, y))
+    y = Math.max(0, Math.min(this.caretMaxY(this.caretX), y))
     this._caret._posY = y
 
-    x = Math.max(0, Math.min(this.caretMaxX, x))
+    x = Math.max(0, Math.min(this.caretMaxX(this.caretY), x))
     this._caret._posX = x
 
     this._caret.x = x * this.caretWidth
@@ -88,7 +97,35 @@ export default class extends Plugin {
 
     this._caret.visible = this._caret._show
 
-    this.update()
+    return this.update()
+  }
+
+  moveCaretPos (pos) {
+
+  }
+
+  moveCaretPosBy (b) {
+    return this.moveCaretPos(this.caretPos + b)
+  }
+
+  moveCaretBy (bx, by) {
+    return this.moveCaret(this.caretX + bx, this.caretY + by)
+  }
+
+  moveCaretLeft (bx = 1) {
+    return this.moveCaret(this.caretX - bx, this.caretY)
+  }
+
+  moveCaretRight (bx = 1) {
+    return this.moveCaret(this.caretX + bx, this.caretY)
+  }
+
+  moveCaretUp (by = 1) {
+    return this.moveCaret(this.caretX, this.caretY - by)
+  }
+
+  moveCaretDown (by = 1) {
+    return this.moveCaret(this.caretX, this.caretY + by)
   }
 
   pixelToCaret (x, y) {
