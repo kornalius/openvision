@@ -1,4 +1,4 @@
-import { instanceFunction, instanceFunctions, q, alasql } from '../utils.js'
+import { instanceFunction, instanceFunctions, q } from '../utils.js'
 import ua from 'underscore.array'
 import is from 'is_js'
 
@@ -42,7 +42,5 @@ instanceFunction(Array.prototype, 'cat', function () {
   return this
 })
 
-
-instanceFunction(Array.prototype, 'sql', function (sql) { return alasql(sql, this) })
 
 instanceFunction(Array.prototype, 'q', function (expr) { return q(this, expr) })

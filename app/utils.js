@@ -1,5 +1,4 @@
 import 'systemjs'
-import alasql from 'alasql'
 import jsonquery from 'json-query'
 import path from 'path'
 import raf from 'raf'
@@ -344,6 +343,5 @@ export {
   jsonquery,
   instanceFunction,
   instanceFunctions,
-  alasql,
   q,
 }

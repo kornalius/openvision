@@ -1,4 +1,4 @@
-import { p, name, version, electron, openFile, saveFile, messageBox, BrowserWindow, electronApp, fs, path, IS_WIN, IS_OSX, IS_LINUX, dirs, raf, now, process, _vm, os, child_process, dns, http, https, net, querystring, stream, tls, tty, url, zlib, jsonquery, alasql, q } from './utils.js'
+import { p, name, version, electron, openFile, saveFile, messageBox, BrowserWindow, electronApp, fs, path, IS_WIN, IS_OSX, IS_LINUX, dirs, raf, now, process, _vm, os, child_process, dns, http, https, net, querystring, stream, tls, tty, url, zlib, jsonquery, q } from './utils.js'
 
 import './style/app.css'
 // import t from './html/app.html'
@@ -21,7 +21,6 @@ import { Container, Graphics, Sprite, Text, Rectangle } from './objects/objects.
 window.Plugin = Plugin
 
 window.q = q
-window.sql = alasql
 
 export const _STOPPED = 0
 export const _RUNNING = 1
@@ -81,7 +80,6 @@ export class App extends Base {
     this.url = url
     this.zlib = zlib
     this.jsonquery = jsonquery
-    this.alasql = alasql
 
     // Check for littleEndian
     let b = new ArrayBuffer(4)
