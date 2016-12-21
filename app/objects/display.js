@@ -3,6 +3,7 @@ import { PluginMixin } from '../plugin.js'
 import { CommandMixin } from '../command.js'
 import { ShortcutMixin } from '../shortcut.js'
 import { updates } from '../updates.js'
+import { DBMixin } from './db.js'
 
 
 export let DisplayMixin = Mixin(superclass => class DisplayMixin extends superclass {
@@ -30,4 +31,4 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
 })
 
 
-export class Display extends mix(PIXI.DisplayObject).with(BaseMixin, PluginMixin, CommandMixin, ShortcutMixin, DisplayMixin) {}
+export class Display extends mix(PIXI.DisplayObject).with(BaseMixin, DBMixin, PluginMixin, CommandMixin, ShortcutMixin, DisplayMixin) {}

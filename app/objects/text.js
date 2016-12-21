@@ -5,6 +5,7 @@ import { ShortcutMixin } from '../shortcut.js'
 import { DisplayMixin } from './display.js'
 import { ContainerMixin } from './container.js'
 import { SpriteMixin } from './sprite.js'
+import { DBMixin } from './db.js'
 
 
 export let TextMixin = Mixin(superclass => class TextMixin extends superclass {
@@ -41,4 +42,4 @@ export let TextMixin = Mixin(superclass => class TextMixin extends superclass {
 })
 
 
-export class Text extends mix(PIXI.Text).with(BaseMixin, PluginMixin, CommandMixin, ShortcutMixin, DisplayMixin, ContainerMixin, SpriteMixin, TextMixin) {}
+export class Text extends mix(PIXI.Text).with(BaseMixin, DBMixin, PluginMixin, CommandMixin, ShortcutMixin, DisplayMixin, ContainerMixin, SpriteMixin, TextMixin) {}
