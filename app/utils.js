@@ -292,6 +292,21 @@ let instanceFunctions = (target, source, names) => {
   }
 }
 
+let serialize_point = p => {
+  return p ? { x: p.x, y: p.y } : undefined
+}
+
+let serialize_rect = r => {
+  return r ? { x: r.x, y: r.y, w: r.width, h: r.height } : undefined
+}
+
+let deserialize_point = p => {
+  return p ? PIXI.Point(p.x, p.y) : undefined
+}
+
+let deserialize_rect = r => {
+  return r ? PIXI.Rect(r.x, r.y, r.width, r.height) : undefined
+}
 
 let electronApp = app
 
@@ -344,4 +359,8 @@ export {
   instanceFunction,
   instanceFunctions,
   q,
+  serialize_point,
+  serialize_rect,
+  deserialize_point,
+  deserialize_rect,
 }

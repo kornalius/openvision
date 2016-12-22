@@ -39,6 +39,20 @@ export let TextMixin = Mixin(superclass => class TextMixin extends superclass {
     this._lines = null
   }
 
+  deserialize (doc) {
+    this.text = doc.text
+    this.style = doc.style
+    this.resolution = doc.resolution
+  }
+
+  serialize () {
+    return _.extend({}, super.serialize(), {
+      text: this.text,
+      style: this.style,
+      resolution: this.resolution,
+    })
+  }
+
 })
 
 

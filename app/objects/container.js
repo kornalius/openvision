@@ -48,6 +48,18 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
 
   q (expr) { return jsonquery(expr, { data: this.root, parent: this.parent, source: this.children, allowRegexp: true }).value }
 
+  deserialize (doc) {
+    for (let c of doc.children) {
+      c.deserialize()
+    }
+  }
+
+  serialize () {
+    return _.extend({}, super.serialize(), {
+      children: _.map(this.children, c => c.serialize()),
+    })
+  }
+
 })
 
 
