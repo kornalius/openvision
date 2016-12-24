@@ -6,6 +6,10 @@ import { Sprite } from './sprite.js'
 import { Text } from './text.js'
 import { Rectangle } from './rectangle.js'
 
+import './point.js'
+import './rect.js'
+import './texture.js'
+
 export {
   Base,
   Display,

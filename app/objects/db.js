@@ -80,15 +80,4 @@ export let DBMixin = Mixin(superclass => class DBMixin extends superclass {
     })
   }
 
-  deserialize (doc) {
-  }
-
-  serialize () {
-    return {
-      _id: this.id,
-      _rev: this.rev,
-      $class: this.constructor.name,
-    }
-  }
-
 })

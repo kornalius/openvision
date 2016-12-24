@@ -239,14 +239,8 @@ export class Screen extends Display {
     this._stage.addChild(t)
 
     let text = new Text('This is a pixi text\nHere is another line\nAnd another!', { font: '20px "Glass TTY VT220"', fill: 0xFFFFFF })
-    text.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
-    text.context.canvas.style['font-smoothing'] = 'never'
-    text.context.canvas.style['-webkit-font-smoothing'] = 'none'
-    text.context.imageSmoothingEnabled = false
-    text.context.canvas.style.display = 'hidden'
-    document.body.appendChild(text.context.canvas)
-    text.updateText()
     this._stage.addChild(text)
+    text.unsmooth()
     this.refresh()
   }
 

@@ -5,6 +5,7 @@ import { ShortcutMixin } from '../shortcut.js'
 import { DisplayMixin } from './display.js'
 import { DBMixin } from './db.js'
 import { jsonquery } from '../utils.js'
+import { Encoder } from './encoder.js'
 
 
 export let ContainerMixin = Mixin(superclass => class ContainerMixin extends superclass {
@@ -48,19 +49,39 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
 
   q (expr) { return jsonquery(expr, { data: this.root, parent: this.parent, source: this.children, allowRegexp: true }).value }
 
-  deserialize (doc) {
-    for (let c of doc.children) {
-      c.deserialize()
+  static serialization (obj) {
+    let s = super.serialization(obj)
+    return {
+      args: [],
+      properties: _.extend({}, s.properties, {
+        children: { type: Array, value: obj && obj.children },
+      }),
+      exceptions: [].concat(s.exceptions)
     }
-  }
-
-  serialize () {
-    return _.extend({}, super.serialize(), {
-      children: _.map(this.children, c => c.serialize()),
-    })
   }
 
 })
 
 
 export class Container extends mix(PIXI.Container).with(BaseMixin, DBMixin, PluginMixin, CommandMixin, ShortcutMixin, ContainerMixin, DisplayMixin) {}
+
+
+Encoder.register('Container', {
+  inherit: 'Display',
+
+  encode: obj => {
+    let doc = { children: new Array(obj.children.length) }
+    for (let i = 0; i < obj.children.length; i++) {
+      doc[i] = obj.children[i]
+    }
+    return doc
+  },
+
+  decode: (doc, obj) => {
+    obj = obj || new Container()
+    for (let c of doc.children) {
+      obj.addChild(Encoder.decode(c))
+    }
+    return obj
+  },
+})

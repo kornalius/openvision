@@ -4,8 +4,9 @@ import { CommandMixin } from '../command.js'
 import { ShortcutMixin } from '../shortcut.js'
 import { DisplayMixin } from './display.js'
 import { ContainerMixin } from './container.js'
-import { SpriteMixin } from './sprite.js'
+import { Sprite, SpriteMixin } from './sprite.js'
 import { DBMixin } from './db.js'
+import { Encoder } from './encoder.js'
 
 
 export let TextMixin = Mixin(superclass => class TextMixin extends superclass {
@@ -39,21 +40,34 @@ export let TextMixin = Mixin(superclass => class TextMixin extends superclass {
     this._lines = null
   }
 
-  deserialize (doc) {
-    this.text = doc.text
-    this.style = doc.style
-    this.resolution = doc.resolution
-  }
-
-  serialize () {
-    return _.extend({}, super.serialize(), {
-      text: this.text,
-      style: this.style,
-      resolution: this.resolution,
-    })
+  unsmooth () {
+    this.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
+    this.context.canvas.style['font-smoothing'] = 'never'
+    this.context.canvas.style['-webkit-font-smoothing'] = 'none'
+    this.context.imageSmoothingEnabled = false
+    this.context.canvas.style.display = 'hidden'
+    document.body.appendChild(this.context.canvas)
+    this.updateText()
+    this.update()
   }
 
 })
 
 
 export class Text extends mix(PIXI.Text).with(BaseMixin, DBMixin, PluginMixin, CommandMixin, ShortcutMixin, DisplayMixin, ContainerMixin, SpriteMixin, TextMixin) {}
+
+
+Encoder.register('Text', {
+  inherit: 'Sprite',
+
+  encode: obj => {
+    let doc = {
+      text: obj.text,
+      style: obj.style,
+      resolution: obj.resolution,
+    }
+    return doc
+  },
+
+  decode: (doc, obj) => obj || new Text(Encoder.decode(doc.text), Encoder.decode(doc.style), Encoder.decode(doc.resolution)),
+})
