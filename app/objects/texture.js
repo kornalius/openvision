@@ -15,10 +15,18 @@ Encoder.register('BaseTexture', {
   },
 
   decode: (doc, obj) => {
-    obj = obj || new PIXI.BaseTexture(Encoder.decode(doc.source), Encoder.decode(doc.scaleMode), Encoder.decode(doc.resolution))
-    obj.premultipliedAlpha = doc.premultipliedAlpha
-    obj.imageUrl = doc.imageUrl
-    obj.mipmap = doc.mipmap
+    let d = Encoder.decode(doc)
+    if (obj) {
+      obj.source = d.source
+      obj.scaleMode = d.scaleMode
+      obj.resolution = d.resolution
+      obj.premultipliedAlpha = doc.premultipliedAlpha
+      obj.imageUrl = doc.imageUrl
+      obj.mipmap = doc.mipmap
+    }
+    else {
+      obj = new PIXI.BaseTexture(d.source, d.scaleMode, d.resolution)
+    }
     return obj
   },
 })
@@ -37,5 +45,18 @@ Encoder.register('Texture', {
     return doc
   },
 
-  decode: (doc, obj) => obj || new PIXI.Texture(Encoder.decode(doc.baseTexture), Encoder.decode(doc.frame), Encoder.decode(doc.crop), Encoder.decode(doc.trim), Encoder.decode(doc.rotate)),
+  decode: (doc, obj) => {
+    let d = Encoder.decode(doc)
+    if (obj) {
+      obj.baseTexture = d.baseTexture
+      obj.frame = d.frame
+      obj.crop = d.crop
+      obj.trim = d.trim
+      obj.rotate = d.rotate
+    }
+    else {
+      obj = new PIXI.Texture(d.baseTexture, d.frame, d.crop, d.trim, d.rotate)
+    }
+    return obj
+  },
 })

@@ -49,17 +49,6 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
 
   q (expr) { return jsonquery(expr, { data: this.root, parent: this.parent, source: this.children, allowRegexp: true }).value }
 
-  static serialization (obj) {
-    let s = super.serialization(obj)
-    return {
-      args: [],
-      properties: _.extend({}, s.properties, {
-        children: { type: Array, value: obj && obj.children },
-      }),
-      exceptions: [].concat(s.exceptions)
-    }
-  }
-
 })
 
 

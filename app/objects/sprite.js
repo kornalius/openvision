@@ -10,23 +10,6 @@ import { Encoder } from './encoder.js'
 
 export let SpriteMixin = Mixin(superclass => class SpriteMixin extends superclass {
 
-  static serialization (obj) {
-    let s = super.serialization(obj)
-    return {
-      args: [],
-      properties: _.extend({}, s.properties, {
-        anchor: { type: PIXI.Point, value: obj && obj.anchor },
-        tint: { type: Number, value: obj && obj.tint },
-        blendMode: { type: Number, value: obj && obj.blendMode },
-        width: { type: Number, value: obj && obj.width },
-        height: { type: Number, value: obj && obj.height },
-        shader: { type: PIXI.Shader, value: obj && obj.shader },
-        texture: { type: PIXI.Texture, value: obj && obj.texture },
-      }),
-      exceptions: [].concat(s.exceptions),
-    }
-  }
-
 })
 
 
@@ -50,14 +33,19 @@ Encoder.register('Sprite', {
   },
 
   decode: (doc, obj) => {
-    obj = obj || new Sprite(Encoder.decode(doc.texture))
-    obj.anchor = doc.anchor
-    obj.tint = doc.tint
-    obj.blendMode = doc.blendMode
-    obj.width = doc.width
-    obj.height = doc.height
-    obj.shader = doc.shader
-    obj.texture = doc.texture
+    let d = Encoder.decode(doc)
+    if (obj) {
+      obj.texture = d.texture
+    }
+    else {
+      obj = new Sprite(d.texture)
+    }
+    obj.anchor = d.anchor
+    obj.tint = d.tint
+    obj.blendMode = d.blendMode
+    obj.width = d.width
+    obj.height = d.height
+    obj.shader = d.shader
     return obj
   },
 })

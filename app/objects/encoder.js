@@ -2,7 +2,7 @@
 export const encoders = {}
 
 
-let getType = v => _.get(v, '$type') || v.constructor.name
+let getType = v => _.get(v, '$type') || _.get(v, 'constructor.name')
 
 
 export class Encoder {
@@ -16,9 +16,11 @@ export class Encoder {
     let doc = e ? e.encode(obj) : {}
     if (e && !e.primitive) {
       doc.$type = e.name
-      while (e.inherit) {
+      while (e && e.inherit) {
         e = encoders[e.inherit]
-        _.extend(doc, e ? e.encode(obj) : {})
+        if (e) {
+          _.extend(doc, e.encode(obj))
+        }
       }
     }
     if (_.isArray(doc)) {
@@ -36,9 +38,9 @@ export class Encoder {
 
   static decode (doc) {
     let e = encoders[getType(doc)]
-    let obj = e ? e.decode(doc) : {}
+    let obj = e ? e.decode(doc) : doc
     if (e && !e.primitive) {
-      while (e.inherit) {
+      while (e && e.inherit) {
         e = encoders[e.inherit]
         if (e) {
           e.decode(doc, obj)
@@ -52,7 +54,9 @@ export class Encoder {
     }
     else if (_.isObject(obj)) {
       for (let k in obj) {
-        obj[k] = Encoder.decode(obj[k])
+        if (_.has(obj, k)) {
+          obj[k] = Encoder.decode(obj[k])
+        }
       }
     }
     return obj
@@ -65,15 +69,15 @@ Encoder.register('Object', {
   primitive: true,
 
   encode: obj => {
-    let doc = { $type: 'Object' }
+    let doc = {}
     for (let k in obj) {
       doc[k] = obj[k]
     }
     return doc
   },
 
-  decode: doc => {
-    let obj = {}
+  decode: (doc, obj) => {
+    obj = obj || {}
     for (let k in doc) {
       obj[k] = doc[k]
     }
@@ -93,8 +97,9 @@ Encoder.register('Array', {
     return doc
   },
 
-  decode: doc => {
-    let obj = new Array(doc.length)
+  decode: (doc, obj) => {
+    obj = obj || []
+    obj.length += doc.length
     for (let i = 0; i < doc.length; i++) {
       obj[i] = doc[i]
     }
@@ -106,19 +111,19 @@ Encoder.register('Array', {
 Encoder.register('String', {
   primitive: true,
   encode: obj => _.escape(obj),
-  decode: doc => _.unescape(doc),
+  decode: (doc, obj) => _.unescape(doc),
 })
 
 
 Encoder.register('Number', {
   primitive: true,
   encode: obj => obj,
-  decode: doc => doc,
+  decode: (doc, obj) => doc,
 })
 
 
 Encoder.register('Boolean', {
   primitive: true,
   encode: obj => obj,
-  decode: doc => doc,
+  decode: (doc, obj) => doc,
 })

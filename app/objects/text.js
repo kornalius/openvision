@@ -69,5 +69,16 @@ Encoder.register('Text', {
     return doc
   },
 
-  decode: (doc, obj) => obj || new Text(Encoder.decode(doc.text), Encoder.decode(doc.style), Encoder.decode(doc.resolution)),
+  decode: (doc, obj) => {
+    let d = Encoder.decode(doc)
+    if (obj) {
+      obj.text = d.text
+      obj.style = d.style
+      obj.resolution = d.resolution
+    }
+    else {
+      obj = new Text(d.text, d.style, d.resolution)
+    }
+    return obj
+  },
 })

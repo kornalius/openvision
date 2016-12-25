@@ -2,6 +2,8 @@ import PouchDB from 'pouchdb-browser'
 // import PouchDBMemory from 'pouchdb-adapter-memory'
 import RelationalPouchDB from 'relational-pouch'
 import TransformPouchDB from 'transform-pouch'
+import { Encoder } from './encoder.js'
+
 
 // PouchDB.plugin(PouchDBMemory)
 PouchDB.plugin(RelationalPouchDB)
@@ -22,6 +24,60 @@ tempDB.destroy().then(() => {
 })
 
 
+export let DB = class {
+
+  static get (db, id) {
+    if (_.isString(db)) {
+      id = db
+      db = mainDB
+    }
+    return db.get(id)
+  }
+
+  static put (db, id, doc) {
+    if (_.isString(db)) {
+      id = db
+      db = mainDB
+    }
+    return DB.get(db, id).then(res => {
+      return db.put(_.extend({ _id: id, _rev: res.rev }, doc))
+    }).catch(err => {
+      if (err.status === 404) {
+        return db.put(_.extend({ _id: id }, doc))
+      }
+      else {
+        return Promise.reject(err)
+      }
+    })
+  }
+
+  static delete (db, id) {
+    if (_.isString(db)) {
+      id = db
+      db = mainDB
+    }
+    return DB.get(db, id).then(db.remove)
+  }
+
+  static load (db, id) {
+    if (_.isString(db)) {
+      id = db
+      db = mainDB
+    }
+    return DB.get(db, id).then(Encoder.decode)
+  }
+
+  static save (db, id, doc) {
+    if (_.isString(db)) {
+      id = db
+      db = mainDB
+    }
+    return DB.put(db, id, doc)
+  }
+
+}
+
+
 export let DBMixin = Mixin(superclass => class DBMixin extends superclass {
 
   constructor () {
@@ -31,6 +87,7 @@ export let DBMixin = Mixin(superclass => class DBMixin extends superclass {
   }
 
   get db () { return this._db || mainDB }
+
   set db (value) {
     if (this.db !== mainDB) {
       this._db.close().then(() => {
@@ -48,36 +105,16 @@ export let DBMixin = Mixin(superclass => class DBMixin extends superclass {
 
   get rev () { return this._doc._rev }
 
-  _get (name) {
-    return this.db.get(name || this.id).then(doc => {
-      this._doc = doc
+  save (name) {
+    return DB.save(this.db, name || this.id, this.encode()).then(doc => {
+      this._doc._id = doc.id
+      this._doc._rev = doc.rev
       return doc
     })
   }
 
-  _put (name) {
-    return this._get(name).then(() => {
-      return this.db.put(this.serialize())
-    }).catch(err => {
-      if (err.status === 404) {
-        this._doc._id = name || this.id
-        this.db.put(this.serialize())
-      }
-    })
-  }
-
-  load (name) {
-    return this._get(name).then(this.deserialize)
-  }
-
-  save (name) {
-    return this._put(name)
-  }
-
   delete (name) {
-    return this._get(name).then(doc => {
-      this.db.remove(doc).then(() => { this._doc = {} })
-    })
+    return DB.delete(this.db, name || this.id).then(() => { this._doc = {} })
   }
 
 })

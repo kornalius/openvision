@@ -17,6 +17,7 @@ import { shortcuts, keyboard } from './shortcut.js'
 import { Screen } from './screen.js'
 import { vm } from './vm.js'
 import { Container, Graphics, Sprite, Text, Rectangle } from './objects/objects.js'
+import { DB } from './objects/db.js'
 
 window.Plugin = Plugin
 
@@ -34,6 +35,7 @@ export class App extends Base {
 
     this._status = 0
 
+    this.DB = DB
     this.Base = Base
     this.Container = Container
     this.Graphics = Graphics
