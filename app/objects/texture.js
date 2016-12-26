@@ -1,31 +1,29 @@
-import { Encoder } from './encoder.js'
+import { Encoder, e, d } from './encoder.js'
 
 
 Encoder.register('BaseTexture', {
 
   encode: obj => {
-    let doc = {
-      resolution: obj.resolution,
-      scaleMode: obj.scaleMode,
-      premultipliedAlpha: obj.premultipliedAlpha,
-      imageUrl: obj.imageUrl,
-      mipmap: obj.mipmap,
-    }
+    let doc = {}
+    doc.resolution = e('resolution', obj, doc)
+    doc.scaleMode = e('scaleMode', obj, doc)
+    doc.premultipliedAlpha = e('premultipliedAlpha', obj, doc)
+    doc.imageUrl = e('imageUrl', obj, doc)
+    doc.mipmap = e('mipmap', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
-    let d = Encoder.decode(doc)
     if (obj) {
-      obj.source = d.source
-      obj.scaleMode = d.scaleMode
-      obj.resolution = d.resolution
-      obj.premultipliedAlpha = doc.premultipliedAlpha
-      obj.imageUrl = doc.imageUrl
-      obj.mipmap = doc.mipmap
+      obj.source = d('source', doc, obj)
+      obj.scaleMode = d('scaleMode', doc, obj)
+      obj.resolution = d('resolution', doc, obj)
+      obj.premultipliedAlpha = d('premultipliedAlpha', doc, obj)
+      obj.imageUrl = d('imageUrl', doc, obj)
+      obj.mipmap = d('mipmap', doc, obj)
     }
     else {
-      obj = new PIXI.BaseTexture(d.source, d.scaleMode, d.resolution)
+      obj = new PIXI.BaseTexture(d('source', doc, obj), d('scaleMode', doc, obj), d('resolution', doc, obj))
     }
     return obj
   },
@@ -35,27 +33,25 @@ Encoder.register('BaseTexture', {
 Encoder.register('Texture', {
 
   encode: obj => {
-    let doc = {
-      baseTexture: obj.baseTexture,
-      frame: obj.frame,
-      crop: obj.crop,
-      trim: obj.trim,
-      rotate: obj.rotate,
-    }
+    let doc = {}
+    doc.baseTexture = e('baseTexture', obj, doc)
+    doc.frame = e('frame', obj, doc)
+    doc.crop = e('crop', obj, doc)
+    doc.trim = e('trim', obj, doc)
+    doc.rotate = e('rotate', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
-    let d = Encoder.decode(doc)
     if (obj) {
-      obj.baseTexture = d.baseTexture
-      obj.frame = d.frame
-      obj.crop = d.crop
-      obj.trim = d.trim
-      obj.rotate = d.rotate
+      obj.baseTexture = d('baseTexture', doc, obj)
+      obj.frame = d('frame', doc, obj)
+      obj.crop = d('crop', doc, obj)
+      obj.trim = d('trim', doc, obj)
+      obj.rotate = d('rotate', doc, obj)
     }
     else {
-      obj = new PIXI.Texture(d.baseTexture, d.frame, d.crop, d.trim, d.rotate)
+      obj = new PIXI.Texture(d('baseTexture', doc, obj), d('frame', doc, obj), d('crop', doc, obj), d('trim', doc, obj), d('rotate', doc, obj))
     }
     return obj
   },

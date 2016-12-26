@@ -4,7 +4,7 @@ import { CommandMixin } from '../command.js'
 import { ShortcutMixin } from '../shortcut.js'
 import { updates } from '../updates.js'
 import { DBMixin } from './db.js'
-import { Encoder } from './encoder.js'
+import { Encoder, e, d } from './encoder.js'
 
 
 export let DisplayMixin = Mixin(superclass => class DisplayMixin extends superclass {
@@ -27,6 +27,16 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
         }
       }
     }))
+    return this
+  }
+
+  moveTo (x, y) {
+    this.position.set(x, y)
+    return this.update()
+  }
+
+  moveBy (bx, by) {
+    return this.moveTo(this.x + bx, this.y + by)
   }
 
 })
@@ -39,31 +49,30 @@ Encoder.register('Display', {
   inherit: 'Base',
 
   encode: obj => {
-    let doc = {
-      x: obj.x,
-      y: obj.y,
-      scale: obj.scale,
-      pivot: obj.pivot,
-      skew: obj.skew,
-      rotation: obj.rotation,
-      alpha: obj.alpha,
-      visible: obj.visible,
-      renderable: obj.renderable,
-    }
+    let doc = {}
+    doc.position = e('position', obj, doc)
+    doc.scale = e('scale', obj, doc)
+    doc.pivot = e('pivot', obj, doc)
+    doc.skew = e('skew', obj, doc)
+    doc.rotation = e('rotation', obj, doc)
+    doc.alpha = e('alpha', obj, doc)
+    doc.visible = e('visible', obj, doc)
+    doc.renderable = e('renderable', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
-    obj = obj || new Display()
-    obj.x = doc.x
-    obj.y = doc.y
-    obj.scale = doc.scale
-    obj.pivot = doc.pivot
-    obj.skew = doc.skew
-    obj.rotation = doc.rotation
-    obj.alpha = doc.alpha
-    obj.visible = doc.visible
-    obj.renderable = doc.renderable
+    if (!obj) {
+      obj = new Display()
+    }
+    obj.position = d('position', doc, obj)
+    obj.scale = d('scale', doc, obj)
+    obj.pivot = d('pivot', doc, obj)
+    obj.skew = d('skew', doc, obj)
+    obj.rotation = d('rotation', doc, obj)
+    obj.alpha = d('alpha', doc, obj)
+    obj.visible = d('visible', doc, obj)
+    obj.renderable = d('renderable', doc, obj)
     return obj
   },
 })

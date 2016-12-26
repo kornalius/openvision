@@ -5,7 +5,7 @@ import { ShortcutMixin } from '../shortcut.js'
 import { DisplayMixin } from './display.js'
 import { ContainerMixin } from './container.js'
 import { DBMixin } from './db.js'
-import { Encoder } from './encoder.js'
+import { Encoder, e, d } from './encoder.js'
 
 
 export let SpriteMixin = Mixin(superclass => class SpriteMixin extends superclass {
@@ -20,32 +20,30 @@ Encoder.register('Sprite', {
   inherit: 'Container',
 
   encode: obj => {
-    let doc = {
-      anchor: obj.anchor,
-      tint: obj.tint,
-      blendMode: obj.blendMode,
-      width: obj.width,
-      height: obj.height,
-      shader: obj.shader,
-      texture: obj.texture,
-    }
+    let doc = {}
+    doc.anchor = e('anchor', obj, doc)
+    doc.tint = e('tint', obj, doc)
+    doc.blendMode = e('blendMode', obj, doc)
+    doc.width = e('width', obj, doc)
+    doc.height = e('height', obj, doc)
+    doc.shader = e('shader', obj, doc)
+    doc.texture = e('texture', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
-    let d = Encoder.decode(doc)
     if (obj) {
-      obj.texture = d.texture
+      // obj.texture = d('texture', doc, obj)
     }
     else {
-      obj = new Sprite(d.texture)
+      obj = new Sprite(d('texture', doc, obj))
     }
-    obj.anchor = d.anchor
-    obj.tint = d.tint
-    obj.blendMode = d.blendMode
-    obj.width = d.width
-    obj.height = d.height
-    obj.shader = d.shader
+    obj.anchor = d('anchor', doc, obj)
+    obj.tint = d('tint', doc, obj)
+    obj.blendMode = d('blendMode', doc, obj)
+    obj.width = d('width', doc, obj)
+    obj.height = d('height', doc, obj)
+    obj.shader = d('shader', doc, obj)
     return obj
   },
 })

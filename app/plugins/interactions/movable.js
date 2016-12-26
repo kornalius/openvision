@@ -22,11 +22,11 @@ export default class extends Plugin {
   }
 
   onMouseMoveMovable (e) {
-    let info = app.mouseInfo(e)
+    let info = app.mouseEvent(e)
     if (info.target === this) {
       if (this._pressed.down) {
-        let x = info.x - this._pressed.down.dx
-        let y = info.y - this._pressed.down.dy
+        let x = info.sx - this._pressed.down.x
+        let y = info.sy - this._pressed.down.y
         if (this.position.x !== x) {
           this.position.x = x
           this.update()

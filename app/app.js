@@ -19,13 +19,17 @@ import { vm } from './vm.js'
 import { Container, Graphics, Sprite, Text, Rectangle } from './objects/objects.js'
 import { DB } from './objects/db.js'
 
-window.Plugin = Plugin
 
+window.Plugin = Plugin
 window.q = q
+
 
 export const _STOPPED = 0
 export const _RUNNING = 1
 export const _PAUSED = 2
+
+
+var littleEndian
 
 
 export class App extends Base {
@@ -35,60 +39,12 @@ export class App extends Base {
 
     this._status = 0
 
-    this.DB = DB
-    this.Base = Base
-    this.Container = Container
-    this.Graphics = Graphics
-    this.Sprite = Sprite
-    this.Text = Text
-    this.Rectangle = Rectangle
-
-    this.plugins = plugins
-    this.Plugin = Plugin
-    this.commands = commands
-    this.shortcuts = shortcuts
-    this.keyboard = keyboard
-    this.vm = vm
-
-    this.p = p
-    this.name = name
-    this.version = version
-    this.app = electronApp
-    this.BrowserWindow = BrowserWindow
-    this.electron = electron
-    this.openFile = openFile
-    this.saveFile = saveFile
-    this.messageBox = messageBox
-    this.fs = fs
-    this.path = path
-    this.IS_WIN = IS_WIN
-    this.IS_OSX = IS_OSX
-    this.IS_LINUX = IS_LINUX
-    this.dirs = dirs
-    this.raf = raf
-    this.now = now
-    this.process = process
-    this._vm = _vm
-    this.os = os
-    this.child_process = child_process
-    this.dns = dns
-    this.http = http
-    this.https = https
-    this.net = net
-    this.querystring = querystring
-    this.stream = stream
-    this.tls = tls
-    this.tty = tty
-    this.url = url
-    this.zlib = zlib
-    this.jsonquery = jsonquery
-
     // Check for littleEndian
     let b = new ArrayBuffer(4)
     let a = new Uint32Array(b)
     let c = new Uint8Array(b)
     a[0] = 0xdeadbeef
-    this.littleEndian = c[0] === 0xef
+    littleEndian = c[0] === 0xef
 
     this._defaults = _.get(options, 'defaults', {
       width: 640,
@@ -139,6 +95,56 @@ export class App extends Base {
     this.screen.destroy()
     super.destroy()
   }
+
+  get DB () { return DB }
+  get Base () { return Base }
+  get Container () { return Container }
+  get Graphics () { return Graphics }
+  get Sprite () { return Sprite }
+  get Text () { return Text }
+  get Rectangle () { return Rectangle }
+
+  get plugins () { return plugins }
+  get Plugin () { return Plugin }
+  get commands () { return commands }
+  get shortcuts () { return shortcuts }
+  get keyboard () { return keyboard }
+  get vm () { return vm }
+
+  get p () { return p }
+  get name () { return name }
+  get version () { return version }
+  get app () { return electronApp }
+  get BrowserWindow () { return BrowserWindow }
+  get electron () { return electron }
+  get openFile () { return openFile }
+  get saveFile () { return saveFile }
+  get messageBox () { return messageBox }
+  get fs () { return fs }
+  get path () { return path }
+  get IS_WIN () { return IS_WIN }
+  get IS_OSX () { return IS_OSX }
+  get IS_LINUX () { return IS_LINUX }
+  get dirs () { return dirs }
+  get raf () { return raf }
+  get now () { return now }
+  get process () { return process }
+  get _vm () { return _vm }
+  get os () { return os }
+  get child_process () { return child_process }
+  get dns () { return dns }
+  get http () { return http }
+  get https () { return https }
+  get net () { return net }
+  get querystring () { return querystring }
+  get stream () { return stream }
+  get tls () { return tls }
+  get tty () { return tty }
+  get url () { return url }
+  get zlib () { return zlib }
+  get jsonquery () { return jsonquery }
+
+  get littleEndian () { return littleEndian }
 
   get stage () { return this.screen.stage }
 
@@ -204,7 +210,7 @@ export class App extends Base {
     super.tick(time)
   }
 
-  mouseInfo (e) {
+  mouseEvent (e) {
     let local = e.data.getLocalPosition(this.stage)
     let dist = e.data.getLocalPosition(e.target)
     return {
@@ -213,12 +219,12 @@ export class App extends Base {
       leftButton: e.data.originalEvent.button === 0,
       middleButton: e.data.originalEvent.button === 1,
       rightButton: e.data.originalEvent.button === 2,
-      x: local.x,
-      y: local.y,
+      sx: local.x,
+      sy: local.y,
       gx: e.data.global.x,
       gy: e.data.global.y,
-      dx: dist.x,
-      dy: dist.y,
+      x: dist.x,
+      y: dist.y,
       target: e.target,
       over: e.target._over,
     }

@@ -16,38 +16,40 @@ export default class extends Plugin {
   load (obj, options) {
     super.load(obj, options)
     obj._tabIndex = _.get(options, 'tabIndex', -1)
+    obj._focusable = _.get(options, 'focusable', true)
     obj.on('mousedown', obj.focus)
-    obj._onKeyDownFocusable = obj.onKeyDownFocusable.bind(obj)
-    window.addEventListener('keydown', obj._onKeyDownFocusable, false)
+    obj._onKeydownFocusable = obj.onKeydownFocusable.bind(obj)
+    window.addEventListener('keydown', obj._onKeydownFocusable, false)
   }
 
   unload (obj) {
-    window.removeEventListener('keydown', obj._onKeyDownFocusable, false)
+    window.removeEventListener('keydown', obj._onKeydownFocusable, false)
     delete obj._tabIndex
-    delete obj._onKeyDownFocusable
+    delete obj._focusable
+    delete obj._onKeydownFocusable
     obj.off('mousedown', obj.focus)
     super.unload(obj)
   }
 
   get focused () { return focused === this }
 
-  get focusable () { return this._tabIndex !== -1 }
+  get focusable () { return this._focusable }
+  set focusable (value) { this._focusable = value }
 
   get tabIndex () { return this._tabIndex }
   set tabIndex (value) {
     if (this._tabIndex !== value) {
       this._tabIndex = value
-      // this.update()
       if (this.focused && value === -1) {
         this.focusPrev()
       }
     }
   }
 
-  focusableChildren (gt = -1) {
+  focusableChildren () {
     let l = []
     for (let c of this.children) {
-      if (_.isNumber(c.tabIndex) && c.tabIndex > gt) {
+      if (c.focusable) {
         l.push(c)
       }
     }
@@ -73,7 +75,7 @@ export default class extends Plugin {
 
   focusPrev () {
     let l = this._tabIndex
-    for (let c of this.children) {
+    for (let c of this.focusableChildren) {
       if (c.tabIndex <= l && c !== this) {
         c.focus()
         return c.focused
@@ -85,7 +87,7 @@ export default class extends Plugin {
 
   focusNext () {
     let l = this._tabIndex
-    for (let c of this.children) {
+    for (let c of this.focusableChildren) {
       if (c.tabIndex >= l && c !== this) {
         c.focus()
         return c.focused
@@ -95,7 +97,7 @@ export default class extends Plugin {
     return this
   }
 
-  onKeyDownFocusable (e) {
+  onKeydownFocusable (e) {
     if (this.focused) {
       if (e.key === 'Tab') {
         if (e.shiftKey) {

@@ -78,7 +78,7 @@ export default class extends Plugin {
   }
 
   insertTextAtPos (pos, s) {
-    this.text.splice(pos, 0, s)
+    this.text = this.text.splice(pos, 0, s)
     return this.update()
   }
 
@@ -93,7 +93,7 @@ export default class extends Plugin {
   setLineAt (y, s = '') {
     let i = this.lineInfo(y)
     if (i) {
-      this.text.splice(i.start, i.length - 1, s)
+      this.text = this.text.splice(i.start, i.length - 1, s)
       this.update()
     }
     return this
@@ -117,7 +117,7 @@ export default class extends Plugin {
   }
 
   deleteTextAtPos (pos, count = 1) {
-    this.text.splice(pos, count)
+    this.text = this.text.splice(pos, count)
     return this.update()
   }
 
@@ -162,7 +162,7 @@ export default class extends Plugin {
   deleteLineAt (y) {
     let i = this.lineInfo(y)
     if (i) {
-      this.text.splice(i.start, i.length)
+      this.text = this.text.splice(i.start, i.length)
     }
     return i.text
   }

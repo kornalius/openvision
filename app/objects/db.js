@@ -117,4 +117,17 @@ export let DBMixin = Mixin(superclass => class DBMixin extends superclass {
     return DB.delete(this.db, name || this.id).then(() => { this._doc = {} })
   }
 
+  test () {
+    this.save('test').then(doc => {
+      console.log(doc)
+      app.DB.load('test').then(obj => {
+        console.log(obj)
+        obj.x = 30
+        obj.y = 100
+        app.stage.addChild(obj)
+        obj.update()
+      })
+    })
+  }
+
 })

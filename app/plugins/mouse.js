@@ -30,7 +30,7 @@ export default class extends Plugin {
   }
 
   onMouseDown (e) {
-    let info = app.mouseInfo(e)
+    let info = app.mouseEvent(e)
     if (info.leftButton) {
       this._pressed.down = info
     }

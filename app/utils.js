@@ -50,6 +50,10 @@ PIXI.Rectangle.prototype.toString = function () {
   return _.template('(#{x}, #{y}, #{x + width}, #{y + height})(#{width}, #{height})')(this)
 }
 
+String.prototype.splice = function (start = 0, count = this.length, str = '') {
+  return this.slice(0, start) + str + this.slice(start + count)
+}
+
 let userPath = path.join(app.getAppPath(), '/user')
 if (!fs.existsSync(userPath)) {
   fs.makeTreeSync(userPath)

@@ -8,8 +8,8 @@ export default class extends Plugin {
     this._author = 'Alain Deschenes'
     this._version = '1.0.0'
     this._date = '12/16/2016'
-    this._deps = ['editable', 'text']
     this._containers = ['Text']
+    this._deps = ['editable', 'text']
   }
 
   load (obj, options = {}) {
@@ -42,7 +42,8 @@ export default class extends Plugin {
   }
 
   caretToPos (x, y) {
-    return this.lineStart(y) + x
+    let i = this.lineInfo(y)
+    return (i ? i.start : 0) + x
   }
 
   posToCaret (pos) {
@@ -67,7 +68,7 @@ export default class extends Plugin {
 
   caretMaxX (y) { return this.validLine(y) ? this.lineLength(y) : 0 }
 
-  caretMaxY (x) { return this.linesCount - 1 }
+  caretMaxY (x) { return this.lineCount - 1 }
 
   moveByWord (count = 1) {
     let words = []
@@ -119,10 +120,12 @@ export default class extends Plugin {
       }
       else if (e.key.startsWith('Page')) {
       }
-      else if (e.charCode === 13 || e.charCode > 31) {
-        this.insertText(e.char)
+      else if (e.key.length === 1) {
+        this.insertText(e.key)
         this.moveCaretPosBy(1)
       }
+      e.stopPropagation()
+      e.preventDefault()
     }
   }
 

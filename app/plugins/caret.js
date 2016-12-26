@@ -66,7 +66,7 @@ export default class extends Plugin {
   caretMaxY (x) { return 0 }
 
   caretToPos (x, y) { return 0 }
-  posToCaret (pos) { return 0 }
+  posToCaret (pos) { return { x: 0, y: 0 } }
 
   get caretPos () { return this.caretToPos(this.caretX, this.caretY) }
 
@@ -86,22 +86,24 @@ export default class extends Plugin {
   }
 
   moveCaret (x, y) {
-    y = Math.max(0, Math.min(this.caretMaxY(this.caretX), y))
-    this._caret._posY = y
+    if (x !== this.caretX || y !== this.caretY) {
+      y = Math.max(0, Math.min(this.caretMaxY(this.caretX), y))
+      this._caret._posY = y
 
-    x = Math.max(0, Math.min(this.caretMaxX(this.caretY), x))
-    this._caret._posX = x
+      x = Math.max(0, Math.min(this.caretMaxX(this.caretY), x))
+      this._caret._posX = x
 
-    this._caret.x = x * this.caretWidth
-    this._caret.y = y * this.caretHeight
+      this._caret.position.set(x * this.caretWidth, y * this.caretHeight)
+      this._caret.visible = this._caret._show
 
-    this._caret.visible = this._caret._show
-
-    return this.update()
+      return this.update()
+    }
+    return this
   }
 
   moveCaretPos (pos) {
-
+    let { x, y } = this.posToCaret(pos)
+    return this.moveCaret(x, y)
   }
 
   moveCaretPosBy (b) {
@@ -141,7 +143,7 @@ export default class extends Plugin {
   }
 
   onMouseDownCaret (e) {
-    let info = app.mouseInfo(e)
+    let info = app.mouseEvent(e)
     if (info.target === this) {
       if (this._pressed.down) {
         let { x, y } = this.pixelToCaret(info.x, info.y)
@@ -151,7 +153,7 @@ export default class extends Plugin {
   }
 
   onMouseMoveCaret (e) {
-    let info = app.mouseInfo(e)
+    let info = app.mouseEvent(e)
     if (info.target === this) {
       if (this._pressed.down) {
         let { x, y } = this.pixelToCaret(info.x, info.y)

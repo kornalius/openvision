@@ -240,12 +240,12 @@ export class Screen extends Display {
 
     let text = new Text('This is a pixi text\nHere is another line\nAnd another!', { font: '20px "Glass TTY VT220"', fill: 0xFFFFFF })
     this._stage.addChild(text)
-    text.unsmooth()
+    text.moveTo(50, 50)
     this.refresh()
   }
 
   onMouseDown (e) {
-    // let info = app.mouseInfo(e)
+    // let info = app.mouseEvent(e)
   }
 
   onMouseMove (e) {
