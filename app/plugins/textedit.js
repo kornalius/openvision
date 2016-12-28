@@ -14,6 +14,7 @@ export default class extends Plugin {
 
   load (obj, options = {}) {
     super.load(obj, options)
+    obj._multiline = true
     obj._oldTabIndex = -1
     obj.acceptTab = _.get(options, 'acceptTab', false)
     obj._onKeyDownTextEdit = obj.onKeyDownTextEdit.bind(obj)
@@ -21,6 +22,7 @@ export default class extends Plugin {
   }
 
   unload (obj) {
+    delete obj._multiline
     delete obj._oldTabIndex
     delete obj._acceptTab
     window.removeEventListener('keydown', obj._onKeyDownTextEdit, false)
@@ -29,7 +31,6 @@ export default class extends Plugin {
   }
 
   get acceptTab () { return this._acceptTab }
-
   set acceptTab (value) {
     this._acceptTab = value
     if (value) {
@@ -41,6 +42,11 @@ export default class extends Plugin {
     }
   }
 
+  get multiline () { return this._multiline }
+  set multiline (value) {
+    this._multiline = value
+  }
+
   caretToPos (x, y) {
     let i = this.lineInfo(y)
     return (i ? i.start : 0) + x
@@ -49,15 +55,13 @@ export default class extends Plugin {
   posToCaret (pos) {
     let x = 0
     let y = 0
-    let lines = this.lines
     for (let yy = 0; yy < this.lineCount; yy++) {
-      pos -= lines[yy].length
-      if (pos >= 0) {
-        y++
+      let i = this.lineInfo(yy)
+      if (pos >= i.start && pos <= i.end) {
+        x = pos - i.start
+        break
       }
-      else {
-        x = Math.abs(pos)
-      }
+      y++
     }
     return { x, y }
   }
@@ -70,8 +74,9 @@ export default class extends Plugin {
 
   caretMaxY (x) { return this.lineCount - 1 }
 
-  moveByWord (count = 1) {
-    let words = []
+  moveByWord (uppercase = false) {
+    let word = this.wordAt(this.caretPos, uppercase)
+    console.log(word)
     return this
   }
 
@@ -79,10 +84,28 @@ export default class extends Plugin {
     if (shiftKey) {
     }
     else if (ctrlKey) {
+      switch (dir) {
+        case 'left':
+          return this.moveByWord(-1)
+        case 'right':
+          return this.moveByWord(1)
+      }
     }
     else if (altKey) {
+      switch (dir) {
+        case 'left':
+          return this.moveByWord(-1, true)
+        case 'right':
+          return this.moveByWord(1, true)
+      }
     }
     else if (metaKey) {
+      switch (dir) {
+        case 'left':
+          return this.moveCaretBol()
+        case 'right':
+          return this.moveCaretEol()
+      }
     }
     else {
       switch (dir) {
@@ -109,8 +132,7 @@ export default class extends Plugin {
         this.deleteTextDir('right', e.shiftKey, e.ctrlKey, e.altKey, e.metaKey)
       }
       else if (e.key === 'Backspace') {
-        let count = this.deleteTextDir('left', e.shiftKey, e.ctrlKey, e.altKey, e.metaKey)
-        this.moveCaretPosBy(-count)
+        this.deleteTextDir('left', e.shiftKey, e.ctrlKey, e.altKey, e.metaKey)
       }
       else if (e.key.startsWith('Arrow')) {
         this.moveCaretDir(e.key.substr(5).toLowerCase(), e.shiftKey, e.ctrlKey, e.altKey, e.metaKey)
@@ -119,6 +141,10 @@ export default class extends Plugin {
         this.moveCaret(e.key === 'Home' ? 0 : this.caretMaxX(this.caretY), this.caretY)
       }
       else if (e.key.startsWith('Page')) {
+      }
+      else if (e.key === 'Enter' && this.multiline) {
+        this.insertText(this.CR)
+        this.moveCaretNextLine()
       }
       else if (e.key.length === 1) {
         this.insertText(e.key)

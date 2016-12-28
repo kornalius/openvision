@@ -46,7 +46,7 @@ export default class extends Plugin {
     }
   }
 
-  focusableChildren () {
+  get focusableChildren () {
     let l = []
     for (let c of this.children) {
       if (c.focusable) {

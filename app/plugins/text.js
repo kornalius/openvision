@@ -21,11 +21,59 @@ export default class extends Plugin {
 
   load (obj, options = {}) {
     super.load(obj, options)
+    obj._value = _.get(options, 'value', obj._text || '')
+    obj._lines = null
+    obj._linesInfo = null
+    obj._wordwrap = _.get(options, 'wordwrap', false)
+    obj._wrapwidth = _.get(options, 'wrapwidth', 0)
+    obj._wordbreak = _.get(options, 'wordbreak', false)
   }
 
   unload (obj) {
+    delete obj._value
+    delete obj._lines
+    delete obj._linesInfo
+    delete obj._wordwrap
+    delete obj._wrapwidth
+    delete obj._wordbreak
     super.unload(obj)
   }
+
+  get CR () { return CR }
+  get TAB () { return TAB }
+  get SPACE () { return SPACE }
+
+  get value () { return this._value }
+  set value (value) {
+    this._value = value
+    this.refreshText()
+    return this.lines // to update text on Text container
+  }
+
+  refreshText () {
+    this._lines = null
+    this._linesInfo = null
+  }
+
+  get wordwrap () { return this._wordwrap }
+  set wordwrap (value) {
+    this._wordwrap = value
+    this.refreshText()
+  }
+
+  get wrapwidth () { return this._wrapwidth }
+  set wrapwidth (value) {
+    this._wrapwidth = value
+    this.refreshText()
+  }
+
+  get wordbreak () { return this._wordbreak }
+  set wordbreak (value) {
+    this._wordbreak = value
+    this.refreshText()
+  }
+
+  validPos (pos) { return pos >= 0 && pos < this.value.length }
 
   validLine (y) { return y >= 0 && y < this.lineCount }
 
@@ -37,63 +85,55 @@ export default class extends Plugin {
     return y >= 0 && y < this.lineCount ? this.lines[y] : null
   }
 
-  charAt (x, y) {
-    let l = this.lineAt(y)
-    return l && x >= 0 && x < l.length ? l[x] : null
+  charAt (pos) {
+    return this.validPos(pos) ? this.value[pos] : null
   }
 
-  lineAtPos (pos) {
-    let { y } = this.posToCaret(pos)
-    return this.lineAt(y)
+  get lines () {
+    if (!this._lines) {
+      let text = this._wordwrap ? this.wrapLines(this._value, { wrapwidth: this._wrapwidth, wordbreak: this._wordbreak }) : this._value
+      this._lines = text.split(/(?:\r\n|\r|\n)/)
+      this._linesInfo = null
+      if (this.text) {
+        this.text = text
+      }
+    }
+    return this._lines
   }
 
-  charAtPos (pos) {
-    let { x, y } = this.posToCaret(pos)
-    return this.charAt(x, y)
-  }
-
-  lineInfo (y) {
-    let i = null
-    if (this.validLine(y)) {
+  get linesInfo () {
+    if (this._lines && !this._linesInfo) {
       let crlen = CR.length
       let start = 0
       let end = 0
-      let yy = 0
-      let lines = this.lines
+      let y = 0
 
-      while (yy <= y) {
+      this._linesInfo = new Array(this._lines.length)
+
+      for (let l of this._lines) {
         start = end
-        end += lines[yy].length + crlen
-        yy++
-      }
-
-      i = {
-        start,
-        end,
-        text: this.lineAt(y),
-        length: end - start,
+        end += l.length + crlen
+        this._linesInfo[y++] = { start, end, text: l, length: end - start }
       }
     }
-    return i
+    return this._linesInfo
   }
 
-  insertTextAtPos (pos, s) {
-    this.text = this.text.splice(pos, 0, s)
+  lineInfo (y) { return this.validLine(y) && this.linesInfo[y] }
+
+  insertTextAt (pos, s) {
+    this.value = this.value.splice(pos, 0, s)
     return this.update()
   }
 
-  insertTextAt (x, y, s) {
-    return this.insertTextAtPos(this.caretToPos(x, y), s)
-  }
-
   insertText (s = '') {
-    return this.insertTextAtPos(this.caretPos, s)
+    return this.insertTextAt(this.caretPos, s)
   }
 
   setLineAt (y, s = '') {
     let i = this.lineInfo(y)
     if (i) {
-      this.text = this.text.splice(i.start, i.length - 1, s)
+      this.value = this.value.splice(i.start, i.length - 1, s)
       this.update()
     }
     return this
@@ -102,38 +142,30 @@ export default class extends Plugin {
   insertLineAt (y, s = '') {
     let i = this.lineInfo(y)
     if (i) {
-      this.insertTextAtPos(i.start, s + CR)
+      this.insertTextAt(i.start, s + CR)
     }
     return this
   }
 
-  insertLineAtPos (pos, s = '') {
-    return this.insertLineAt(this.posToCaret(pos).y, s)
-  }
-
   newLine (s = '') {
-    this.text += s + CR
+    this.value += s + CR
     return this.update()
   }
 
-  deleteTextAtPos (pos, count = 1) {
-    this.text = this.text.splice(pos, count)
+  deleteTextAt (pos, count = 1) {
+    this.value = this.value.splice(pos, count)
     return this.update()
-  }
-
-  deleteTextAt (x, y, count = 1) {
-    return this.deleteTextAtPos(this.caretToPos(x, y), count)
   }
 
   deleteText (count = 1) {
-    return this.deleteTextAtPos(this.caretPos, count)
+    return this.deleteTextAt(this.caretPos, count)
   }
 
-  deleteWordAtPos (pos, count = 1) {
-    let word = this.wordAtPos(pos)
+  deleteWordAt (pos, uppercase = false, count = 1) {
+    let word = this.wordAt(pos, uppercase)
     while (word && count) {
-      this.deleteTextAtPos(word.start, word.length)
-      word = this.wordAtPos(pos)
+      this.deleteTextAt(word.start, word.length)
+      word = this.wordAt(pos)
       count--
     }
     return this
@@ -149,26 +181,23 @@ export default class extends Plugin {
     else {
       switch (dir) {
         case 'left':
+          this.moveCaretLeft()
           this.deleteText()
-          return 1
+          break
         case 'right':
           this.deleteText()
-          return 0
+          break
       }
     }
-    return 0
+    return this
   }
 
   deleteLineAt (y) {
     let i = this.lineInfo(y)
     if (i) {
-      this.text = this.text.splice(i.start, i.length)
+      this.value = this.value.splice(i.start, i.length)
     }
     return i.text
-  }
-
-  deleteLineAtPos (pos) {
-    return this.deleteLineAt(this.posToCaret(pos).y)
   }
 
   deleteLines (y, y2) {
@@ -194,66 +223,139 @@ export default class extends Plugin {
     return this
   }
 
-  wordsAtPos (pos, uppercase = false, stop = '\n') {
-    var words = []
-    let word = ''
-    let t = this.text
+  prevPunctuation (pos) {
+    let t = this.value
+    for (let i = pos; i >= 0; i--) {
+      if (_.includes(PUNCTUATION, t[i])) {
+        return i
+      }
+    }
+    return t.length + 1
+  }
 
+  prevNonPunctuation (pos) {
+    let t = this.value
+    for (let i = pos; i >= 0; i--) {
+      if (!_.includes(PUNCTUATION, t[i])) {
+        return i
+      }
+    }
+    return -1
+  }
+
+  nextPunctuation (pos) {
+    let t = this.value
     for (let i = pos; i < t.length; i++) {
-      let c = t[i]
-      if (_.includes(PUNCTUATION, c)) {
-        words.push({ text: word, start: i - word.length, end: i, length: word.length })
-        if (!_.includes([SPACE, CR], c)) {
-          words.push({ text: c, start: i, end: i, length: 1 })
-          words.push(c)
+      if (_.includes(PUNCTUATION, t[i])) {
+        return i
+      }
+    }
+    return t.length + 1
+  }
+
+  nextNonPunctuation (pos) {
+    let t = this.value
+    for (let i = pos; i < t.length; i++) {
+      if (!_.includes(PUNCTUATION, t[i])) {
+        return i
+      }
+    }
+    return -1
+  }
+
+  prevWord (pos, uppercase = false) {
+
+  }
+
+  nextWord (pos, uppercase = false) {
+
+  }
+
+  wordAt (pos, uppercase = false) {
+    let start = this.prevPunctuation(pos) + 1
+    let end = this.nextPunctuation(pos) - 1
+    return end >= start ? { text: this.value.substring(start, end + 1), start, end, length: end - start + 1 } : null
+  }
+
+  wrapLines (text, options) {
+    let result = ''
+    let width = options.wrapwidth
+    let _break = options.wordbreak
+    let lines = text.split(CR)
+    let count = lines.length
+
+    for (let i = 0; i < count; i++) {
+      let l = width
+      let firstWord = true
+
+      for (let word of lines[i].split(' ')) {
+        let wl = word.length
+
+        if (_break && wl > width) {
+          let firstChar = true
+          for (let c of word.split('')) {
+            if (l > 1) {
+              result += CR + c
+              l = width - 1
+            }
+            else {
+              result += (firstChar ? ' ' : '') + c
+              l--
+            }
+            firstChar = false
+          }
         }
-        word = ''
-        if (c === stop || uppercase && _.includes(UPPER, c)) {
-          break
+        else {
+          let wsl = wl + 1
+          if (firstWord || wsl > l) {
+            result += (!firstWord ? CR : '') + word
+            l = width - wl
+          }
+          else {
+            result += ' ' + word
+            l -= wsl
+          }
+        }
+
+        firstWord = false
+      }
+
+      if (i < count - 1) {
+        result += CR
+      }
+    }
+
+    return result
+  }
+
+  get firstLine () { return this.lineAt(0) }
+  get lastLine () { return this.lineAt(this.lineCount - 1) }
+
+  isBlankLine (y) { return !/\S/.test(this.lineAt(y)) }
+
+  prevNonBlankLine (start) {
+    if (start > 0) {
+      start = Math.min(start, this.lineCount - 1)
+      for (let y = start - 1; y > 0; y--) {
+        if (!this.isBlankLine(y)) {
+          return y
         }
       }
-      else {
-        word += c
-      }
     }
-
-    return words
+    return null
   }
 
-  wordsAt (x, y, uppercase = false, stop = '\n') {
-    return this.wordsAtPos(this.caretToPos(x, y), uppercase, stop)
-  }
-
-  wordAtPos (pos, uppercase = false) {
-    let t = this.text
-    let start = -1
-    let end = -1
-
-    let i = pos
-    while (i > 0) {
-      let c = t[i]
-      if (_.includes(PUNCTUATION, c) || uppercase && _.includes(UPPER, c)) {
-        start = i
-        break
+  nextNonBlankLine (start) {
+    let count = this.lineCount
+    if (start < count - 1) {
+      start = Math.min(start, count - 1)
+      for (let y = start + 1; y < count; y++) {
+        if (!this.isBlankLine(y)) {
+          return y
+        }
       }
-      i--
     }
-
-    i = pos
-    while (i < t.length) {
-      let c = t[i]
-      if (_.includes(PUNCTUATION, c) || uppercase && _.includes(UPPER, c)) {
-        end = i
-        break
-      }
-      i++
-    }
-
-    return start !== -1 && end !== -1 ? { text: t.substring(start, end), start, end, length: end - start } : null
-  }
-
-  wordAt (x, y, uppercase = false) {
-    return this.wordAtPos(this.caretToPos(x, y, uppercase))
+    return null
   }
 
 }
