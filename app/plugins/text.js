@@ -2,9 +2,9 @@ const CR = '\n'
 const TAB = '\t'
 const SPACE = ' '
 
-const PUNCTUATION = [SPACE, CR, TAB, '!', '?', '#', '@', '$', '%', '^', '&', '|', '(', ')', '{', '}', '[', ']', '\'', '"', '.', ',', ':', ';', '_', '<', '>', '\\', '*', '/', '=', '+', '-']
+const NONWORDCHARS = [SPACE, CR, TAB, '!', '?', '#', '@', '$', '%', '^', '&', '|', '(', ')', '{', '}', '[', ']', '\'', '"', '.', ',', ':', ';', '<', '>', '\\', '*', '/', '=', '+', '-']
 
-const UPPER = ['ABCDEFGHIJKLMNOPQRSTUVWXYZ']
+const UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
 
 export default class extends Plugin {
@@ -50,6 +50,8 @@ export default class extends Plugin {
     return this.lines // to update text on Text container
   }
 
+  get length () { return this._value.length }
+
   refreshText () {
     this._lines = null
     this._linesInfo = null
@@ -73,7 +75,9 @@ export default class extends Plugin {
     this.refreshText()
   }
 
-  validPos (pos) { return pos >= 0 && pos < this.value.length }
+  clipPos (pos) { return Math.max(0, Math.min(pos, this.length - 1)) }
+
+  validPos (pos) { return pos >= 0 && pos < this.length }
 
   validLine (y) { return y >= 0 && y < this.lineCount }
 
@@ -108,7 +112,7 @@ export default class extends Plugin {
       let end = 0
       let y = 0
 
-      this._linesInfo = new Array(this._lines.length)
+      this._linesInfo = new Array(this.lineCount)
 
       for (let l of this._lines) {
         start = end
@@ -161,8 +165,8 @@ export default class extends Plugin {
     return this.deleteTextAt(this.caretPos, count)
   }
 
-  deleteWordAt (pos, uppercase = false, count = 1) {
-    let word = this.wordAt(pos, uppercase)
+  deleteWordAt (pos, camelcase = false, count = 1) {
+    let word = this.wordAt(pos, camelcase)
     while (word && count) {
       this.deleteTextAt(word.start, word.length)
       word = this.wordAt(pos)
@@ -223,58 +227,97 @@ export default class extends Plugin {
     return this
   }
 
-  prevPunctuation (pos) {
-    let t = this.value
-    for (let i = pos; i >= 0; i--) {
-      if (_.includes(PUNCTUATION, t[i])) {
-        return i
-      }
-    }
-    return t.length + 1
+  isWordCharAt (pos) { return this.isWordChar(this.charAt(pos)) }
+
+  isWordChar (c) {
+    return !_.includes(NONWORDCHARS, c)
   }
 
-  prevNonPunctuation (pos) {
-    let t = this.value
-    for (let i = pos; i >= 0; i--) {
-      if (!_.includes(PUNCTUATION, t[i])) {
-        return i
-      }
-    }
-    return -1
+  isUpper (c) {
+    return _.includes(UPPER, c)
   }
 
-  nextPunctuation (pos) {
-    let t = this.value
-    for (let i = pos; i < t.length; i++) {
-      if (_.includes(PUNCTUATION, t[i])) {
-        return i
-      }
-    }
-    return t.length + 1
-  }
-
-  nextNonPunctuation (pos) {
-    let t = this.value
-    for (let i = pos; i < t.length; i++) {
-      if (!_.includes(PUNCTUATION, t[i])) {
-        return i
-      }
-    }
-    return -1
-  }
-
-  prevWord (pos, uppercase = false) {
-
-  }
-
-  nextWord (pos, uppercase = false) {
-
-  }
-
-  wordAt (pos, uppercase = false) {
-    let start = this.prevPunctuation(pos) + 1
-    let end = this.nextPunctuation(pos) - 1
+  range (start, end) {
+    start = this.clipPos(start)
+    end = this.clipPos(end)
     return end >= start ? { text: this.value.substring(start, end + 1), start, end, length: end - start + 1 } : null
+  }
+
+  prevNonWordChar (pos, camelcase = false) {
+    let t = this.value
+    for (let i = pos; i >= 0; i--) {
+      let up = camelcase && this.isUpper(t[i])
+      if (!this.isWordChar(t[i]) || up) {
+        return up ? i - 1 : i
+      }
+    }
+    return -1
+  }
+
+  prevWordChar (pos, camelcase = false) {
+    let t = this.value
+    for (let i = pos; i >= 0; i--) {
+      if (this.isWordChar(t[i])) {
+        return i
+      }
+    }
+    return -1
+  }
+
+  nextNonWordChar (pos, camelcase = false) {
+    let t = this.value
+    let len = this.length
+    for (let i = pos; i < len; i++) {
+      let up = camelcase && this.isUpper(t[i])
+      if (!this.isWordChar(t[i]) || up) {
+        return up ? i + 1 : i
+      }
+    }
+    return -1
+  }
+
+  nextWordChar (pos, camelcase = false) {
+    let t = this.value
+    let len = this.length
+    for (let i = pos; i < len; i++) {
+      if (this.isWordChar(t[i])) {
+        return i
+      }
+    }
+    return -1
+  }
+
+  prevWord (pos, camelcase = false) {
+    let end
+    if (!this.isWordCharAt(pos)) {
+      end = this.prevWordChar(pos, camelcase)
+    }
+    else {
+      end = this.prevNonWordChar(pos, camelcase) - 1
+    }
+    let start = this.prevNonWordChar(end, camelcase) + 1
+    return this.range(start, end < 0 ? this.length : end)
+  }
+
+  nextWord (pos, camelcase = false) {
+    let start
+    if (!this.isWordCharAt(pos)) {
+      start = this.nextWordChar(pos, camelcase)
+    }
+    else {
+      start = this.nextNonWordChar(pos, camelcase) + 1
+    }
+    let end = this.nextNonWordChar(start, camelcase) - 1
+    return this.range(start, end < 0 ? this.length : end)
+  }
+
+  wordAt (pos, camelcase = false) {
+    if (this.isWordCharAt(pos)) {
+      let start = this.prevNonWordChar(pos, camelcase) + 1
+      let end = this.nextNonWordChar(pos, camelcase) - 1
+      return this.range(start, end < 0 ? this.length : end)
+    }
+    return null
   }
 
   wrapLines (text, options) {
@@ -331,7 +374,7 @@ export default class extends Plugin {
   get firstLine () { return this.lineAt(0) }
   get lastLine () { return this.lineAt(this.lineCount - 1) }
 
-  isBlankLine (y) { return !/\S/.test(this.lineAt(y)) }
+  isBlankLine (y) { return /\S/.test(this.lineAt(y)) }
 
   prevNonBlankLine (start) {
     if (start > 0) {

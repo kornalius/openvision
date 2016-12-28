@@ -74,9 +74,16 @@ export default class extends Plugin {
 
   caretMaxY (x) { return this.lineCount - 1 }
 
-  moveByWord (uppercase = false) {
-    let word = this.wordAt(this.caretPos, uppercase)
-    console.log(word)
+  moveByWord (dir, camelcase = false) {
+    let w
+    switch (dir) {
+      case 'left':
+        w = this.prevWord(this.caretPos, camelcase)
+        return w ? this.moveCaretPos(w.start) : this
+      case 'right':
+        w = this.nextWord(this.caretPos, camelcase)
+        return w ? this.moveCaretPos(w.start) : this
+    }
     return this
   }
 
@@ -86,17 +93,17 @@ export default class extends Plugin {
     else if (ctrlKey) {
       switch (dir) {
         case 'left':
-          return this.moveByWord(-1)
+          return this.moveByWord('left', true)
         case 'right':
-          return this.moveByWord(1)
+          return this.moveByWord('right', true)
       }
     }
     else if (altKey) {
       switch (dir) {
         case 'left':
-          return this.moveByWord(-1, true)
+          return this.moveByWord('left')
         case 'right':
-          return this.moveByWord(1, true)
+          return this.moveByWord('right')
       }
     }
     else if (metaKey) {
