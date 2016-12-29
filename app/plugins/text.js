@@ -1,3 +1,6 @@
+import { Patch, INSERT, DELETE } from './patch.js'
+
+
 const CR = '\n'
 const TAB = '\t'
 const SPACE = ' '
@@ -5,6 +8,23 @@ const SPACE = ' '
 const NONWORDCHARS = [SPACE, CR, TAB, '!', '?', '#', '@', '$', '%', '^', '&', '|', '(', ')', '{', '}', '[', ']', '\'', '"', '.', ',', ':', ';', '<', '>', '\\', '*', '/', '=', '+', '-']
 
 const UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+
+
+class TextPatch extends Patch {
+
+  apply (obj) {
+    switch (this.action) {
+      case INSERT:
+        this.insertTextAt(this.start, this.value)
+        break
+      case DELETE:
+        this.deleteTextAt(this.start, this.length)
+        break
+    }
+    return this
+  }
+
+}
 
 
 export default class extends Plugin {
