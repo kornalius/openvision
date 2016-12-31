@@ -2,7 +2,7 @@ import PouchDB from 'pouchdb-browser'
 // import PouchDBMemory from 'pouchdb-adapter-memory'
 import RelationalPouchDB from 'relational-pouch'
 import TransformPouchDB from 'transform-pouch'
-import { Encoder } from './encoder.js'
+import { Encoder } from '../encoder.js'
 
 
 // PouchDB.plugin(PouchDBMemory)

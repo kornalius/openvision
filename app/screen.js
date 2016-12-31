@@ -256,12 +256,12 @@ export class Screen extends Display {
 
   onScroll (e) {
     let t = this.currentOver
-    if (t && t._scrollable) {
+    if (t && t.__scrollable) {
       let res = -120
       let deltaX = 0
       let deltaY = 0
 
-      if (t._scrollable.x) {
+      if (t.scrollHorizontal) {
         deltaX = e.wheelDeltaX * res
         if (deltaX <= res) {
           deltaX = -1
@@ -271,7 +271,7 @@ export class Screen extends Display {
         }
       }
 
-      if (t._scrollable.y) {
+      if (t.scrollVertical) {
         deltaY = e.wheelDeltaY * res
         if (deltaY <= res) {
           deltaY = -1
@@ -281,7 +281,7 @@ export class Screen extends Display {
         }
       }
 
-      if (t._scrollable.x || t._scrollable.y) {
+      if (t.scrollHorizontal || t.scrollVertical) {
         t.emit('scroll', {
           delta: new PIXI.Point(deltaX, deltaY),
           wheelDelta: new PIXI.Point(e.wheelDeltaX, e.wheelDeltaY)

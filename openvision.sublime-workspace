@@ -4,6 +4,94 @@
 		"selected_items":
 		[
 			[
+				"_care",
+				"_caretOffsetX"
+			],
+			[
+				"cana",
+				"canvasDisplay"
+			],
+			[
+				"caretOff",
+				"caretOffsetY\t(caret.js)"
+			],
+			[
+				"des",
+				"deserialize"
+			],
+			[
+				"deleteAt",
+				"deleteTextAtPos"
+			],
+			[
+				"caretMax",
+				"caretMaxX"
+			],
+			[
+				"moveBy",
+				"moveCaretPosBy"
+			],
+			[
+				"moveCar",
+				"moveCaretPosBy\t(caret.js)"
+			],
+			[
+				"arg",
+				"arguments\t(Graphics.js)"
+			],
+			[
+				"alas",
+				"alasql.min.js"
+			],
+			[
+				"babel",
+				"babel-standalone\t(webpack.config.js)"
+			],
+			[
+				"__mix",
+				"__MixinName"
+			],
+			[
+				"system",
+				"systemjs-plugin-babel\t(utils.js)"
+			],
+			[
+				"systemjs",
+				"systemjs-babel-browser.js"
+			],
+			[
+				"k",
+				"cld.keyBy()\t _ Collection"
+			],
+			[
+				"pull",
+				"pullAllBy\t(mode.js)"
+			],
+			[
+				"shor",
+				"shortcut\t(shortcut.js)"
+			],
+			[
+				"prot",
+				"prototype"
+			],
+			[
+				"plug",
+				"plugin.js\t(mode.js)"
+			],
+			[
+				"Plug",
+				"PluginMixin\t(plugin.js)"
+			],
+			[
+				"uti",
+				"utils.js\t(main.js)"
+			],
+			[
+				"Displa",
+				"DisplayObject"
+			],
+			[
 				"storeL",
 				"storeListChanged"
 			],
@@ -426,21 +514,101 @@
 			[
 				"write",
 				"writeUInt32LE"
-			],
-			[
-				"comma_",
-				"comma_array"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "app/screen.js",
+			"file": "app/objects/rectangle.js",
 			"settings":
 			{
-				"buffer_size": 6331,
+				"buffer_size": 812,
 				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/objects/shape.js",
+			"settings":
+			{
+				"buffer_size": 1577,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/objects/oval.js",
+			"settings":
+			{
+				"buffer_size": 653,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/objects/container.js",
+			"settings":
+			{
+				"buffer_size": 1773,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/objects/graphics.js",
+			"settings":
+			{
+				"buffer_size": 1977,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "node_modules/pixi.js/src/core/graphics/GraphicsData.js",
+			"settings":
+			{
+				"buffer_size": 2249,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "node_modules/pixi.js/src/core/graphics/Graphics.js",
+			"settings":
+			{
+				"buffer_size": 31090,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "node_modules/pixi.js/src/core/graphics/webgl/GraphicsRenderer.js",
+			"settings":
+			{
+				"buffer_size": 24691,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "node_modules/pixi.js/src/core/math/shapes/Ellipse.js",
+			"settings":
+			{
+				"buffer_size": 2159,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "node_modules/pixi.js/src/core/math/shapes/RoundedRectangle.js",
+			"settings":
+			{
+				"buffer_size": 2256,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "node_modules/pixi.js/src/core/math/shapes/Polygon.js",
+			"settings":
+			{
+				"buffer_size": 2957,
 				"line_ending": "Unix"
 			}
 		}
@@ -484,10 +652,106 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 400.0,
+		"height": 110.0,
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"duplic",
+				"File: Duplicate"
+			],
+			[
+				"upper",
+				"Convert Case: Upper Case"
+			],
+			[
+				"q",
+				"ChangeQuotes"
+			],
+			[
+				"coff",
+				"CoffeeToJs: Convert selection"
+			],
+			[
+				"titl",
+				"Convert Case: Title Case"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"inspec",
+				"Web Inspector"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Indentation: Use Spaces"
+			],
+			[
+				"low",
+				"Convert Case: Lower Case"
+			],
+			[
+				"reveal",
+				"Reveal Current File in Side Bar"
+			],
+			[
+				"sync",
+				"Side Bar: Disable Syncing"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"histo",
+				"File History: Open most recently closed file"
+			],
+			[
+				"readme",
+				"File History: Open README"
+			],
+			[
+				"open",
+				"File Navigator: Open"
+			],
+			[
+				"read",
+				"ReadmePlease"
+			],
+			[
+				"fuzz",
+				"FuzzyFilePath: Show current settings"
+			],
+			[
+				"iop",
+				"iOpener: Find File"
+			],
+			[
+				"npm",
+				"npm: Search Packages"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"open sesa",
+				"View: Toggle Open Files in Side Bar"
+			],
 			[
 				"STATUS",
 				"git: status"
@@ -497,28 +761,8 @@
 				"Convert Case: dash-case"
 			],
 			[
-				"install",
-				"Package Control: Install Package"
-			],
-			[
-				"rem",
-				"Package Control: Remove Package"
-			],
-			[
 				"group",
 				"Group: Move to Group 2"
-			],
-			[
-				"insta",
-				"Package Control: Install Package"
-			],
-			[
-				"instal",
-				"Package Control: Install Package"
-			],
-			[
-				"remo",
-				"Package Control: Remove Package"
 			],
 			[
 				"git sta",
@@ -531,10 +775,6 @@
 			[
 				"disab",
 				"Package Control: Disable Package"
-			],
-			[
-				"open",
-				"File: Open File"
 			],
 			[
 				"disa",
@@ -562,10 +802,6 @@
 			],
 			[
 				"quot",
-				"ChangeQuotes"
-			],
-			[
-				"q",
 				"ChangeQuotes"
 			],
 			[
@@ -607,10 +843,6 @@
 			[
 				"convert dou",
 				"String Utilities: Convert Double Quotes To Single"
-			],
-			[
-				"inst",
-				"Package Control: Install Package"
 			],
 			[
 				"string",
@@ -833,10 +1065,6 @@
 				"Package Control: Upgrade Package"
 			],
 			[
-				"ins",
-				"Indentation: Use Spaces"
-			],
-			[
 				"ena",
 				"Package Control: Enable Package"
 			],
@@ -870,138 +1098,152 @@
 	"expanded_folders":
 	[
 		"/Volumes/hd/sources/OpenVision",
-		"/Volumes/hd/sources/OpenVision/app"
+		"/Volumes/hd/sources/OpenVision/app",
+		"/Volumes/hd/sources/OpenVision/app/objects",
+		"/Volumes/hd/sources/OpenVision/app/plugins",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions",
+		"/Volumes/hd/sources/OpenVision/app/plugins/rendering",
+		"/Volumes/hd/sources/OpenVision/build/plugins",
+		"/Volumes/hd/sources/OpenVision/node_modules",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/webgl",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes",
+		"/Volumes/hd/sources/OpenVision/user",
+		"/Volumes/hd/sources/OpenVision/user/plugins"
 	],
 	"file_history":
 	[
-		"/Volumes/hd/sources/OpenVision/app/emitter.js",
-		"/Volumes/hd/sources/OpenVision/app/modes/focusable.js",
-		"/Volumes/hd/sources/OpenVision/app/mouse.js",
-		"/Volumes/hd/sources/OpenVision/app/main.js",
-		"/Volumes/hd/sources/OpenVision/app/keyboard.js",
-		"/Volumes/hd/sources/OpenVision/app/mode.js",
-		"/Volumes/hd/sources/OpenVision/src/index.js",
-		"/Volumes/hd/sources/OpenVision/index.html",
-		"/Volumes/hd/sources/OpenVision/LICENSE",
+		"/Volumes/hd/sources/OpenVision/app/objects/graphicsdata.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/webgl/GraphicsRenderer.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/GraphicsData.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/sprite.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/Graphics.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/rect.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/point.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/graphics.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/texture.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/encoder.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/display.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/db.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/textedit.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/text.js",
+		"/Volumes/hd/sources/OpenVision/app/changes.js",
+		"/Volumes/hd/sources/OpenVision/app/markers.js",
+		"/Volumes/hd/sources/OpenVision/app/patch.js",
+		"/Volumes/hd/sources/OpenVision/app/range.js",
+		"/Volumes/hd/sources/OpenVision/app/app.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/caret.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/base.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/text/Text.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/text.js",
+		"/Volumes/hd/sources/OpenVision/app/utils.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/editable.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/focusable.js",
+		"/Volumes/hd/sources/OpenVision/app/screen.js",
+		"/Volumes/hd/sources/OpenVision/app/plugin.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/mouse.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/movable.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/interaction/InteractionData.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/Matrix.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/interactive.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/Point.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/const.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/container.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/textures/BaseTexture.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/sprites/Sprite.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/objects.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/renderers/webgl/shaders/Shader.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/textures/Texture.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/rectangle.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/Rectangle.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/display/Container.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/display/DisplayObject.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-utils/src/uuid.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-utils/lib/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-utils/lib/index-browser.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-browser/lib/index.es.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-browser/src/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-binary-utils/lib/index-browser.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-utils/src/updateDoc.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-utils/src/parseDoc.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-utils/src/processDocs.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-browser/lib/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-utils/src/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-memory/lib/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-memory/src/index.js",
 		"/Volumes/hd/sources/OpenVision/package.json",
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-browser/README.md",
+		"/Volumes/hd/sources/OpenVision/node_modules/uuid/v4.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/uuid/v1.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/uuid/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/uuid/lib/rng.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/uuid/lib/rng-browser.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/uuid/lib/bytesToUuid.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/uuid/bin/uuid",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/core/function/config.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/core/function/import.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/core/function/typed.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/type/string.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/function.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/header.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/constants.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/types.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/object.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/emitter.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/latex.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/string.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/core/core.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/type/number.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/number.js",
+		"/Volumes/hd/sources/OpenVision/app/protos/array.js",
+		"/Volumes/hd/sources/OpenVision/app/meta.js",
 		"/Volumes/hd/sources/OpenVision/webpack.config.js",
-		"/Volumes/hd/sources/OpenVision/README.md",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/styles/gui-field-dropdown-styles.html",
-		"/Users/alain/Library/Caches/Cleanup At Startup/Transmit/AB07FC26-CBFD-4420-B1D0-B93343B5BC1B/e107_config.php",
-		"/Users/alain/Library/Caches/Cleanup At Startup/Transmit/30B5130E-6FF1-43DE-A47B-3D9CA919F8D9/config.php",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-main.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-store.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/immutable-contract-store-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-main.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/page-main-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-advanced-filter-builder.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-main.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-advanced-filter-context.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-collapse-panel.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/filters/filter-base.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/filter-context-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/filters/filter-client-site.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/immutable-person-store-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-store.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-invoices-group.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/app/login-info.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/search/immutable-search-store-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/expanded-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/elements.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/styles/app-theme.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/gui-filter-builder-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/app/app.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/data-storage.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/search/search-store.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/search/search-results.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/header-store.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/site/site-list-item.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-card-list-item.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-field/gui-field-selector.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/collapse-list-detail.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/search/search-filter.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-shift.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-shift-info.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-page.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/orders-page.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/persons-page.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-main.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/company-main.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/clients-page.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/subcontractors-page.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-store.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/site/site-main.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-create.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/company-store.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-soap-api-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/site/sites-page.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/editable-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/site/immutable-site-store-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/immutable-order-store-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/immutable-company-store-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/immutable-store-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/store-mutator-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-create.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-store.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/paper-info.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/scripts/globals.js",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/addresses-group.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-list-item.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-list-item.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/gui-list-item-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/paper-info-group.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/scripts/utils.js",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/editable-group-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/paper-drawer-panel.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/help/tests/doorman-tests.html",
-		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/User/GoldenRatio.sublime-settings",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-selector-dialog.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-selector.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/help/tests/gui-product-selector-tests.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-sites.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/gui/gui-parameters-wizard.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-items.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-item-requirements-group.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-item-assignments-group.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-client-fields.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/reporting/reporting-page.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/help/tests/gui-search-tests.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/products/product-rates.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-products.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/company-sites.html",
-		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/GoldenRatio/GoldenRatio.sublime-settings",
-		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/User/ExpandGroup.sublime-keymap",
-		"/Users/alain/ziptemp/BetterZip Temporary Folder.dZwNtc/BetterZip Temporary Folder.5LI2GE/Default (OSX).sublime-keymap",
-		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/Expand Group/Default (OSX).sublime-keymap",
-		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/User/ExpandGroup.sublime-settings",
-		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/SideBarEnhancements/Side Bar.sublime-settings",
-		"/Users/alain/Library/Application Support/Sublime Text 3/Packages/User/Side Bar.sublime-settings",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/person-contacts.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/company-contracts.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/company-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-soap-api-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/company/contracts/contract-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/shared/behaviors/store-listener-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/addresses-group-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/contact-group-behavior.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/contact-group.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/contacts-group.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/contact-general-information-group.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/person/employment-contracts/employment-contracts-section.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/info-groups/phones-group.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-row.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-timeline.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/schedule-open.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/schedule-weekly.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/schedule-product.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/schedule-site.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/sales/orders/order-item-patrol-schedule-group.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/bower_components/iron-flex-layout/test/iron-flex-layout.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/help/tests/gui-cards-tests.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/bower_components/iron-collapse/iron-collapse.html",
-		"/Volumes/hd/sources/lsi/garda/GSKED_1_0/app/elements/schedule/weekly/weekly-break.html"
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/behaviors/focusable.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/behaviors/keyboard.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/keyboardjs/README.md",
+		"/Volumes/hd/sources/OpenVision/app/plugins/rendering/renderable.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/bin/pixi.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/accessibility-developer-tools/lib/closure-library/closure/goog/events/keycodes.js",
+		"/Volumes/hd/sources/OpenVision/app/shortcut.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/keyboardjs/dist/keyboard.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/behaviors/selector.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/behaviors/selectable.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/resizable.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/scrollable.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/accessibility/AccessibilityManager.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/states.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/behaviors/mouse.js",
+		"/Volumes/hd/sources/OpenVision/user/plugins/test.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/caret.js",
+		"/Volumes/hd/sources/OpenVision/app/event.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/filters/color/ColorMatrixFilter.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixrem/README.md",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/index.js",
+		"/Volumes/hd/sources/OpenVision/app/mode.js",
+		"/Volumes/hd/sources/OpenVision/app/protos/string.js",
+		"/Volumes/hd/sources/OpenVision/app/protos/index.js",
+		"/Volumes/hd/sources/OpenVision/app/protos/number.js",
+		"/Volumes/hd/sources/OpenVision/app/protos/math.js",
+		"/Volumes/hd/sources/OpenVision/app/protos/date.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/babel-polyfill/dist/polyfill.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/lodash/fill.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/alasql/dist/alasql.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/alasql/dist/alasql-worker.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/alasql/dist/alasql-worker.min.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/JSONSelect/README.md",
+		"/Volumes/hd/sources/OpenVision/app/vm.js",
+		"/Volumes/hd/sources/OpenVision/app/style/app.css",
+		"/Volumes/hd/sources/OpenVision/app/main.js",
+		"/Volumes/hd/sources/OpenVision/app/html/app.html",
+		"/Volumes/hd/sources/OpenVision/build/systemjs-plugin-babel/package.json",
+		"/Volumes/hd/sources/OpenVision/app/contexts.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/systemjs/dist/system.src.js",
+		"/Volumes/hd/sources/OpenVision/build/systemjs-plugin-babel/plugin-babel.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/babel-standalone/src/index.js"
 	],
 	"find":
 	{
@@ -1012,6 +1254,14 @@
 		"height": 112.0,
 		"where_history":
 		[
+			"<project>,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css,-build/",
+			"/Volumes/hd/sources/OpenVision/node_modules/mathjs",
+			"<project>,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css,-build/",
+			"<project>,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
+			"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core",
+			"<project>,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
+			"($project),-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
+			"<project>,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
 			"($project),-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
 			"/Volumes/hd/sources/lsi/garda/GSKED_1_0/,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
 			"/Volumes/hd2/sources/lsi/garda/GSKED_1_0/,-node_modules/,-bower_components/,-dist/,-.tmp/,*.js,*.html,*.css",
@@ -1032,134 +1282,134 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"reset",
-			"_defaults",
-			"force_flip",
-			"force_update",
-			"data",
-			"screen",
-			"Screen",
-			"screen",
-			"_terminals",
-			"fang",
-			"_parseBranches",
-			"mutateItem",
-			"name",
-			"_collapsed",
-			"_opened",
-			"opened",
-			"close",
-			"open",
-			"opened",
-			"_expandIcon",
-			"_onClose",
-			"_onContextClose",
-			"checkbox",
-			"ExpandedBehavior",
-			"isexactly",
-			"_showOR",
-			"is exactly",
-			"Is exactly",
-			"_computeUnusedContexts",
-			"context",
-			"_isContext",
+			"_lineTint",
+			"shape = ",
+			".shape = ",
+			".shape",
+			"graphicsData",
+			"color",
+			"Color",
+			"color",
+			"_color",
+			"Color",
+			"color",
+			"Color",
+			"color",
+			"Color",
+			"color",
+			"_color",
+			"lineWidth",
+			"draw",
+			"radius",
+			"lineWidth",
+			"radius",
+			"alpha",
+			"width",
+			"color",
+			"height",
+			"width",
+			"color",
+			"width",
+			"oldValue",
+			"REPLACE",
+			"deleteTextAt",
+			"this.high",
+			"range.high",
+			".low",
+			"range.low",
+			"low",
+			"range.",
+			"low",
+			"high",
+			"range",
+			"start",
 			"value",
-			"newValue",
-			"availableContexts",
-			"contexts",
-			"Contexts",
-			"contexts",
-			"_contextChanged",
-			"_computeUnusedContexts",
-			"_usedContexts",
-			"_computeOpenedContexts",
-			"_openedContexts",
-			"filterContexts",
-			"search_path",
-			"seach_path",
-			"searchPaths",
-			"seach_path",
-			"filterContexts",
-			"filter-base",
-			"gui-advanced-filter-context-client-site",
-			"gui-advanced-filter-context-base",
-			"default",
-			"gui-advanced-filter-context-default",
-			"search_",
-			"this.$",
-			"operands",
-			"context",
-			"operands",
-			"_operandChanged",
-			"operand",
-			"_operandChanged",
-			"operand",
-			"context",
-			"Context",
-			"context",
-			"fromContext",
-			"name",
-			"getMethodName",
-			"store",
-			"map",
-			"mapped",
-			"fromContext",
-			"headersList",
-			"_computeSearchFetchMethod",
-			"context=",
-			"filter-context",
-			"filterContext",
-			"getAvailableFields",
-			"storeContext",
-			"mappedContext",
-			"mappings",
-			"this.mappings[context]",
-			"mappings",
-			"context",
-			"this.mappings[this.context]",
-			"context",
-			"storeMapping",
-			"updateStore",
-			"_search_results",
-			"contextSoapArguments",
-			"filtersChanged",
-			"_onApply",
-			"hasFilters",
-			"_computeHasFilters",
-			"getShifts",
-			"get",
-			"_currentChanged",
-			"_computeContexts",
-			"contexts",
-			"paths",
-			"search",
-			"company",
-			"'companies'",
-			"'company'",
-			"order-create",
-			"ImmutableCompanyStore",
-			"immutable-company-store",
-			"immutable-person-store",
-			"onCreateOrder",
-			"site",
-			"createSite",
-			"adjustItem",
-			"updateItems",
-			"adjustItem",
-			"setItem:",
-			"setItem(",
-			"setItem",
-			"\n        ",
-			"updateItem",
-			"selected",
-			"selectedId",
-			"noMutate",
-			"this.order",
-			"this",
-			"selectedChanged",
-			"store-mutator",
-			"StoreMutatorBehavior",
-			"contract"
+			"this.end",
+			"this.start",
+			"this.end",
+			"start",
+			"this._list.length",
+			"ChangeAction",
+			"p",
+			"action",
+			"_time",
+			"action",
+			"end",
+			"start",
+			"new",
+			"old",
+			"end",
+			"start",
+			"action",
+			"old",
+			"end",
+			"start",
+			"groupDelay",
+			"list",
+			"v",
+			"id",
+			"start",
+			"list",
+			"start",
+			"end",
+			"start",
+			"children",
+			"prevNonWordChar",
+			"isUpper",
+			"u",
+			"U",
+			"UPPER",
+			"moveByWord",
+			"uppercase",
+			"camelcase",
+			"isWordCharAt",
+			"isWordChar",
+			"1",
+			"-1",
+			"isWordCharAt",
+			"PUNCTUATION",
+			"nextNonPunctuation",
+			"nextPunctuation",
+			"prevNonPunctuation",
+			"prevPunctuation",
+			"isPunctuation",
+			"isUpper",
+			"uppercase",
+			"PUNCTUATION",
+			".length",
+			"wordAtPos",
+			"deleteTextAtPos",
+			"deleteText",
+			"charAt",
+			"lineAtPos",
+			"charAtPos",
+			"insertTextAtPos",
+			"insertTextAt",
+			"setLineAt",
+			"insertLineAtPos",
+			"deleteTextAt",
+			"deleteWordAtPos",
+			"deleteLineAtPos",
+			"this.lineCount",
+			".text",
+			"_lines = ",
+			"charWidth",
+			"acceptTab",
+			"multiline",
+			"SPACE",
+			"this.text",
+			"text",
+			"width",
+			"break",
+			"outputText",
+			"wrapwidth",
+			"wordwrap",
+			"yy",
+			"lineCount",
+			"outputText",
+			"wordbreak",
+			"wrapwidth",
+			"lines"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1167,6 +1417,18 @@
 		"regex": false,
 		"replace_history":
 		[
+			"serialization",
+			"'",
+			"let",
+			"metaProperties",
+			"./objects/base.js",
+			"base.js",
+			"Text",
+			"Graphics",
+			"Sprite",
+			"Container",
+			"Base",
+			"./",
 			">",
 			"<gui-field-text $2</gui-field-text>",
 			"<gui-field-time $2$4</gui-field-time>",
@@ -1201,37 +1463,421 @@
 			[
 				{
 					"buffer": 0,
-					"file": "app/screen.js",
+					"file": "app/objects/rectangle.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6331,
+						"buffer_size": 812,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								282,
-								282
+								337,
+								337
 							]
 						],
 						"settings":
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/screen.js",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/objects/rectangle.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tabs_extra_last_activated": 1483118041.18,
+							"tabs_extra_last_activated_sheet_index": 0,
+							"tabs_extra_spawned": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/objects/shape.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1577,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								57,
+								57
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/objects/shape.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"open_with_edit": true,
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
-							"tabs_extra_last_activated": 1480708871.2,
-							"tabs_extra_last_activated_sheet_index": 0,
+							"tabs_extra_last_activated": 1483118000.82,
+							"tabs_extra_last_activated_sheet_index": 1,
 							"tabs_extra_spawned": true,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 12.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/objects/oval.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 653,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								495,
+								495
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/objects/oval.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"tabs_extra_last_activated": 1483118026.26,
+							"tabs_extra_last_activated_sheet_index": 2,
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/objects/container.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1773,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1615,
+								1615
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/objects/container.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"tabs_extra_last_activated": 1483117490.18,
+							"tabs_extra_last_activated_sheet_index": 3,
+							"tabs_extra_moving":
+							[
+								2,
+								0
+							],
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 795.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/objects/graphics.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1977,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1170,
+								1170
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/objects/graphics.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tabs_extra_last_activated": 1483117976.54,
+							"tabs_extra_last_activated_sheet_index": 4,
+							"tabs_extra_moving":
+							[
+								2,
+								0
+							],
+							"tabs_extra_spawned": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 581.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "node_modules/pixi.js/src/core/graphics/GraphicsData.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2249,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								701,
+								701
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/GraphicsData.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"tabs_extra_last_activated": 1483117901.56,
+							"tabs_extra_last_activated_sheet_index": 5,
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1048.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "node_modules/pixi.js/src/core/graphics/Graphics.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 31090,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4630,
+								4630
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/Graphics.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"tabs_extra_last_activated": 1483117876.3,
+							"tabs_extra_last_activated_sheet_index": 7,
+							"tabs_extra_moving":
+							[
+								2,
+								0
+							],
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4457.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "node_modules/pixi.js/src/core/graphics/webgl/GraphicsRenderer.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 24691,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/webgl/GraphicsRenderer.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"tabs_extra_last_activated": 1483117849.35,
+							"tabs_extra_last_activated_sheet_index": 8,
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "node_modules/pixi.js/src/core/math/shapes/Ellipse.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2159,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1886,
+								1886
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/Ellipse.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"tabs_extra_last_activated": 1483117591.69,
+							"tabs_extra_last_activated_sheet_index": 7,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 292.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "node_modules/pixi.js/src/core/math/shapes/RoundedRectangle.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2256,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/RoundedRectangle.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"tabs_extra_last_activated": 1483117591.89,
+							"tabs_extra_last_activated_sheet_index": 8,
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 166.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "node_modules/pixi.js/src/core/math/shapes/Polygon.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2957,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1189,
+								1189
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/Polygon.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"tabs_extra_last_activated": 1483117603.31,
+							"tabs_extra_last_activated_sheet_index": 9,
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 74.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
 					"type": "text"
 				}
 			]
@@ -1304,6 +1950,10 @@
 	{
 		"height": 140.0
 	},
+	"output.textarea":
+	{
+		"height": 140.0
+	},
 	"output.unicode_preview":
 	{
 		"height": 79.0
@@ -1312,11 +1962,11 @@
 	{
 		"height": 140.0
 	},
-	"pinned_build_system": "Packages/User/Gulp.sublime-build",
+	"pinned_build_system": "Packages/User/npm_start.sublime-build",
 	"project": "openvision.sublime-project",
 	"replace":
 	{
-		"height": 58.0
+		"height": 74.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1325,6 +1975,82 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"focusa",
+				"app/plugins/interactions/focusable.js"
+			],
+			[
+				"const",
+				"node_modules/pixi.js/src/core/const.js"
+			],
+			[
+				"pixi",
+				"node_modules/pixi.js/bin/pixi.js"
+			],
+			[
+				"key",
+				"node_modules/accessibility-developer-tools/lib/closure-library/closure/goog/events/keycodes.js"
+			],
+			[
+				"keyboard",
+				"node_modules/keyboardjs/dist/keyboard.js"
+			],
+			[
+				"accessibi",
+				"node_modules/pixi.js/src/accessibility/AccessibilityManager.js"
+			],
+			[
+				"color",
+				"node_modules/pixi.js/src/filters/color/ColorMatrixFilter.js"
+			],
+			[
+				"text",
+				"node_modules/pixi.js/src/core/text/Text.js"
+			],
+			[
+				"webpa",
+				"webpack.config.js"
+			],
+			[
+				"mixwith",
+				"node_modules/mixwith/mixwith.js"
+			],
+			[
+				"mixwi",
+				"node_modules/mixwith/mixwith.js"
+			],
+			[
+				"packa",
+				"package.json"
+			],
+			[
+				"script",
+				"node_modules/scriptjs/dist/script.js"
+			],
+			[
+				"fspromise",
+				"node_modules/fs-promise/index.js"
+			],
+			[
+				"package",
+				"package.json"
+			],
+			[
+				"async",
+				"node_modules/async/lib/async.js"
+			],
+			[
+				"electron-connect",
+				"node_modules/electron-connect/index.js"
+			],
+			[
+				"electron-connect-webpack-plugin",
+				"node_modules/electron-connect-webpack-plugin/index.js"
+			],
+			[
+				"fs-plus",
+				"node_modules/fs-plus/lib/fs-plus.js"
+			],
 			[
 				"pagemain",
 				"GSKED_1_0/app/elements/shared/behaviors/page-main-behavior.html"
@@ -1760,82 +2486,6 @@
 			[
 				"paper-dialog",
 				"bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html"
-			],
-			[
-				"paper-dia",
-				"bower_components/paper-dialog/paper-dialog.html"
-			],
-			[
-				"styles",
-				"bower_components/paper-styles/paper-styles.html"
-			],
-			[
-				"material",
-				"bower_components/paper-material/paper-material-shared-styles.html"
-			],
-			[
-				"paper-mate",
-				"bower_components/paper-material/paper-material.html"
-			],
-			[
-				"soap.js",
-				"app/scripts/soap.js"
-			],
-			[
-				"states",
-				"app/elements/shared/behaviors/states-behavior.html"
-			],
-			[
-				"promi",
-				"bower_components/promise-polyfill/Promise.js"
-			],
-			[
-				"gui-fie",
-				"app/elements/shared/gui/gui-field.html"
-			],
-			[
-				"gui-input",
-				"app/elements/shared/gui/gui-input.html"
-			],
-			[
-				"paper-butt",
-				"bower_components/paper-button/paper-button.html"
-			],
-			[
-				"paperbutton",
-				"app/elements/shared/gui/paper-action-button.html"
-			],
-			[
-				"them",
-				"app/styles/app-theme.html"
-			],
-			[
-				"gulp",
-				"gulpfile.js"
-			],
-			[
-				"papewrdrop",
-				"bower_components/paper-dropdown-menu/paper-dropdown-menu.html"
-			],
-			[
-				"index",
-				"app/index.html"
-			],
-			[
-				"rout",
-				"app/elements/routing.html"
-			],
-			[
-				"dropdown",
-				"app/elements/shared/behaviors/dropdown-values-behavior.html"
-			],
-			[
-				"guiiun",
-				"app/elements/shared/gui/gui-input.html"
-			],
-			[
-				"group",
-				"app/elements/info-groups/group-data-behavior.html"
 			]
 		],
 		"width": 0.0
@@ -1860,7 +2510,7 @@
 		"selected_items":
 		[
 		],
-		"width": 727.0
+		"width": 1024.0
 	},
 	"selected_group": 0,
 	"settings":
@@ -1870,7 +2520,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 501.0,
+	"side_bar_width": 500.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

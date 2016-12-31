@@ -9,15 +9,13 @@ import './style/app.css'
 
 import './protos/index.js'
 
-import { Base } from './objects/base.js'
 import { plugins, Plugin, loadPlugins, unloadPlugins } from './plugin.js'
 import { updates } from './updates.js'
 import { commands } from './command.js'
 import { shortcuts, keyboard } from './shortcut.js'
 import { Screen } from './screen.js'
 import { vm } from './vm.js'
-import { Container, Graphics, Sprite, Text, Rectangle } from './objects/objects.js'
-import { DB } from './objects/db.js'
+import { DB, Base, Container, Graphics, Sprite, Text, Rectangle } from './objects/objects.js'
 
 
 window.Plugin = Plugin

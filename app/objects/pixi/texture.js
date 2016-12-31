@@ -1,4 +1,4 @@
-import { Encoder, e, d } from './encoder.js'
+import { Encoder, e, d } from '../../encoder.js'
 
 
 Encoder.register('BaseTexture', {

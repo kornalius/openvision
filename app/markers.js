@@ -1,4 +1,4 @@
-import { Range } from './range.js'
+import { Range, RectRange } from './range.js'
 
 
 export class Marker extends Range {
@@ -6,15 +6,22 @@ export class Marker extends Range {
   constructor (parent, options = {}) {
     super(options)
 
+    this._id = _.uniqueId()
     this._parent = parent
   }
 
-  union (start, end) {
+  get id () { return this._id }
+
+  _normalize (start, end) {
     if (start instanceof Marker) {
       end = start.end
       start = start.start
     }
-    let u = super.union(start, end)
+    return [start, end]
+  }
+
+  union (start, end) {
+    let u = super.union(...this._normalize(start, end))
     if (u) {
       this.start = u.start
       this.end = u.end
@@ -23,11 +30,7 @@ export class Marker extends Range {
   }
 
   subtract (start, end) {
-    if (start instanceof Marker) {
-      end = start.end
-      start = start.start
-    }
-    let a = super.subtract(start, end)
+    let a = super.subtract(...this._normalize(start, end))
     if (a) {
       if (a.length === 0) {
         this._parent.remove(this)
@@ -46,6 +49,53 @@ export class Marker extends Range {
 }
 
 
+export class RectMarker extends RectRange {
+
+  constructor (parent, options = {}) {
+    super(options)
+
+    this._id = _.uniqueId()
+    this._parent = parent
+  }
+
+  get id () { return this._id }
+
+  _normalize (start, end) {
+    if (start instanceof RectMarker) {
+      end = start.end
+      start = start.start
+    }
+    return [start, end]
+  }
+
+  union (start, end) {
+    let u = super.union(...this._normalize(start, end))
+    if (u) {
+      this.start = u.start
+      this.end = u.end
+    }
+    return this
+  }
+
+  subtract (start, end) {
+    let a = super.subtract(...this._normalize(start, end))
+    if (a) {
+      if (a.length === 0) {
+        this._parent.remove(this)
+      }
+      else {
+        this.start = a[0].start
+        this.end = a[0].end
+        if (a.length >= 1) {
+          this._parent.add(a[1].start, a[1].end)
+        }
+      }
+    }
+    return this
+  }
+
+}
+
 export class Markers extends PIXI.utils.EventEmitter {
 
   constructor (options = {}) {
@@ -63,13 +113,26 @@ export class Markers extends PIXI.utils.EventEmitter {
     return this
   }
 
+  addRect (start, end) {
+    this._list.push(new RectMarker(this, { start, end }))
+    return this
+  }
+
+  find (id) {
+    return _.find(this._list, { id })
+  }
+
+  remove (id) {
+    _.pullAllBy(this._list, [ { id } ], 'id')
+  }
+
   clear () {
     this._list = []
     return this
   }
 
   removeEmptys () {
-    this._list = _.filter(this._list, m => !m.isEmpty())
+    this._list = _.filter(this._list, m => !m.isEmpty)
     return this
   }
 

@@ -6,10 +6,9 @@ export default class extends Plugin {
     this._name = 'textedit'
     this._desc = 'Allow text to be editable.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '12/16/2016'
-    this._containers = ['Text']
-    this._deps = ['editable', 'text']
+    this._version = '1.0.1'
+    this._date = '12/31/2016'
+    this._deps = ['control', 'editable', 'text']
   }
 
   load (obj, options = {}) {
@@ -73,6 +72,11 @@ export default class extends Plugin {
   caretMaxX (y) { return this.validLine(y) ? this.lineLength(y) : 0 }
 
   caretMaxY (x) { return this.lineCount - 1 }
+
+  // TODO
+  ensureCaretInView () {
+    return this
+  }
 
   moveByWord (dir, camelcase = false) {
     let w

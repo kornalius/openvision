@@ -1,11 +1,11 @@
-import { BaseMixin } from './base.js'
-import { PluginMixin } from '../plugin.js'
-import { CommandMixin } from '../command.js'
-import { ShortcutMixin } from '../shortcut.js'
+import { BaseMixin } from '../base.js'
+import { PluginMixin } from '../../plugin.js'
+import { CommandMixin } from '../../command.js'
+import { ShortcutMixin } from '../../shortcut.js'
 import { DisplayMixin } from './display.js'
-import { DBMixin } from './db.js'
-import { jsonquery } from '../utils.js'
-import { Encoder } from './encoder.js'
+import { DBMixin } from '../db.js'
+import { jsonquery } from '../../utils.js'
+import { Encoder, e, d } from '../../encoder.js'
 
 
 export let ContainerMixin = Mixin(superclass => class ContainerMixin extends superclass {
@@ -59,9 +59,11 @@ Encoder.register('Container', {
   inherit: 'Display',
 
   encode: obj => {
-    let doc = { children: new Array(obj.children.length) }
+    let doc = {
+      children: new Array(obj.children.length)
+    }
     for (let i = 0; i < obj.children.length; i++) {
-      doc[i] = obj.children[i]
+      doc.children[i] = e(obj.children[i], obj, doc)
     }
     return doc
   },
@@ -69,7 +71,7 @@ Encoder.register('Container', {
   decode: (doc, obj) => {
     obj = obj || new Container()
     for (let c of doc.children) {
-      obj.addChild(Encoder.decode(c))
+      obj.addChild(d(c, doc, obj))
     }
     return obj
   },

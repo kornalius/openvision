@@ -1,10 +1,10 @@
-import { BaseMixin } from './base.js'
-import { PluginMixin } from '../plugin.js'
-import { CommandMixin } from '../command.js'
-import { ShortcutMixin } from '../shortcut.js'
-import { updates } from '../updates.js'
-import { DBMixin } from './db.js'
-import { Encoder, e, d } from './encoder.js'
+import { BaseMixin } from '../base.js'
+import { PluginMixin } from '../../plugin.js'
+import { CommandMixin } from '../../command.js'
+import { ShortcutMixin } from '../../shortcut.js'
+import { updates } from '../../updates.js'
+import { DBMixin } from '../db.js'
+import { Encoder, e, d } from '../../encoder.js'
 
 
 export let DisplayMixin = Mixin(superclass => class DisplayMixin extends superclass {
@@ -19,8 +19,8 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
   update (options = {}) {
     updates.add(this, _.extend(options, {
       cb: () => {
-        if (_.isFunction(this.render)) {
-          this.render()
+        if (this.__renderable) {
+          this.draw()
         }
         if (this.parent) {
           this.updateTransform()

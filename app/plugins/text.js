@@ -34,10 +34,11 @@ export default class extends Plugin {
     this._name = 'text'
     this._desc = 'Add text manipulation functions to text container.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '12/19/2016'
-    this._containers = ['Text']
+    this._version = '1.0.1'
+    this._date = '12/31/2016'
   }
+
+  canLoad (obj) { return obj instanceof Text }
 
   load (obj, options = {}) {
     super.load(obj, options)

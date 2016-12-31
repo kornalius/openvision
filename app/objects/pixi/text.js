@@ -1,12 +1,12 @@
-import { BaseMixin } from './base.js'
-import { PluginMixin } from '../plugin.js'
-import { CommandMixin } from '../command.js'
-import { ShortcutMixin } from '../shortcut.js'
+import { BaseMixin } from '../base.js'
+import { PluginMixin } from '../../plugin.js'
+import { CommandMixin } from '../../command.js'
+import { ShortcutMixin } from '../../shortcut.js'
 import { DisplayMixin } from './display.js'
 import { ContainerMixin } from './container.js'
 import { SpriteMixin } from './sprite.js'
-import { DBMixin } from './db.js'
-import { Encoder, e, d } from './encoder.js'
+import { DBMixin } from '../db.js'
+import { Encoder, e, d } from '../../encoder.js'
 
 
 export let TextMixin = Mixin(superclass => class TextMixin extends superclass {

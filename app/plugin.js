@@ -43,9 +43,11 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
     return _.filter(Object.getOwnPropertyNames(Object.getPrototypeOf(this)), k => !_.includes(pluginProps, k))
   }
 
+  canLoad (obj) { return true }
+
   load (obj, options = {}) {
-    if (this.containers.length && !_.includes(this.containers, obj.constructor.name)) {
-      console.error('Container', obj, 'must be', this.containers)
+    if (!this.canLoad(obj)) {
+      console.error('Container', obj, 'cannot be loaded')
       return
     }
 

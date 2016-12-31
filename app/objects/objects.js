@@ -1,14 +1,16 @@
 import { Base } from './base.js'
-import { Display } from './display.js'
-import { Container } from './container.js'
-import { Graphics } from './graphics.js'
-import { Sprite } from './sprite.js'
-import { Text } from './text.js'
-import { Rectangle } from './rectangle.js'
+import { Display } from './pixi/display.js'
+import { Container } from './pixi/container.js'
+import { Graphics } from './pixi/graphics.js'
+import { Sprite } from './pixi/sprite.js'
+import { Text } from './pixi/text.js'
+import { Rectangle } from './shapes/rectangle.js'
+import { Oval } from './shapes/oval.js'
+import { DB } from './db.js'
 
 import './point.js'
 import './rect.js'
-import './texture.js'
+import './pixi/texture.js'
 
 export {
   Base,
@@ -18,4 +20,6 @@ export {
   Sprite,
   Text,
   Rectangle,
+  Oval,
+  DB,
 }
