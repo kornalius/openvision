@@ -5,7 +5,7 @@ import { ShortcutMixin } from '../../shortcut.js'
 import { DisplayMixin } from './display.js'
 import { DBMixin } from '../db.js'
 import { jsonquery } from '../../utils.js'
-import { Encoder, e, d } from '../../encoder.js'
+import { Encoder, e, d } from '../../lib/encoder.js'
 
 
 export let ContainerMixin = Mixin(superclass => class ContainerMixin extends superclass {

@@ -2,7 +2,7 @@ import PouchDB from 'pouchdb-browser'
 // import PouchDBMemory from 'pouchdb-adapter-memory'
 import RelationalPouchDB from 'relational-pouch'
 import TransformPouchDB from 'transform-pouch'
-import { Encoder } from '../encoder.js'
+import { Encoder } from '../lib/encoder.js'
 
 
 // PouchDB.plugin(PouchDBMemory)
@@ -64,7 +64,7 @@ export let DB = class {
       id = db
       db = mainDB
     }
-    return DB.get(db, id).then(Encoder.decode)
+    return DB.get(db, id)
   }
 
   static save (db, id, doc) {
@@ -99,25 +99,29 @@ export let DBMixin = Mixin(superclass => class DBMixin extends superclass {
     }
   }
 
-  get doc () { return this._doc }
+  get db_doc () { return this._doc }
 
-  get id () { return this._doc._id }
+  get db_id () { return this._doc._id }
 
-  get rev () { return this._doc._rev }
+  get db_rev () { return this._doc._rev }
+
+  load (name) {
+    return DB.load(this.db, name || this.db_id).then(doc => Encoder.encode(doc, this))
+  }
 
   save (name) {
-    return DB.save(this.db, name || this.id, this.encode()).then(doc => {
-      this._doc._id = doc.id
+    return DB.save(this.db, name || this.db_id, Encoder.decode(this)).then(doc => {
+      this._doc._id = doc.db_id
       this._doc._rev = doc.rev
       return doc
     })
   }
 
   delete (name) {
-    return DB.delete(this.db, name || this.id).then(() => { this._doc = {} })
+    return DB.delete(this.db, name || this.db_id).then(() => { this._doc = {} })
   }
 
-  test () {
+  db_test () {
     this.save('test').then(doc => {
       console.log(doc)
       app.DB.load('test').then(obj => {

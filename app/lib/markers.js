@@ -1,4 +1,9 @@
-import { Range, RectRange } from './range.js'
+import { Range } from './range.js'
+import { Encoder, e, d } from './encoder.js'
+
+
+export const MARKER_NORMAL = 0
+export const MARKER_RECT = 1
 
 
 export class Marker extends Range {
@@ -49,53 +54,6 @@ export class Marker extends Range {
 }
 
 
-export class RectMarker extends RectRange {
-
-  constructor (parent, options = {}) {
-    super(options)
-
-    this._id = _.uniqueId()
-    this._parent = parent
-  }
-
-  get id () { return this._id }
-
-  _normalize (start, end) {
-    if (start instanceof RectMarker) {
-      end = start.end
-      start = start.start
-    }
-    return [start, end]
-  }
-
-  union (start, end) {
-    let u = super.union(...this._normalize(start, end))
-    if (u) {
-      this.start = u.start
-      this.end = u.end
-    }
-    return this
-  }
-
-  subtract (start, end) {
-    let a = super.subtract(...this._normalize(start, end))
-    if (a) {
-      if (a.length === 0) {
-        this._parent.remove(this)
-      }
-      else {
-        this.start = a[0].start
-        this.end = a[0].end
-        if (a.length >= 1) {
-          this._parent.add(a[1].start, a[1].end)
-        }
-      }
-    }
-    return this
-  }
-
-}
-
 export class Markers extends PIXI.utils.EventEmitter {
 
   constructor (options = {}) {
@@ -109,12 +67,12 @@ export class Markers extends PIXI.utils.EventEmitter {
   get length () { return this._list.length }
 
   add (start, end) {
-    this._list.push(new Marker(this, { start, end }))
+    this._list.push(new Marker(this, { start, end, type: MARKER_NORMAL }))
     return this
   }
 
   addRect (start, end) {
-    this._list.push(new RectMarker(this, { start, end }))
+    this._list.push(new Marker(this, { start, end, type: MARKER_RECT }))
     return this
   }
 
@@ -147,3 +105,37 @@ export class Markers extends PIXI.utils.EventEmitter {
   }
 
 }
+
+
+Encoder.register('Markers', {
+  inherit: 'Ranges',
+
+  encode: obj => {
+    let doc = {}
+    return doc
+  },
+
+  decode: (doc, obj) => {
+    obj = obj || new Markers()
+    return obj
+  },
+})
+
+
+Encoder.register('Marker', {
+  inherit: 'Range',
+
+  encode: obj => {
+    let doc = {}
+    e('id', obj, doc)
+    e('parent', obj, doc)
+    return doc
+  },
+
+  decode: (doc, obj) => {
+    obj = obj || new Marker()
+    d('id', doc, obj)
+    d('parent', doc, obj)
+    return obj
+  },
+})

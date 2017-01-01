@@ -10,7 +10,7 @@ import './style/app.css'
 import './protos/index.js'
 
 import { plugins, Plugin, loadPlugins, unloadPlugins } from './plugin.js'
-import { updates } from './updates.js'
+import { updates } from './lib/updates.js'
 import { commands } from './command.js'
 import { shortcuts, keyboard } from './shortcut.js'
 import { Screen } from './screen.js'
@@ -22,9 +22,9 @@ window.Plugin = Plugin
 window.q = q
 
 
-export const _STOPPED = 0
-export const _RUNNING = 1
-export const _PAUSED = 2
+export const APP_STOPPED = 0
+export const APP_RUNNING = 1
+export const APP_PAUSED = 2
 
 
 var littleEndian
@@ -63,13 +63,13 @@ export class App extends Base {
 
     let that = this
     PIXI.ticker.shared.add(time => {
-      if (that.status === _RUNNING) {
+      if (that.status === APP_RUNNING) {
         that.tick(time)
 
         let flip = false
 
         for (let q of updates.queue) {
-          q.object.__addedToUpdates = false
+          q.object._addedToUpdates = false
           if (q.flip) {
             flip = true
           }
@@ -173,8 +173,14 @@ export class App extends Base {
     }
   }
 
+  get isRunning () { return this.status === APP_RUNNING }
+
+  get isStoppped () { return this.status === APP_STOPPED }
+
+  get isPaused () { return this.status === APP_PAUSED }
+
   start () {
-    this.status = _RUNNING
+    this.status = APP_RUNNING
     loadPlugins().then(() => {
       this.test()
     })
@@ -183,18 +189,18 @@ export class App extends Base {
 
   stop () {
     unloadPlugins().then(() => {
-      this.status = _STOPPED
+      this.status = APP_STOPPED
     })
     return this
   }
 
   pause () {
-    this.status = _PAUSED
+    this.status = APP_PAUSED
     return this
   }
 
   resume () {
-    this.status = _RUNNING
+    this.status = APP_RUNNING
     return this
   }
 

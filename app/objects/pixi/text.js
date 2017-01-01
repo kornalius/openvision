@@ -6,7 +6,7 @@ import { DisplayMixin } from './display.js'
 import { ContainerMixin } from './container.js'
 import { SpriteMixin } from './sprite.js'
 import { DBMixin } from '../db.js'
-import { Encoder, e, d } from '../../encoder.js'
+import { Encoder, e, d } from '../../lib/encoder.js'
 
 
 export let TextMixin = Mixin(superclass => class TextMixin extends superclass {

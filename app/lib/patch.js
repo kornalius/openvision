@@ -1,8 +1,8 @@
-import { Range, RectRange } from './range.js'
+import { Range } from './range.js'
 
 
-export const INSERT = 'i'
-export const DELETE = 'd'
+export const PATCH_INSERT = 'i'
+export const PATCH_DELETE = 'd'
 
 
 export class Patch extends Range {
@@ -11,7 +11,7 @@ export class Patch extends Range {
     super(options)
 
     this._parent = parent
-    this._action = _.get(options, 'action', INSERT)
+    this._action = _.get(options, 'action', PATCH_INSERT)
     this._value = _.get(options, 'value', null)
   }
 
@@ -28,52 +28,11 @@ export class Patch extends Range {
     let value = this.value
 
     switch (this._action) {
-      case INSERT:
-        action = DELETE
+      case PATCH_INSERT:
+        action = PATCH_DELETE
         break
-      case DELETE:
-        action = INSERT
-        break
-    }
-
-    return new this.constructor({ action, start, end, value })
-  }
-
-  apply (obj) {
-    return this
-  }
-
-}
-
-
-export class RectPatch extends RectRange {
-
-  constructor (parent, options = {}) {
-    super(options)
-
-    this._parent = parent
-    this._action = _.get(options, 'action', INSERT)
-    this._value = _.get(options, 'value', null)
-  }
-
-  get action () { return this._action }
-  set action (value) { this._action = value }
-
-  get value () { return this._value }
-  set value (value) { this._value = value }
-
-  get invert () {
-    let action
-    let start = this.start
-    let end = this.end
-    let value = this.value
-
-    switch (this._action) {
-      case INSERT:
-        action = DELETE
-        break
-      case DELETE:
-        action = INSERT
+      case PATCH_DELETE:
+        action = PATCH_INSERT
         break
     }
 
@@ -101,7 +60,7 @@ export class Patches extends PIXI.utils.EventEmitter {
 
   add (action, start, end, value) {
     let a = action
-    if (!(action instanceof Patch) && !(action instanceof RectPatch)) {
+    if (!(action instanceof Patch)) {
       a = new Patch(this, { action, start, end, value })
     }
     this._list.push(a)

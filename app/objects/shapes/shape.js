@@ -1,5 +1,5 @@
 import { Graphics } from '../pixi/graphics.js'
-import { Encoder, e, d } from '../../encoder.js'
+import { Encoder, e, d } from '../../lib/encoder.js'
 
 
 export class Shape extends Graphics {

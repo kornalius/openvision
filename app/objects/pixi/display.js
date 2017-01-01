@@ -2,9 +2,9 @@ import { BaseMixin } from '../base.js'
 import { PluginMixin } from '../../plugin.js'
 import { CommandMixin } from '../../command.js'
 import { ShortcutMixin } from '../../shortcut.js'
-import { updates } from '../../updates.js'
+import { updates } from '../../lib/updates.js'
 import { DBMixin } from '../db.js'
-import { Encoder, e, d } from '../../encoder.js'
+import { Encoder, e, d } from '../../lib/encoder.js'
 
 
 export let DisplayMixin = Mixin(superclass => class DisplayMixin extends superclass {

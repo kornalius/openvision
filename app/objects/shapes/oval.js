@@ -1,5 +1,5 @@
 import { Shape } from './shape.js'
-import { Encoder, e, d } from '../../encoder.js'
+import { Encoder, e, d } from '../../lib/encoder.js'
 
 
 export class Oval extends Shape {

@@ -8,8 +8,7 @@ import { Rectangle } from './shapes/rectangle.js'
 import { Oval } from './shapes/oval.js'
 import { DB } from './db.js'
 
-import './point.js'
-import './rect.js'
+import './pointrect.js'
 import './pixi/texture.js'
 
 export {
