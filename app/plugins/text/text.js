@@ -1,4 +1,4 @@
-import { Patch, INSERT, DELETE } from './patch.js'
+let { Patch, INSERT, DELETE } = app
 
 
 const CR = '\n'
@@ -38,7 +38,7 @@ export default class extends Plugin {
     this._date = '12/31/2016'
   }
 
-  canLoad (obj) { return obj instanceof Text }
+  canLoad (obj) { return obj instanceof app.Text }
 
   load (obj, options = {}) {
     super.load(obj, options)

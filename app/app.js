@@ -9,13 +9,19 @@ import './style/app.css'
 
 import './protos/index.js'
 
+import { Base, Container, Graphics, Sprite, Text, Rectangle, Oval } from './objects/objects.js'
+import { DB, sysDB, usrDB, tmpDB } from './objects/db.js'
 import { plugins, Plugin, loadPlugins, unloadPlugins } from './plugin.js'
 import { updates } from './lib/updates.js'
 import { commands } from './command.js'
 import { shortcuts, keyboard } from './shortcut.js'
 import { Screen } from './screen.js'
 import { vm } from './vm.js'
-import { DB, Base, Container, Graphics, Sprite, Text, Rectangle } from './objects/objects.js'
+import { FS, shell } from './lib/fs.js'
+import { Patches, Patch, PATCH_INSERT, PATCH_DELETE } from './lib/patch.js'
+import { Theme, Themes } from './lib/theme.js'
+import { Checkpoint, Change, Changes } from './lib/change.js'
+import { Range, Ranges, RANGE_NORMAL, RANGE_RECT } from './lib/range.js'
 
 
 window.Plugin = Plugin
@@ -94,13 +100,38 @@ export class App extends Base {
     super.destroy()
   }
 
-  get DB () { return DB }
   get Base () { return Base }
   get Container () { return Container }
   get Graphics () { return Graphics }
   get Sprite () { return Sprite }
   get Text () { return Text }
   get Rectangle () { return Rectangle }
+  get Oval () { return Oval }
+
+  get DB () { return DB }
+  get sysDB () { return sysDB }
+  get usrDB () { return usrDB }
+  get tmpDB () { return tmpDB }
+
+  get Checkpoint () { return Checkpoint }
+  get Change () { return Change }
+  get Changes () { return Changes }
+
+  get Patches () { return Patches }
+  get Patch () { return Patch }
+  get PATCH_INSERT () { return PATCH_INSERT }
+  get PATCH_DELETE () { return PATCH_DELETE }
+
+  get Range () { return Range }
+  get Ranges () { return Ranges }
+  get RANGE_NORMAL () { return RANGE_NORMAL }
+  get RANGE_RECT () { return RANGE_RECT }
+
+  get Theme () { return Theme }
+  get Themes () { return Themes }
+
+  get FS () { return FS }
+  get shell () { return shell }
 
   get plugins () { return plugins }
   get Plugin () { return Plugin }

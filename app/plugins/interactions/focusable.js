@@ -10,7 +10,7 @@ export default class extends Plugin {
     this._author = 'Alain Deschenes'
     this._version = '1.0.1'
     this._date = '12/31/2016'
-    this._deps = ['control']
+    this._deps = ['interactive', 'mouse', 'keyboard']
   }
 
   load (obj, options) {

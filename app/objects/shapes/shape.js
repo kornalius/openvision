@@ -9,70 +9,70 @@ export class Shape extends Graphics {
     this._width = width
     this._height = height
     this._fill = true
-    this._fillColor = 0xFFFFFF
-    this._fillAlpha = 255
-    this._lineWidth = 0
-    this._lineColor = 0xFFFFFF
-    this._lineAlpha = 255
-    this.drawShape()
+    this._color = 0xFFFFFF
+    this._alpha = 255
+    this._borderSize = 0
+    this._borderColor = 0xFFFFFF
+    this._borderAlpha = 255
+    this._drawShape()
   }
 
   get width () { return this._width }
   set width (value) {
     this._width = value
-    this.drawShape()
+    this._drawShape()
   }
 
   get height () { return this._height }
   set height (value) {
     this._height = value
-    this.drawShape()
+    this._drawShape()
   }
 
   get fill () { return this._fill }
   set fill (value) {
     this._fill = value
-    this.drawShape()
+    this._drawShape()
   }
 
-  get fillColor () { return this._fillColor }
-  set fillColor (value) {
-    this._fillColor = value
-    this.drawShape()
+  get color () { return this._color }
+  set color (value) {
+    this._color = value
+    this._drawShape()
   }
 
-  get fillAlpha () { return this._fillAlpha }
-  set fillAlpha (value) {
-    this._fillAlpha = value
-    this.drawShape()
+  get alpha () { return this._alpha }
+  set alpha (value) {
+    this._alpha = value
+    this._drawShape()
   }
 
-  get lineWidth () { return this._lineWidth }
-  set lineWidth (value) {
-    this._lineWidth = value
-    this.drawShape()
+  get borderSize () { return this._borderSize }
+  set borderSize (value) {
+    this._borderSize = value
+    this._drawShape()
   }
 
-  get lineColor () { return this._lineColor }
-  set lineColor (value) {
-    this._lineColor = value
-    this.drawShape()
+  get borderColor () { return this._borderColor }
+  set borderColor (value) {
+    this._borderColor = value
+    this._drawShape()
   }
 
-  get lineAlpha () { return this._lineAlpha }
-  set lineAlpha (value) {
-    this._lineAlpha = value
-    this.drawShape()
+  get borderAlpha () { return this._borderAlpha }
+  set borderAlpha (value) {
+    this._borderAlpha = value
+    this._drawShape()
   }
 
   draw () {
   }
 
-  drawShape () {
+  _drawShape () {
     this.clear()
-    this.lineStyle(this._lineWidth, this._lineColor, this._lineAlpha)
+    this.lineStyle(this._borderSize, this._borderColor, this._borderAlpha)
     if (this._fill) {
-      this.beginFill(this._fillColor, this._fillAlpha)
+      this.beginFill(this._color, this._alpha)
     }
     this.draw()
     if (this._fill) {
@@ -87,23 +87,24 @@ Encoder.register('Shape', {
 
   encode: obj => {
     let doc = {}
-    doc.lineWidth = e('lineWidth', obj, doc)
-    doc.lineColor = e('lineColor', obj, doc)
-    doc.lineAlpha = e('lineAlpha', obj, doc)
-    doc.fillColor = e('fillColor', obj, doc)
-    doc.fillAlpha = e('fillAlpha', obj, doc)
+    doc.borderSize = e('borderSize', obj, doc)
+    doc.borderColor = e('borderColor', obj, doc)
+    doc.borderAlpha = e('borderAlpha', obj, doc)
+    doc.color = e('color', obj, doc)
+    doc.alpha = e('alpha', obj, doc)
     doc.fill = e('fill', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new Shape()
-    obj.lineWidth = d('lineWidth', doc, obj)
-    obj.lineColor = d('lineColor', doc, obj)
-    obj.lineAlpha = d('lineAlpha', doc, obj)
-    obj.fillColor = d('fillColor', doc, obj)
-    obj.fillAlpha = d('fillAlpha', doc, obj)
-    obj.fill = d('fill', doc, obj)
+    obj._borderSize = d('borderSize', doc, obj)
+    obj._borderColor = d('borderColor', doc, obj)
+    obj._borderAlpha = d('borderAlpha', doc, obj)
+    obj._color = d('color', doc, obj)
+    obj._alpha = d('alpha', doc, obj)
+    obj._fill = d('fill', doc, obj)
+    obj._drawShape()
     return obj
   },
 })

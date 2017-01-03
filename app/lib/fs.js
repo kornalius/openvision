@@ -91,6 +91,7 @@ export class FileEntry extends Base {
     this._fs = fs
     this._parent = parent
     this._files = []
+    this._id = null
 
     this._name = _.get(options, 'name')
     this._attr = _.get(options, 'attr', 'rwx')
@@ -102,7 +103,7 @@ export class FileEntry extends Base {
   get fs () { return this._fs }
   get parent () { return this._parent }
 
-  get id () { return this.path.replace(FS_DELIMITER, '$') }
+  get id () { return this._id }
 
   get name () { return this._name }
   get attr () { return this._attr }
@@ -150,15 +151,16 @@ export class FileEntry extends Base {
 
   create (name, data, attr = 'rwx') {
     return new Promise((resolve, reject) => {
-      if (this.exists(name)) {
+      return this.fs.exists(name).then(() => {
         return reject(new errors.EEXIST(this.path))
-      }
-      let f = new FileEntry(this.fs, this, { name, attr })
-      this._files.push(f)
-      if (data) {
-        return f.write(data).then(f.touch).then(resolve)
-      }
-      return f.touch().then(resolve)
+      }).catch(() => {
+        let f = new FileEntry(this.fs, this, { name, attr })
+        this._files.push(f)
+        if (data) {
+          return f.write(data).then(f.touch).then(resolve)
+        }
+        return f.touch().then(resolve)
+      })
     })
   }
 
@@ -198,11 +200,11 @@ export class FileEntry extends Base {
   }
 
   read () {
-    return DB.get(this.id)
+    return DB.get(this.db, this.id)
   }
 
   write (data) {
-    return DB.put(this.id, data).then(() => {
+    return DB.put(this.db, this.id, data).then(() => {
       this._size = data.length
       return this.touch()
     })
@@ -279,17 +281,27 @@ export class FS extends Base {
   constructor (options = {}) {
     super(options)
 
-    this._root = _.get(options, 'root', new FileEntry({ name: FS_DELIMITER, attr: 'rd' }))
+    this._root = _.get(options, 'root', new FileEntry(this, null, { name: FS_DELIMITER, attr: 'rd' }))
   }
 
   get root () { return this._root }
 
-  load (name = '_catalog') {
-    return DB.get(name).then(Encoder.decode)
+  assignParents (obj, parent = null) {
+    obj._fs = this
+    obj._parent = parent
+    for (let c of obj._files) {
+      this.assignParents(c, obj)
+    }
   }
 
-  save (name = '_catalog') {
-    return DB.put(name, Encoder.encode(this._root))
+  load () {
+    return DB.get(this.db, this.id).then(doc => {
+      this._root = this.assignParents(Encoder.decode(doc))
+    })
+  }
+
+  save () {
+    return DB.put(this.db, this.id, Encoder.encode(this._root))
   }
 
   find (path) {
@@ -412,15 +424,42 @@ export class FS extends Base {
 
 export class Shell extends Base {
 
-  constructor (options = {}) {
+  constructor (fs, options = {}) {
     super(options)
+
+    this._fs = fs
     this._cwd = _.get(options, 'cwd', this._root)
   }
 
+  get fs () { return this._fs }
+
   get cwd () { return this._cwd }
 
-  cd (path) {
+  resolve (path) { return FS.resolve(this.cwd, path) }
 
+  cd (path) {
+    path = this.resolve(path)
+    return this.fs.isFolder(path).then(() => { this._cwd = path })
+  }
+
+  ls (pattern) {
+    return this.fs.ls(this.cwd, pattern)
+  }
+
+  copy (path, newpath) {
+    return this.fs.copy(this.resolve(path), this.resolve(newpath))
+  }
+
+  move (path, newpath) {
+    return this.fs.move(this.resolve(path), this.resolve(newpath))
+  }
+
+  mkdir (path) {
+    return this.fs.create(this.resolve(path))
+  }
+
+  rm (path) {
+    return this.fs.rm(this.resolve(path))
   }
 
 }
@@ -429,29 +468,34 @@ export class Shell extends Base {
 Encoder.register('FileEntry', {
 
   encode: obj => {
-    let doc = {}
-    e('type', obj, doc)
-    e('name', obj, doc)
-    e('attr', obj, doc)
-    e('created', obj, doc)
-    e('modified', obj, doc)
-    e('size', obj, doc)
-    for (let i = 0; i < obj.files.length; i++) {
-      doc.files[i] = Encoder.encode(obj.files[i])
+    let doc = {
+      _files: new Array(obj._files.length),
+    }
+    e('_type', obj, doc)
+    e('_id', obj, doc)
+    e('_name', obj, doc)
+    e('_attr', obj, doc)
+    e('_created', obj, doc)
+    e('_modified', obj, doc)
+    e('_size', obj, doc)
+    for (let i = 0; i < obj._files.length; i++) {
+      doc._files[i] = Encoder.encode(obj._files[i])
     }
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new FileEntry()
-    d('type', doc, obj)
-    d('name', doc, obj)
-    d('attr', doc, obj)
-    d('created', doc, obj)
-    d('modified', doc, obj)
-    d('size', doc, obj)
-    for (let i = 0; i < doc.files.length; i++) {
-      obj.files[i] = Encoder.decode(doc.files[i])
+    d('_type', doc, obj)
+    d('_id', doc, obj)
+    d('_name', doc, obj)
+    d('_attr', doc, obj)
+    d('_created', doc, obj)
+    d('_modified', doc, obj)
+    d('_size', doc, obj)
+    obj._files = new Array(doc._files.length)
+    for (let i = 0; i < doc._files.length; i++) {
+      obj._files[i] = Encoder.decode(doc._files[i])
     }
     return obj
   },

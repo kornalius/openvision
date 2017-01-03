@@ -7,13 +7,13 @@ export class Oval extends Shape {
   constructor (width, height) {
     super(width, height)
     this._radius = 0
-    this.drawShape()
+    this._drawShape()
   }
 
   get radius () { return this._radius }
   set radius (value) {
     this._radius = value
-    this.drawShape()
+    this._drawShape()
   }
 
   draw () {
