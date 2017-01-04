@@ -3,12 +3,13 @@ import { DB } from '../objects/db.js'
 import { path as _path } from '../utils.js'
 import { glob } from 'multimatch'
 import { Encoder, e, d } from './encoder.js'
+import { defineErrors } from './errors.js'
 
 
 export const FS_DELIMITER = '/'
 
 
-export var errors = {
+const errors = defineErrors({
   9: {
     name: 'EBADF',
     message: 'bad file descriptor',
@@ -53,34 +54,7 @@ export var errors = {
     name: 'EIO',
     message: 'i/o error',
   },
-}
-
-
-for (let k in errors) {
-  let errno = k
-  let errName = errors[k].name
-  let defaultMessage = errors[k].message
-
-  let FSError = class FSError extends Error {
-    constructor (path, msg) {
-      super()
-      this.name = errName
-      this.code = errName
-      this.errno = errno
-      this.message = msg || defaultMessage
-      this.path = path
-      this.stack = (new Error(this.message)).stack
-    }
-
-    toString () {
-      var pathInfo = this.path ? ', \'' + this.path + '\'' : ''
-      return this.name + ': ' + this.message + pathInfo
-    }
-  }
-
-  errors[errno] = FSError
-  errors[errName] = FSError
-}
+})
 
 
 export class FileEntry extends Base {
@@ -145,14 +119,14 @@ export class FileEntry extends Base {
   find (name) {
     return new Promise((resolve, reject) => {
       let f = _.find(this.files, { name })
-      return f ? resolve(f) : reject(new errors.ENOENT(this.path))
+      return f ? resolve(f) : reject(new errors.ENOENT({ path: this.path }))
     })
   }
 
   create (name, data, attr = 'rwx') {
     return new Promise((resolve, reject) => {
       return this.fs.exists(name).then(() => {
-        return reject(new errors.EEXIST(this.path))
+        return reject(new errors.EEXIST({ path: this.path }))
       }).catch(() => {
         let f = new FileEntry(this.fs, this, { name, attr })
         this._files.push(f)
@@ -186,7 +160,7 @@ export class FileEntry extends Base {
       }
       else if (this.folder) {
         if (this.files.length) {
-          return reject(new errors.ENOTEMPTY(this.path))
+          return reject(new errors.ENOTEMPTY({ path: this.path }))
         }
         else {
           _.remove(this.parent.files, f => f.name === this.name)
@@ -194,7 +168,7 @@ export class FileEntry extends Base {
         return this.fs.save().then(resolve)
       }
       else {
-        return reject(new errors.EPERM(this.path))
+        return reject(new errors.EPERM({ path: this.path }))
       }
     })
   }
@@ -313,7 +287,7 @@ export class FS extends Base {
           break
         }
       }
-      return fe ? resolve(fe) : reject(new errors.ENOENT(path))
+      return fe ? resolve(fe) : reject(new errors.ENOENT({ path }))
     })
   }
 
@@ -355,7 +329,7 @@ export class FS extends Base {
 
   ls (path, glob) {
     return this.find(path).then(f => {
-      return f.folder ? f.files : Promise.reject(new errors.ENOTDIR(path))
+      return f.folder ? f.files : Promise.reject(new errors.ENOTDIR({ path }))
     })
   }
 
