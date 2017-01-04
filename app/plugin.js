@@ -47,8 +47,12 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
 
   load (obj, options = {}) {
     if (!this.canLoad(obj)) {
-      console.error('Container', obj, 'cannot be loaded')
+      console.error('Cannot load plugin', this.name, 'into', obj)
       return
+    }
+
+    if (!_.get(obj, '__plugins')) {
+      obj.__plugins = {}
     }
 
     for (let i = this.deps.length - 1; i >= 0; i--) {
@@ -63,7 +67,7 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
         _options = d.options
       }
       let p = plugins[_name]
-      if (p && !obj['__' + _name]) {
+      if (p && !obj.__plugins[_name]) {
         p.load(obj, _options)
       }
     }
@@ -76,16 +80,16 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
       }
     }
 
-    let pn = '__' + this.name
-    if (!_.has(obj, pn)) {
-      obj[pn] = {}
+    let pn = this.name
+    if (!_.get(obj, '__plugins.' + pn)) {
+      obj.__plugins[pn] = {}
     }
 
     for (let k of this.propertyNames) {
       if (!_.get(this.interface, k + '.declared', false) && !_.get(this.interface, k + '.exclude', false)) {
         let d = Object.getOwnPropertyDescriptor(obj, k)
         if (d) {
-          Object.defineProperty(obj[pn], k, d)
+          Object.defineProperty(obj.__plugins[pn], k, d)
         }
         d = Object.getOwnPropertyDescriptor(this.constructor.prototype, k)
         Object.defineProperty(obj, k, d)
@@ -97,16 +101,16 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
 
   unload (obj) {
     _.pull(this.__loaded, obj)
-    let pn = '__' + this.name
-    if (_.has(obj, pn)) {
+    let pn = this.name
+    if (_.get(obj, '__plugins.' + pn)) {
       for (let k of this.propertyNames) {
         delete obj[k]
-        if (obj[pn][k]) {
-          let d = Object.getOwnPropertyDescriptor(obj[pn], k)
+        if (obj.__plugins[pn][k]) {
+          let d = Object.getOwnPropertyDescriptor(obj.__plugins[pn], k)
           Object.defineProperty(obj, k, d)
         }
       }
-      delete obj[pn]
+      delete obj.__plugins[pn]
     }
   }
 
@@ -127,7 +131,7 @@ export let PluginMixin = Mixin(superclass => class PluginMixin extends superclas
       name = _.get(options, 'name')
     }
     let p = plugins[name]
-    if (p && !this['__' + name]) {
+    if (p && !_.get(this, '__plugins.' + name)) {
       p.load(this, _.extend(options, { name }))
     }
     return this
@@ -141,7 +145,7 @@ export let PluginMixin = Mixin(superclass => class PluginMixin extends superclas
       return this
     }
     let p = plugins[name]
-    if (p && this['__' + name]) {
+    if (p && _.get(this, '__plugins.' + name)) {
       p.unload(this)
     }
     return this

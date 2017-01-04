@@ -21,7 +21,7 @@ export default class extends Plugin {
 
   load (obj, options = {}) {
     super.load(obj, options)
-    if (obj.__caret) {
+    if (_.get(obj, '__plugins.caret')) {
       obj._caret = new app.Rectangle(obj.caretWidth, obj.caretHeight, _.get(options, 'color', 0xFFFFFF), _.get(options, 'alpha', 255))
       obj.addChild(obj._caret)
 

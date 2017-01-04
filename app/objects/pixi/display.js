@@ -19,7 +19,7 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
   update (options = {}) {
     updates.add(this, _.extend(options, {
       cb: () => {
-        if (this.__renderable) {
+        if (_.get(this, '__plugins.renderable')) {
           this.draw()
         }
         if (this.parent) {

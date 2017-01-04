@@ -256,7 +256,7 @@ export class Screen extends Display {
 
   onScroll (e) {
     let t = this.currentOver
-    if (t && t.__scrollable) {
+    if (t && _.get(t, '__plugins.scrollable')) {
       let res = -120
       let deltaX = 0
       let deltaY = 0
