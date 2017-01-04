@@ -11,8 +11,8 @@ export class Marker extends Range {
   constructor (parent, options = {}) {
     super(options)
 
-    this._id = _.uniqueId()
     this._parent = parent
+    this._id = _.uniqueId()
   }
 
   get id () { return this._id }
@@ -127,15 +127,13 @@ Encoder.register('Marker', {
 
   encode: obj => {
     let doc = {}
-    e('id', obj, doc)
-    e('parent', obj, doc)
+    e('_id', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new Marker()
-    d('id', doc, obj)
-    d('parent', doc, obj)
+    d('_id', doc, obj)
     return obj
   },
 })

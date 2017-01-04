@@ -48,17 +48,17 @@ Encoder.register('Settings', {
 
   encode: obj => {
     let doc = {}
-    e('name', obj, doc)
-    e('inherit', obj, doc)
-    e('data', obj, doc)
+    e('_name', obj, doc)
+    e('_inherit', obj, doc)
+    e('_data', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new Settings()
-    d('name', doc, obj)
-    d('inherit', doc, obj)
-    d('data', doc, obj)
+    d('_name', doc, obj)
+    d('_inherit', doc, obj)
+    d('_data', doc, obj)
     return obj
   },
 })

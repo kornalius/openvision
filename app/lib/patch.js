@@ -1,4 +1,5 @@
 import { Range } from './range.js'
+import { Encoder, e, d } from './encoder.js'
 
 
 export const PATCH_INSERT = 'i'
@@ -82,3 +83,37 @@ export class Patches extends PIXI.utils.EventEmitter {
   }
 
 }
+
+
+Encoder.register('Patches', {
+  inherit: 'Ranges',
+
+  encode: obj => {
+    let doc = {}
+    return doc
+  },
+
+  decode: (doc, obj) => {
+    obj = obj || new Patches()
+    return obj
+  },
+})
+
+
+Encoder.register('Patch', {
+  inherit: 'Range',
+
+  encode: obj => {
+    let doc = {}
+    e('_action', obj, doc)
+    e('_value', obj, doc)
+    return doc
+  },
+
+  decode: (doc, obj) => {
+    obj = obj || new Patch()
+    d('_action', doc, obj)
+    d('_value', doc, obj)
+    return obj
+  },
+})

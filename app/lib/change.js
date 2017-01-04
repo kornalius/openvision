@@ -1,9 +1,10 @@
 import { Patch, Patches } from './patch.js'
+import { Encoder, e, d } from './encoder.js'
 
 
 export class Checkpoint extends PIXI.utils.EventEmitter {
 
-  constructor (parent, options) {
+  constructor (parent, options = {}) {
     super()
 
     this._parent = parent
@@ -61,6 +62,7 @@ export class Changes extends Patches {
 
   add (c) {
     let t = performance.now()
+    c._parent = this
     if (this._last && t - this._last.time <= this._groupDelay && this._last.action === c.action) {
       c.time = t
       this._last.children.push(c)
@@ -183,3 +185,62 @@ export class Changes extends Patches {
   }
 
 }
+
+
+Encoder.register('Changes', {
+  inherit: 'Patches',
+
+  encode: obj => {
+    let doc = {}
+    return doc
+  },
+
+  decode: (doc, obj) => {
+    obj = obj || new Changes()
+    return obj
+  },
+})
+
+
+Encoder.register('Change', {
+  inherit: 'Patch',
+
+  encode: obj => {
+    let doc = { _children: new Array(obj._children.length) }
+    e('_time', obj, doc)
+    for (let i = 0; i < obj._children.length; i++) {
+      doc._children[i] = e(obj._children[i], obj, doc)
+    }
+    return doc
+  },
+
+  decode: (doc, obj) => {
+    obj = obj || new Patch()
+    d('_time', doc, obj)
+    obj._children = new Array(doc._children.length)
+    for (let i = 0; i < doc._children.length; i++) {
+      let o = d(doc._children[i], doc, obj)
+      o._parent = obj
+      obj._children[i] = o
+    }
+    return obj
+  },
+})
+
+
+Encoder.register('Checkpoint', {
+
+  encode: obj => {
+    let doc = {}
+    e('_id', obj, doc)
+    e('_time', obj, doc)
+    return doc
+  },
+
+  decode: (doc, obj) => {
+    obj = obj || new Patch()
+    d('_id', doc, obj)
+    d('_time', doc, obj)
+    return obj
+  },
+})

@@ -11,15 +11,16 @@ export class Range extends PIXI.utils.EventEmitter {
   static Empty (type) {
     switch (type) {
       case RANGE_RECT:
-        return new Range({ start: this.defaultStart, end: this.defaultEnd, type: RANGE_RECT })
+        return new Range(null, { start: this.defaultStart, end: this.defaultEnd, type: RANGE_RECT })
       default:
-        return new Range({ start: -1, end: -1, type: RANGE_NORMAL })
+        return new Range(null, { start: -1, end: -1, type: RANGE_NORMAL })
     }
   }
 
-  constructor (options = {}) {
+  constructor (parent, options = {}) {
     super()
 
+    this._parent = parent
     this._rectangle = null
 
     this._start = _.get(options, 'start', this.emptyStart)
@@ -93,9 +94,6 @@ export class Range extends PIXI.utils.EventEmitter {
     else if (start instanceof Rectangle) {
       return start
     }
-    else if (start instanceof RectRange) {
-      return start.rectangle
-    }
     return null
   }
 
@@ -105,9 +103,6 @@ export class Range extends PIXI.utils.EventEmitter {
     }
     else if (value instanceof Rectangle) {
       return value.origin
-    }
-    else if (value instanceof RectRange) {
-      return value.rectangle.origin
     }
     return null
   }
@@ -297,19 +292,21 @@ Encoder.register('Ranges', {
 
   encode: obj => {
     let doc = {
-      list: new Array(obj.list.length)
+      _list: new Array(obj._list.length)
     }
-    for (let i = 0; i < obj.list.length; i++) {
-      doc.list[i] = e(obj.list[i], obj, doc)
+    for (let i = 0; i < obj._list.length; i++) {
+      doc._list[i] = e(obj._list[i], obj, doc)
     }
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new Ranges()
-    obj.list = new Array(doc.list.length)
-    for (let c of doc.list) {
-      obj.list.push(d(c, doc, obj))
+    obj._list = new Array(doc._list.length)
+    for (let i = 0; i < doc._list.length; i++) {
+      let o = d(doc._list[i], doc, obj)
+      o._parent = obj
+      obj._list[i] = o
     }
     return obj
   },
@@ -320,19 +317,19 @@ Encoder.register('Range', {
 
   encode: obj => {
     let doc = {}
-    e('type', obj, doc)
-    e('start', obj, doc)
-    e('end', obj, doc)
-    e('fixed', obj, doc)
+    e('_type', obj, doc)
+    e('_start', obj, doc)
+    e('_end', obj, doc)
+    e('_fixed', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new Range()
-    d('type', doc, obj)
-    d('start', doc, obj)
-    d('end', doc, obj)
-    d('fixed', doc, obj)
+    d('_type', doc, obj)
+    d('_start', doc, obj)
+    d('_end', doc, obj)
+    d('_fixed', doc, obj)
     return obj
   },
 })
