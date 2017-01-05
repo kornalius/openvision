@@ -1,4 +1,5 @@
 import { Base } from '../objects/base.js'
+import { DB, sysDB, usrDB } from '../objects/db.js'
 import { Encoder, e, d } from './encoder.js'
 
 
@@ -12,7 +13,14 @@ export class Settings extends Base {
     this._data = {}
   }
 
+  get name () { return this._name }
+  set name (value) { this._name = value }
+
+  get data () { return this._data }
+  set data (value) { this._data = value }
+
   get inherit () { return this._inherit }
+  set inherit (value) { this._inherit = value }
 
   has (path) { return !_.isUndefined(this.get(path)) }
 
@@ -28,7 +36,7 @@ export class Settings extends Base {
 
   set (path, value) {
     _.set(this._data, path, value)
-    return this
+    return this.save()
   }
 
   load () {
@@ -41,24 +49,41 @@ export class Settings extends Base {
 
 }
 
-export var systemSettings = new Settings({ name: '_system' })
-
 
 Encoder.register('Settings', {
 
   encode: obj => {
     let doc = {}
-    e('_name', obj, doc)
-    e('_inherit', obj, doc)
-    e('_data', obj, doc)
+    e('name', obj, doc)
+    e('data', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new Settings()
-    d('_name', doc, obj)
-    d('_inherit', doc, obj)
-    d('_data', doc, obj)
+    d('name', doc, obj)
+    d('data', doc, obj)
     return obj
   },
 })
+
+
+export var sysSettings = null
+export var usrSettings = null
+
+DB.get(sysDB, 'settings')
+  .then(doc => {
+    sysSettings = Encoder.decode(doc)
+  })
+  .catch(err => {
+    sysSettings = new Settings({ name: 'settings' })
+  })
+
+// DB.get(usrDB, 'settings')
+  // .then(doc => {
+    // usrSettings = Encoder.decode(doc)
+    // usrSettings._inherit = sysSettings
+  // })
+  // .catch(err => {
+    // usrSettings = new Settings({ name: 'settings' })
+  // })

@@ -105,15 +105,15 @@ Encoder.register('Patch', {
 
   encode: obj => {
     let doc = {}
-    e('_action', obj, doc)
-    e('_value', obj, doc)
+    e('action', obj, doc)
+    e('value', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new Patch()
-    d('_action', doc, obj)
-    d('_value', doc, obj)
+    d('action', doc, obj)
+    d('value', doc, obj)
     return obj
   },
 })

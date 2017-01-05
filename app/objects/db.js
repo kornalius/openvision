@@ -43,7 +43,6 @@ export var tmpDB = DB.open('tmp')
 export var usrDB = null
 
 
-DB.destroy(sysDB).then(db => { sysDB = db })
 DB.destroy(tmpDB).then(db => { tmpDB = db })
 
 
@@ -72,11 +71,11 @@ export let DBMixin = Mixin(superclass => class DBMixin extends superclass {
   set db_id (value) { this._db_id = value }
 
   load (name) {
-    return DB.load(this.db, name || this.db_id).then(doc => Encoder.encode(doc, this))
+    return DB.load(this.db, name || this.db_id).then(doc => Encoder.decode(doc, this))
   }
 
   save (name) {
-    return DB.save(this.db, name || this.db_id, Encoder.decode(this))
+    return DB.save(this.db, name || this.db_id, Encoder.encode(this))
   }
 
   delete (name) {

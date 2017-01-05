@@ -127,13 +127,13 @@ Encoder.register('Marker', {
 
   encode: obj => {
     let doc = {}
-    e('_id', obj, doc)
+    e('id', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new Marker()
-    d('_id', doc, obj)
+    d('id', doc, obj, true)
     return obj
   },
 })

@@ -13,6 +13,7 @@ export class Checkpoint extends PIXI.utils.EventEmitter {
   }
 
   get id () { return this._id }
+  set id (value) { this._id = value }
 
   get time () { return this._time }
   set time (value) { this._time = value }
@@ -34,6 +35,7 @@ export class Change extends Patch {
   set time (value) { this._time = value }
 
   get children () { return this._children }
+  set children (value) { this._children = value }
 
 }
 
@@ -50,6 +52,9 @@ export class Changes extends Patches {
     this._last = null
   }
 
+  get list () { return this._list }
+  set list (value) { this._list = value }
+
   get limit () { return this._limit }
   set limit (value) { this._limit = value }
 
@@ -57,6 +62,7 @@ export class Changes extends Patches {
   set groupDelay (value) { this._groupDelay = value }
 
   get ptr () { return this._ptr }
+  set ptr (value) { this._ptr = value }
 
   get last () { return this._last }
 
@@ -206,10 +212,10 @@ Encoder.register('Change', {
   inherit: 'Patch',
 
   encode: obj => {
-    let doc = { _children: new Array(obj._children.length) }
+    let doc = { children: new Array(obj.children.length) }
     e('_time', obj, doc)
-    for (let i = 0; i < obj._children.length; i++) {
-      doc._children[i] = e(obj._children[i], obj, doc)
+    for (let i = 0; i < obj.children.length; i++) {
+      doc.children[i] = e(obj.children[i], obj, doc)
     }
     return doc
   },
@@ -217,11 +223,11 @@ Encoder.register('Change', {
   decode: (doc, obj) => {
     obj = obj || new Patch()
     d('_time', doc, obj)
-    obj._children = new Array(doc._children.length)
-    for (let i = 0; i < doc._children.length; i++) {
-      let o = d(doc._children[i], doc, obj)
+    obj.children = new Array(doc.children.length)
+    for (let i = 0; i < doc.children.length; i++) {
+      let o = d(doc.children[i], doc, obj)
       o._parent = obj
-      obj._children[i] = o
+      obj.children[i] = o
     }
     return obj
   },
@@ -232,15 +238,15 @@ Encoder.register('Checkpoint', {
 
   encode: obj => {
     let doc = {}
-    e('_id', obj, doc)
-    e('_time', obj, doc)
+    e('id', obj, doc)
+    e('time', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new Patch()
-    d('_id', doc, obj)
-    d('_time', doc, obj)
+    d('id', doc, obj)
+    d('time', doc, obj)
     return obj
   },
 })

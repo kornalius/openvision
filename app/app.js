@@ -20,6 +20,7 @@ import { vm } from './vm.js'
 import { FS, shell } from './lib/fs.js'
 import { Patches, Patch, PATCH_INSERT, PATCH_DELETE } from './lib/patch.js'
 import { Theme, Themes } from './lib/theme.js'
+import { Settings, sysSettings, usrSettings } from './lib/settings.js'
 import { Checkpoint, Change, Changes } from './lib/change.js'
 import { Range, Ranges, RANGE_NORMAL, RANGE_RECT } from './lib/range.js'
 
@@ -99,6 +100,10 @@ export class App extends Base {
     this.screen.destroy()
     super.destroy()
   }
+
+  get Settings () { return Settings }
+  get sysSettings () { return sysSettings }
+  get usrSettings () { return usrSettings }
 
   get Base () { return Base }
   get Container () { return Container }

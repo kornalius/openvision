@@ -292,21 +292,21 @@ Encoder.register('Ranges', {
 
   encode: obj => {
     let doc = {
-      _list: new Array(obj._list.length)
+      list: new Array(obj.list.length)
     }
-    for (let i = 0; i < obj._list.length; i++) {
-      doc._list[i] = e(obj._list[i], obj, doc)
+    for (let i = 0; i < obj.list.length; i++) {
+      doc.list[i] = e(obj.list[i], obj, doc)
     }
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new Ranges()
-    obj._list = new Array(doc._list.length)
-    for (let i = 0; i < doc._list.length; i++) {
-      let o = d(doc._list[i], doc, obj)
+    obj.list = new Array(doc.list.length)
+    for (let i = 0; i < doc.list.length; i++) {
+      let o = d(doc.list[i], doc, obj)
       o._parent = obj
-      obj._list[i] = o
+      obj.list[i] = o
     }
     return obj
   },
@@ -317,19 +317,19 @@ Encoder.register('Range', {
 
   encode: obj => {
     let doc = {}
-    e('_type', obj, doc)
-    e('_start', obj, doc)
-    e('_end', obj, doc)
-    e('_fixed', obj, doc)
+    e('type', obj, doc)
+    e('start', obj, doc)
+    e('end', obj, doc)
+    e('fixed', obj, doc)
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new Range()
-    d('_type', doc, obj)
-    d('_start', doc, obj)
-    d('_end', doc, obj)
-    d('_fixed', doc, obj)
+    d('type', doc, obj)
+    d('start', doc, obj)
+    d('end', doc, obj)
+    d('fixed', doc, obj)
     return obj
   },
 })

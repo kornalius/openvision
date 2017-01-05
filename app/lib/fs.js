@@ -443,33 +443,33 @@ Encoder.register('FileEntry', {
 
   encode: obj => {
     let doc = {
-      _files: new Array(obj._files.length),
+      files: new Array(obj.files.length),
     }
-    e('_type', obj, doc)
-    e('_id', obj, doc)
-    e('_name', obj, doc)
-    e('_attr', obj, doc)
-    e('_created', obj, doc)
-    e('_modified', obj, doc)
-    e('_size', obj, doc)
-    for (let i = 0; i < obj._files.length; i++) {
-      doc._files[i] = Encoder.encode(obj._files[i])
+    e('type', obj, doc)
+    e('id', obj, doc)
+    e('name', obj, doc)
+    e('attr', obj, doc)
+    e('created', obj, doc)
+    e('modified', obj, doc)
+    e('size', obj, doc)
+    for (let i = 0; i < obj.files.length; i++) {
+      doc.files[i] = Encoder.encode(obj.files[i])
     }
     return doc
   },
 
   decode: (doc, obj) => {
     obj = obj || new FileEntry()
-    d('_type', doc, obj)
-    d('_id', doc, obj)
-    d('_name', doc, obj)
-    d('_attr', doc, obj)
-    d('_created', doc, obj)
-    d('_modified', doc, obj)
-    d('_size', doc, obj)
-    obj._files = new Array(doc._files.length)
-    for (let i = 0; i < doc._files.length; i++) {
-      obj._files[i] = Encoder.decode(doc._files[i])
+    d('type', doc, obj, true)
+    d('id', doc, obj, true)
+    d('name', doc, obj, true)
+    d('attr', doc, obj, true)
+    d('created', doc, obj, true)
+    d('modified', doc, obj, true)
+    d('size', doc, obj, true)
+    obj.files = new Array(doc.files.length)
+    for (let i = 0; i < doc.files.length; i++) {
+      obj.files[i] = Encoder.decode(doc.files[i])
     }
     return obj
   },

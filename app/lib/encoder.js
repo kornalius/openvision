@@ -27,7 +27,7 @@ export class Encoder {
     return doc
   }
 
-  static decode (doc, _default) {
+  static decode (doc, _default, priv = false) {
     let obj = _default
     let e = encoders[getType(doc)]
     if (e) {
@@ -46,9 +46,17 @@ export class Encoder {
 
 }
 
-export var e = (name, obj, doc) => Encoder.encode(obj[name], _.get(doc, name))
+export var e = (name, obj, doc) => {
+  let r = Encoder.encode(obj[name], _.get(doc, name))
+  _.set(doc, name, r)
+  return r
+}
 
-export var d = (name, doc, obj) => Encoder.decode(doc[name], _.get(obj, name))
+export var d = (name, doc, obj, priv = false) => {
+  let r = Encoder.decode(doc[name], _.get(obj, name), priv)
+  _.set(obj, (priv ? '_' : '') + name, r)
+  return r
+}
 
 
 Encoder.register('Object', {
@@ -62,10 +70,10 @@ Encoder.register('Object', {
     return doc
   },
 
-  decode: (doc, obj) => {
+  decode: (doc, obj, priv = false) => {
     obj = obj || {}
     for (let k in doc) {
-      obj[k] = Encoder.decode(doc[k])
+      obj[priv ? '_' + k : k] = Encoder.decode(doc[k])
     }
     return obj
   },
