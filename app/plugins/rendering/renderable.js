@@ -1,21 +1,23 @@
 
-export default class extends Plugin {
+export default class Renderable extends Plugin {
 
   constructor (options = {}) {
     super(options)
     this._name = 'renderable'
     this._desc = 'Allow to customize the drawing of a container.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
-    this._date = '12/31/2016'
+    this._version = '1.0.2'
+    this._date = '01/07/2017'
   }
 
   load (obj, options = {}) {
-    super.load(obj, options)
+    if (super.load(obj, options)) {
+    }
   }
 
   unload (obj) {
-    super.unload(obj)
+    if (super.unload(obj)) {
+    }
   }
 
   draw () {

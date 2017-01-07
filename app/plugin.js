@@ -17,7 +17,7 @@ System.config({
 
 
 export var plugins = {}
-
+var loadLevel = 0
 
 export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
 
@@ -38,80 +38,163 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
 
   get tags () { return _.concat(this._tags, this._name, 'plugin') }
 
-  get propertyNames () {
+  get prototypeNames () {
     let pluginProps = Object.getOwnPropertyNames(Object.getPrototypeOf(new Plugin()))
     return _.filter(Object.getOwnPropertyNames(Object.getPrototypeOf(this)), k => !_.includes(pluginProps, k))
   }
 
-  canLoad (obj) { return true }
+  canLoad (obj) {
+    let pn = this.name
+
+    if (_.get(obj, '__plugins.' + pn)) {
+      if (loadLevel === 0) {
+        console.error('Plugin', pn, 'already loaded')
+      }
+      return false
+    }
+
+    for (let k of this.prototypeNames) {
+      if (_.get(this.interface, k + '.declared', false) && _.isUndefined(obj[k]) && !_.includes(this.prototypeNames, k)) {
+        if (loadLevel === 0) {
+          console.error('Missing interface declaration ' + k)
+        }
+        return false
+      }
+    }
+
+    return true
+  }
 
   load (obj, options = {}) {
+    console.log(_.repeat('  ', loadLevel) + 'Loading', this.name)
+
     if (!this.canLoad(obj)) {
-      console.error('Cannot load plugin', this.name, 'into', obj)
-      return
+      return false
     }
 
-    if (!_.get(obj, '__plugins')) {
-      obj.__plugins = {}
-    }
+    loadLevel++
 
-    for (let i = this.deps.length - 1; i >= 0; i--) {
-      let d = this.deps[i]
-      let _name = ''
-      let _options = {}
-      if (_.isString(d)) {
-        _name = d
-      }
-      else if (_.isObject(d)) {
-        _name = d.name
-        _options = d.options
-      }
-      let p = plugins[_name]
-      if (p && !obj.__plugins[_name]) {
-        p.load(obj, _options)
+    obj.__plugins = _.get(obj, '__plugins', {})
+
+    for (let n of this.dependencies) {
+      let p = plugins[n]
+      if (p && p.canLoad(obj)) {
+        p.load(obj)
       }
     }
 
-    for (let k of this.propertyNames) {
-      let d = Object.getOwnPropertyDescriptor(obj, k)
-      if (!d && _.get(this.interface, k + '.declared', false)) {
-        console.error('Missing interface declaration ' + k)
-        return
-      }
-    }
+    let proto = obj.__plugin_proto
+    if (!proto) {
+      proto = obj.__plugin_proto = Object.create({})
 
-    let pn = this.name
-    if (!_.get(obj, '__plugins.' + pn)) {
-      obj.__plugins[pn] = {}
-    }
+      let ee = PIXI.utils.EventEmitter
 
-    for (let k of this.propertyNames) {
-      if (!_.get(this.interface, k + '.declared', false) && !_.get(this.interface, k + '.exclude', false)) {
-        let d = Object.getOwnPropertyDescriptor(obj, k)
-        if (d) {
-          Object.defineProperty(obj.__plugins[pn], k, d)
+      let c = Object.getPrototypeOf(this)
+      c = Object.getPrototypeOf(c)
+      while (c && c.constructor !== ee) {
+        for (let k of Object.getOwnPropertyNames(c)) {
+          if (k !== 'constructor' && Object.hasOwnProperty(c, k)) {
+            Object.defineProperty(proto, k, Object.getOwnPropertyDescriptor(c, k))
+          }
         }
-        d = Object.getOwnPropertyDescriptor(this.constructor.prototype, k)
-        Object.defineProperty(obj, k, d)
+        c = Object.getPrototypeOf(c)
+      }
+
+      let oPrototype = Object.getPrototypeOf(obj)
+      Object.setPrototypeOf(proto, oPrototype)
+      Object.setPrototypeOf(obj, proto)
+    }
+
+    for (let k of this.prototypeNames) {
+      if (!_.get(this.interface, k + '.declared', false) && !_.get(this.interface, k + '.exclude', false)) {
+        Object.defineProperty(proto, k, Object.getOwnPropertyDescriptor(this.constructor.prototype, k))
+      }
+    }
+
+    obj.__plugins[this.name] = _.get(obj, '__plugins.' + this.name, proto)
+
+    for (let n of this._requires) {
+      let p = plugins[n]
+      if (p && p.canLoad(obj)) {
+        p.load(obj)
       }
     }
 
     this.__loaded.push(obj)
+
+    loadLevel--
+
+    return true
+  }
+
+  canUnload (obj) {
+    let pn = this.name
+    let __plugins = obj.__plugins || {}
+
+    if (!__plugins[pn]) {
+      if (loadLevel === 0) {
+        console.error('Plugin', pn, 'not loaded')
+      }
+      return false
+    }
+
+    for (let k in __plugins) {
+      let p = plugins[k]
+      if (p && p.__plugin !== this) {
+        if (_.includes(p.dependencies, pn)) {
+          if (loadLevel === 0) {
+            console.error(pn, 'is a dependency of plugin', k)
+          }
+          return false
+        }
+        else if (_.includes(p._requires, pn)) {
+          if (loadLevel === 0) {
+            console.error(pn, 'is required by plugin', k)
+          }
+          return false
+        }
+      }
+    }
+
+    return true
   }
 
   unload (obj) {
-    _.pull(this.__loaded, obj)
-    let pn = this.name
-    if (_.get(obj, '__plugins.' + pn)) {
-      for (let k of this.propertyNames) {
-        delete obj[k]
-        if (obj.__plugins[pn][k]) {
-          let d = Object.getOwnPropertyDescriptor(obj.__plugins[pn], k)
-          Object.defineProperty(obj, k, d)
-        }
-      }
-      delete obj.__plugins[pn]
+    console.log(_.repeat('  ', loadLevel) + 'Unloading', this.name)
+
+    if (!this.canUnload(obj)) {
+      return false
     }
+
+    loadLevel++
+
+    let proto = obj.__plugin_proto
+
+    for (let k of this.prototypeNames) {
+      delete proto[k]
+    }
+
+    delete obj.__plugins[this.name]
+
+    for (let n of this._requires) {
+      let p = plugins[n]
+      if (p && p.canUnload(obj)) {
+        p.unload(obj)
+      }
+    }
+
+    for (let n of this._deps) {
+      let p = plugins[n]
+      if (p && p.canUnload(obj)) {
+        p.unload(obj)
+      }
+    }
+
+    _.remove(this.__loaded, obj)
+
+    loadLevel--
+
+    return true
   }
 
 }
@@ -126,14 +209,17 @@ export let PluginMixin = Mixin(superclass => class PluginMixin extends superclas
       }
       return this
     }
+
     if (_.isObject(name)) {
       options = name
       name = _.get(options, 'name')
     }
+
     let p = plugins[name]
-    if (p && !_.get(this, '__plugins.' + name)) {
+    if (p) {
       p.load(this, _.extend(options, { name }))
     }
+
     return this
   }
 
@@ -144,10 +230,12 @@ export let PluginMixin = Mixin(superclass => class PluginMixin extends superclas
       }
       return this
     }
+
     let p = plugins[name]
-    if (p && _.get(this, '__plugins.' + name)) {
+    if (p) {
       p.unload(this)
     }
+
     return this
   }
 

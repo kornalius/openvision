@@ -1,23 +1,25 @@
 
-export default class extends Plugin {
+export default class States extends Plugin {
 
   constructor (options = {}) {
     super(options)
     this._name = 'states'
     this._desc = 'Add states functions to a container.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '12/14/2016'
+    this._version = '1.0.1'
+    this._date = '01/07/2017'
   }
 
   load (obj, options = {}) {
-    super.load(obj, options)
-    this._states = {}
+    if (super.load(obj, options)) {
+      this._states = {}
+    }
   }
 
   unload (obj) {
-    super.unload(obj)
-    delete this._states
+    if (super.unload(obj)) {
+      delete this._states
+    }
   }
 
   addState (state) {

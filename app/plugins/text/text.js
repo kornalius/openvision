@@ -27,37 +27,39 @@ class TextPatch extends Patch {
 }
 
 
-export default class extends Plugin {
+export default class Text extends Plugin {
 
   constructor (options = {}) {
     super(options)
     this._name = 'text'
     this._desc = 'Add text manipulation functions to text container.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
-    this._date = '12/31/2016'
+    this._version = '1.0.2'
+    this._date = '01/07/2017'
   }
 
-  canLoad (obj) { return obj instanceof app.Text }
+  canLoad (obj) { return super.canLoad(obj) && obj instanceof app.Text }
 
   load (obj, options = {}) {
-    super.load(obj, options)
-    obj._value = _.get(options, 'value', obj._text || '')
-    obj._lines = null
-    obj._linesInfo = null
-    obj._wordwrap = _.get(options, 'wordwrap', false)
-    obj._wrapwidth = _.get(options, 'wrapwidth', 0)
-    obj._wordbreak = _.get(options, 'wordbreak', false)
+    if (super.load(obj, options)) {
+      obj._value = _.get(options, 'value', obj._text || '')
+      obj._lines = null
+      obj._linesInfo = null
+      obj._wordwrap = _.get(options, 'wordwrap', false)
+      obj._wrapwidth = _.get(options, 'wrapwidth', 0)
+      obj._wordbreak = _.get(options, 'wordbreak', false)
+    }
   }
 
   unload (obj) {
-    delete obj._value
-    delete obj._lines
-    delete obj._linesInfo
-    delete obj._wordwrap
-    delete obj._wrapwidth
-    delete obj._wordbreak
-    super.unload(obj)
+    if (super.unload(obj)) {
+      delete obj._value
+      delete obj._lines
+      delete obj._linesInfo
+      delete obj._wordwrap
+      delete obj._wrapwidth
+      delete obj._wordbreak
+    }
   }
 
   get CR () { return CR }

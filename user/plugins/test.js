@@ -11,13 +11,15 @@ export default class extends Plugin {
   }
 
   load (obj, options = {}) {
-    obj._test = true
-    super.load(obj, options)
+    if (super.load(obj, options)) {
+      obj._test = true
+    }
   }
 
   unload (obj) {
-    delete obj._test
-    super.unload(obj)
+    if (super.unload(obj)) {
+      delete obj._test
+    }
   }
 
   test () {

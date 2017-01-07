@@ -17,7 +17,11 @@ export let MetaMixin = Mixin(superclass => class MetaMixin extends superclass {
 
   get interface () { return this._interface }
 
+  get dependencies () { return _.clone(this._deps || []).reverse() }
+
   get deps () { return this._deps }
+
+  get requires () { return this._requires }
 
 })
 
@@ -32,4 +36,5 @@ export var extractMetaFromOptions = (instance, options) => {
   instance._tags = _.get(options, 'tags', [])
   instance._interface = _.get(options, 'interface', {})
   instance._deps = _.get(options, 'deps', [])
+  instance._requires = _.get(options, 'requires', [])
 }

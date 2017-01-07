@@ -1,24 +1,26 @@
 
-export default class extends Plugin {
+export default class Movable extends Plugin {
 
   constructor (options = {}) {
     super(options)
     this._name = 'movable'
     this._desc = 'Allow container to be moved around with the mouse.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '12/04/2016'
+    this._version = '1.0.1'
+    this._date = '01/07/2017'
     this._deps = ['interactive', 'mouse', 'keyboard']
   }
 
   load (obj, options = {}) {
-    super.load(obj, options)
-    obj.on('mousemove', obj.onMouseMoveMovable)
+    if (super.load(obj, options)) {
+      obj.on('mousemove', obj.onMouseMoveMovable)
+    }
   }
 
   unload (obj) {
-    obj.off('mousemove', obj.onMouseMoveMovable)
-    super.unload(obj)
+    if (super.unload(obj)) {
+      obj.off('mousemove', obj.onMouseMoveMovable)
+    }
   }
 
   onMouseMoveMovable (e) {

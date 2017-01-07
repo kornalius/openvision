@@ -1,36 +1,38 @@
 
-export default class extends Plugin {
+export default class Scrollable extends Plugin {
 
   constructor (options = {}) {
     super(options)
     this._name = 'scrollable'
     this._desc = 'Allow container to be scrolled around.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
-    this._date = '12/31/2016'
+    this._version = '1.0.2'
+    this._date = '01/07/2017'
     this._deps = ['interactive', 'mouse', 'keyboard']
   }
 
   load (obj, options = {}) {
-    super.load(obj, options)
-    obj._scrollTop = _.get(options, 'scrollTop', 0)
-    obj._scrollLeft = _.get(options, 'scrollLeft', 0)
-    obj._scrollWidth = _.get(options, 'scrollWidth', 0)
-    obj._scrollHeight = _.get(options, 'scrollHeight', 0)
-    obj._scrollStepX = _.get(options, 'scrollStepX', 1)
-    obj._scrollStepY = _.get(options, 'scrollStepY', 1)
-    obj.on('scroll', this.onScroll)
+    if (super.load(obj, options)) {
+      obj._scrollTop = _.get(options, 'scrollTop', 0)
+      obj._scrollLeft = _.get(options, 'scrollLeft', 0)
+      obj._scrollWidth = _.get(options, 'scrollWidth', 0)
+      obj._scrollHeight = _.get(options, 'scrollHeight', 0)
+      obj._scrollStepX = _.get(options, 'scrollStepX', 1)
+      obj._scrollStepY = _.get(options, 'scrollStepY', 1)
+      obj.on('scroll', this.onScroll)
+    }
   }
 
   unload (obj) {
-    obj.off('scroll', this.onScroll)
-    delete obj._scrollTop
-    delete obj._scrollLeft
-    delete obj._scrollWidth
-    delete obj._scrollHeight
-    delete obj._scrollStepX
-    delete obj._scrollStepY
-    super.unload(obj)
+    if (super.unload(obj)) {
+      delete obj._scrollTop
+      delete obj._scrollLeft
+      delete obj._scrollWidth
+      delete obj._scrollHeight
+      delete obj._scrollStepX
+      delete obj._scrollStepY
+      obj.off('scroll', this.onScroll)
+    }
   }
 
   scroll () {

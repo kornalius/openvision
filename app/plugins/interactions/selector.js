@@ -1,24 +1,26 @@
 
-export default class extends Plugin {
+export default class Selector extends Plugin {
 
   constructor (options = {}) {
     super(options)
     this._name = 'selector'
     this._desc = 'Allow child containers to be selectable.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '12/04/2016'
+    this._version = '1.0.1'
+    this._date = '01/07/2017'
     this._deps = ['interactive', 'mouse', 'keyboard']
   }
 
   load (obj, options) {
-    super.load(obj, options)
-    obj._selectables = []
+    if (super.load(obj, options)) {
+      obj._selectables = []
+    }
   }
 
   unload (obj) {
-    delete obj._selectables
-    super.unload(obj)
+    if (super.unload(obj)) {
+      delete obj._selectables
+    }
   }
 
   get selectables () { return this._selectables }

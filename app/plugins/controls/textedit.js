@@ -1,32 +1,35 @@
 
-export default class extends Plugin {
+export default class TextEdit extends Plugin {
 
   constructor (options = {}) {
     super(options)
     this._name = 'textedit'
     this._desc = 'Allow text to be editable.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
-    this._date = '12/31/2016'
+    this._version = '1.0.2'
+    this._date = '01/07/2017'
     this._deps = ['control', 'editable', 'text']
+    this._requires = ['caret']
   }
 
   load (obj, options = {}) {
-    super.load(obj, options)
-    obj._multiline = true
-    obj._oldTabIndex = -1
-    obj.acceptTab = _.get(options, 'acceptTab', false)
-    obj._onKeyDownTextEdit = obj.onKeyDownTextEdit.bind(obj)
-    window.addEventListener('keydown', obj._onKeyDownTextEdit, false)
+    if (super.load(obj, options)) {
+      obj._multiline = true
+      obj._oldTabIndex = -1
+      obj.acceptTab = _.get(options, 'acceptTab', false)
+      obj._onKeyDownTextEdit = obj.onKeyDownTextEdit.bind(obj)
+      window.addEventListener('keydown', obj._onKeyDownTextEdit, false)
+    }
   }
 
   unload (obj) {
-    delete obj._multiline
-    delete obj._oldTabIndex
-    delete obj._acceptTab
-    window.removeEventListener('keydown', obj._onKeyDownTextEdit, false)
-    delete obj._onKeyDownTextEdit
-    super.unload(obj)
+    if (super.unload(obj)) {
+      delete obj._multiline
+      delete obj._oldTabIndex
+      delete obj._acceptTab
+      window.removeEventListener('keydown', obj._onKeyDownTextEdit, false)
+      delete obj._onKeyDownTextEdit
+    }
   }
 
   get acceptTab () { return this._acceptTab }

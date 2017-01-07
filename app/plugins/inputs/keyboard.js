@@ -6,25 +6,27 @@ export default class extends Plugin {
     this._name = 'keyboard'
     this._desc = 'Allow container to accept keyboard events.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '12/16/2016'
+    this._version = '1.0.1'
+    this._date = '01/07/2017'
   }
 
   load (obj, options = {}) {
-    super.load(obj, options)
-    obj.tabIndex = 1
-    obj._onKeyDown = obj.onKeyDown.bind(obj)
-    obj._onKeyUp = obj.onKeyUp.bind(obj)
-    window.addEventListener('keydown', obj._onKeyDown, false)
-    window.addEventListener('keyup', obj._onKeyUp, false)
+    if (super.load(obj, options)) {
+      obj.tabIndex = 1
+      obj._onKeyDown = obj.onKeyDown.bind(obj)
+      obj._onKeyUp = obj.onKeyUp.bind(obj)
+      window.addEventListener('keydown', obj._onKeyDown, false)
+      window.addEventListener('keyup', obj._onKeyUp, false)
+    }
   }
 
   unload (obj) {
-    window.removeEventListener('keydown', obj._onKeyDown, false)
-    window.removeEventListener('keyup', obj._onKeyUp, false)
-    delete obj._onKeyDown
-    delete obj._onKeyUp
-    super.unload(obj)
+    if (super.unload(obj)) {
+      window.removeEventListener('keydown', obj._onKeyDown, false)
+      window.removeEventListener('keyup', obj._onKeyUp, false)
+      delete obj._onKeyDown
+      delete obj._onKeyUp
+    }
   }
 
   onKeyDown (e) {

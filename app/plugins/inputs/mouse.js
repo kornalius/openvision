@@ -6,27 +6,29 @@ export default class extends Plugin {
     this._name = 'mouse'
     this._desc = 'Allow container to be interacted with the mouse.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '12/16/2016'
+    this._version = '1.0.1'
+    this._date = '01/07/2017'
     this._deps = ['interactive']
   }
 
   load (obj, options = {}) {
-    super.load(obj, options)
-    obj._pressed = {}
-    obj.on('mousedown', obj.onMouseDown)
-    obj.on('mousemove', obj.onMouseMove)
-    obj.on('mouseup', obj.onMouseUp)
-    obj.on('mouseupoutside', obj.onMouseUp)
+    if (super.load(obj, options)) {
+      obj._pressed = {}
+      obj.on('mousedown', obj.onMouseDown)
+      obj.on('mousemove', obj.onMouseMove)
+      obj.on('mouseup', obj.onMouseUp)
+      obj.on('mouseupoutside', obj.onMouseUp)
+    }
   }
 
   unload (obj) {
-    delete obj._pressed
-    obj.off('mousedown', obj.onMouseDown)
-    obj.off('mousemove', obj.onMouseMove)
-    obj.off('mouseup', obj.onMouseUp)
-    obj.off('mouseupoutside', obj.onMouseUp)
-    super.unload(obj)
+    if (super.unload(obj)) {
+      delete obj._pressed
+      obj.off('mousedown', obj.onMouseDown)
+      obj.off('mousemove', obj.onMouseMove)
+      obj.off('mouseup', obj.onMouseUp)
+      obj.off('mouseupoutside', obj.onMouseUp)
+    }
   }
 
   onMouseDown (e) {

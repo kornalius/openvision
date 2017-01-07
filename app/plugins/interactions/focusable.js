@@ -1,34 +1,36 @@
 export let focused = null
 
 
-export default class extends Plugin {
+export default class Focusable extends Plugin {
 
   constructor (options = {}) {
     super(options)
     this._name = 'focusable'
     this._desc = 'Allow container to be focused with mouse and tab key.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
-    this._date = '12/31/2016'
+    this._version = '1.0.2'
+    this._date = '01/07/2017'
     this._deps = ['interactive', 'mouse', 'keyboard']
   }
 
   load (obj, options) {
-    super.load(obj, options)
-    obj._tabIndex = _.get(options, 'tabIndex', -1)
-    obj._focusable = _.get(options, 'focusable', true)
-    obj.on('mousedown', obj.focus)
-    obj._onKeydownFocusable = obj.onKeydownFocusable.bind(obj)
-    window.addEventListener('keydown', obj._onKeydownFocusable, false)
+    if (super.load(obj, options)) {
+      obj._tabIndex = _.get(options, 'tabIndex', -1)
+      obj._focusable = _.get(options, 'focusable', true)
+      obj.on('mousedown', obj.focus)
+      obj._onKeydownFocusable = obj.onKeydownFocusable.bind(obj)
+      window.addEventListener('keydown', obj._onKeydownFocusable, false)
+    }
   }
 
   unload (obj) {
-    window.removeEventListener('keydown', obj._onKeydownFocusable, false)
-    delete obj._tabIndex
-    delete obj._focusable
-    delete obj._onKeydownFocusable
-    obj.off('mousedown', obj.focus)
-    super.unload(obj)
+    if (super.unload(obj)) {
+      window.removeEventListener('keydown', obj._onKeydownFocusable, false)
+      delete obj._tabIndex
+      delete obj._focusable
+      delete obj._onKeydownFocusable
+      obj.off('mousedown', obj.focus)
+    }
   }
 
   get focused () { return focused === this }
