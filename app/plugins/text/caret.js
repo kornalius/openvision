@@ -21,7 +21,7 @@ export default class Caret extends Plugin {
 
   load (obj, options = {}) {
     if (super.load(obj, options)) {
-      obj._caret = new app.Rectangle(obj.caretWidth, obj.caretHeight, _.get(options, 'color', 0xFFFFFF), _.get(options, 'alpha', 255))
+      obj._caret = new app.Rectangle(obj.caretWidth, obj.caretHeight, _.get(options, 'color', 0xFFFFFF), _.get(options, 'alpha', 1))
       obj.addChild(obj._caret)
 
       obj._caret._interval = 0

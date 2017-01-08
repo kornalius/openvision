@@ -76,13 +76,6 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
 
     obj.__plugins = _.get(obj, '__plugins', {})
 
-    for (let n of this.dependencies) {
-      let p = plugins[n]
-      if (p && p.canLoad(obj)) {
-        p.load(obj)
-      }
-    }
-
     let proto = obj.__plugin_proto
     if (!proto) {
       proto = obj.__plugin_proto = Object.create({})
@@ -105,13 +98,23 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
       Object.setPrototypeOf(obj, proto)
     }
 
+    let p = this.constructor.prototype
     for (let k of this.prototypeNames) {
       if (!_.get(this.interface, k + '.declared', false) && !_.get(this.interface, k + '.exclude', false)) {
-        Object.defineProperty(proto, k, Object.getOwnPropertyDescriptor(this.constructor.prototype, k))
+        if (!proto.hasOwnProperty(k) || _.get(this.interface, k + '.override', false)) {
+          Object.defineProperty(proto, k, Object.getOwnPropertyDescriptor(p, k))
+        }
       }
     }
 
     obj.__plugins[this.name] = _.get(obj, '__plugins.' + this.name, proto)
+
+    for (let n of this.dependencies) {
+      let p = plugins[n]
+      if (p && p.canLoad(obj)) {
+        p.load(obj)
+      }
+    }
 
     for (let n of this._requires) {
       let p = plugins[n]

@@ -10,7 +10,7 @@ export default class Focusable extends Plugin {
     this._author = 'Alain Deschenes'
     this._version = '1.0.2'
     this._date = '01/07/2017'
-    this._deps = ['interactive', 'mouse', 'keyboard']
+    this._deps = ['interactive', 'mouse', 'keyboard', 'focusrect']
   }
 
   load (obj, options) {
@@ -60,6 +60,7 @@ export default class Focusable extends Plugin {
 
   blur () {
     focused = null
+    this.hideFocusRect()
     this.emit('blur')
     return this
   }
@@ -70,6 +71,7 @@ export default class Focusable extends Plugin {
         focused.blur()
       }
       focused = this // eslint-disable-line consistent-this
+      this.showFocusRect()
       this.emit('focus')
     }
     return this

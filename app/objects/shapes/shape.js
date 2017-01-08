@@ -10,10 +10,10 @@ export class Shape extends Graphics {
     this._height = height
     this._fill = true
     this._color = 0xFFFFFF
-    this._alpha = 255
+    this._alpha = 1
     this._borderSize = 0
     this._borderColor = 0xFFFFFF
-    this._borderAlpha = 255
+    this._borderAlpha = 1
     this._drawShape()
   }
 

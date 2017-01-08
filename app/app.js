@@ -9,7 +9,7 @@ import './style/app.css'
 
 import './protos/index.js'
 
-import { Base, Container, Graphics, Sprite, Text, Rectangle, Oval } from './objects/objects.js'
+import { Base, Container, Graphics, Sprite, Text, Shape, Rectangle, Oval } from './objects/objects.js'
 import { DB, sysDB, usrDB, tmpDB } from './objects/db.js'
 import { plugins, Plugin, loadPlugins, unloadPlugins } from './plugin.js'
 import { updates } from './lib/updates.js'
@@ -110,6 +110,7 @@ export class App extends Base {
   get Graphics () { return Graphics }
   get Sprite () { return Sprite }
   get Text () { return Text }
+  get Shape () { return Shape }
   get Rectangle () { return Rectangle }
   get Oval () { return Oval }
 

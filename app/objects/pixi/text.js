@@ -60,6 +60,9 @@ export let TextMixin = Mixin(superclass => class TextMixin extends superclass {
 
   updateText () {
     super.updateText()
+    // this.updateTexture()
+    // this.width += this.charWidth * this.resolution
+    // this.updateTransform()
     return this.update()
   }
 

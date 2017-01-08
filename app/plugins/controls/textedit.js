@@ -15,7 +15,7 @@ export default class TextEdit extends Plugin {
   load (obj, options = {}) {
     if (super.load(obj, options)) {
       obj._multiline = true
-      obj._oldTabIndex = -1
+      obj._oldTabIndex = obj.tabIndex
       obj.acceptTab = _.get(options, 'acceptTab', false)
       obj._onKeyDownTextEdit = obj.onKeyDownTextEdit.bind(obj)
       window.addEventListener('keydown', obj._onKeyDownTextEdit, false)
@@ -43,6 +43,8 @@ export default class TextEdit extends Plugin {
       this.tabIndex = this._oldTabIndex
     }
   }
+
+  // get focusRectPadding () { return new PIXI.Rectangle(-2, -2, this.charWidth + 2, 2) }
 
   get multiline () { return this._multiline }
   set multiline (value) {
