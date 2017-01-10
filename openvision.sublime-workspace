@@ -4,6 +4,30 @@
 		"selected_items":
 		[
 			[
+				"get",
+				"getPrototypeOf"
+			],
+			[
+				"E",
+				"EEXIST"
+			],
+			[
+				"ENOT",
+				"ENOTEMPTY"
+			],
+			[
+				"main",
+				"mainDB\t(db.js)"
+			],
+			[
+				"RAN",
+				"RANGE_RECT"
+			],
+			[
+				"pullAll",
+				"ld.pullAllBy()\t _ Array"
+			],
+			[
 				"_care",
 				"_caretOffsetX"
 			],
@@ -490,125 +514,59 @@
 			[
 				"paperadi",
 				"paper-radial-item\t(paper-radial-item.html)"
-			],
-			[
-				"paper-rad",
-				"paper-radial-item\t(paper-radial-item.html)"
-			],
-			[
-				"_opera",
-				"_operations"
-			],
-			[
-				"ra",
-				"random"
-			],
-			[
-				"_oper",
-				"_operations"
-			],
-			[
-				"parent",
-				"parent_uid"
-			],
-			[
-				"write",
-				"writeUInt32LE"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "app/objects/rectangle.js",
+			"file": "app/app.js",
 			"settings":
 			{
-				"buffer_size": 812,
+				"buffer_size": 7915,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/objects/shape.js",
+			"file": "app/plugins/interactions/focusable.js",
 			"settings":
 			{
-				"buffer_size": 1577,
+				"buffer_size": 2557,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/plugins/text/caret.js",
+			"settings":
+			{
+				"buffer_size": 6519,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/plugins/controls/textedit.js",
+			"settings":
+			{
+				"buffer_size": 4369,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "node_modules/pixi.js/src/core/text/Text.js",
+			"settings":
+			{
+				"buffer_size": 22432,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/objects/oval.js",
+			"file": "app/plugin.js",
 			"settings":
 			{
-				"buffer_size": 653,
+				"buffer_size": 6592,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/objects/container.js",
-			"settings":
-			{
-				"buffer_size": 1773,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/objects/graphics.js",
-			"settings":
-			{
-				"buffer_size": 1977,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "node_modules/pixi.js/src/core/graphics/GraphicsData.js",
-			"settings":
-			{
-				"buffer_size": 2249,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "node_modules/pixi.js/src/core/graphics/Graphics.js",
-			"settings":
-			{
-				"buffer_size": 31090,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "node_modules/pixi.js/src/core/graphics/webgl/GraphicsRenderer.js",
-			"settings":
-			{
-				"buffer_size": 24691,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "node_modules/pixi.js/src/core/math/shapes/Ellipse.js",
-			"settings":
-			{
-				"buffer_size": 2159,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "node_modules/pixi.js/src/core/math/shapes/RoundedRectangle.js",
-			"settings":
-			{
-				"buffer_size": 2256,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "node_modules/pixi.js/src/core/math/shapes/Polygon.js",
-			"settings":
-			{
-				"buffer_size": 2957,
 				"line_ending": "Unix"
 			}
 		}
@@ -652,10 +610,14 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 110.0,
+		"height": 400.0,
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"backup",
+				"AutoBackups: Open File Backup"
+			],
 			[
 				"duplic",
 				"File: Duplicate"
@@ -1099,151 +1061,150 @@
 	[
 		"/Volumes/hd/sources/OpenVision",
 		"/Volumes/hd/sources/OpenVision/app",
+		"/Volumes/hd/sources/OpenVision/app/lib",
 		"/Volumes/hd/sources/OpenVision/app/objects",
+		"/Volumes/hd/sources/OpenVision/app/objects/pixi",
+		"/Volumes/hd/sources/OpenVision/app/objects/shapes",
 		"/Volumes/hd/sources/OpenVision/app/plugins",
+		"/Volumes/hd/sources/OpenVision/app/plugins/controls",
+		"/Volumes/hd/sources/OpenVision/app/plugins/inputs",
 		"/Volumes/hd/sources/OpenVision/app/plugins/interactions",
 		"/Volumes/hd/sources/OpenVision/app/plugins/rendering",
-		"/Volumes/hd/sources/OpenVision/build/plugins",
-		"/Volumes/hd/sources/OpenVision/node_modules",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/webgl",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes",
+		"/Volumes/hd/sources/OpenVision/app/plugins/states",
+		"/Volumes/hd/sources/OpenVision/app/plugins/text",
 		"/Volumes/hd/sources/OpenVision/user",
 		"/Volumes/hd/sources/OpenVision/user/plugins"
 	],
 	"file_history":
 	[
-		"/Volumes/hd/sources/OpenVision/app/objects/graphicsdata.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/webgl/GraphicsRenderer.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/GraphicsData.js",
-		"/Volumes/hd/sources/OpenVision/app/objects/sprite.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/focusable.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/text/Text.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/controls/textedit.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/text/caret.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/pixi/text.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/shapes/shape.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/rendering/hover.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/Graphics.js",
-		"/Volumes/hd/sources/OpenVision/app/objects/rect.js",
-		"/Volumes/hd/sources/OpenVision/app/objects/point.js",
-		"/Volumes/hd/sources/OpenVision/app/objects/graphics.js",
-		"/Volumes/hd/sources/OpenVision/app/objects/texture.js",
-		"/Volumes/hd/sources/OpenVision/app/objects/encoder.js",
-		"/Volumes/hd/sources/OpenVision/app/objects/display.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/pixi/graphics.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/interaction/InteractionManager.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/controls/control.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/pixi/display.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/rendering/focusrect.js",
+		"/Volumes/hd/sources/OpenVision/app/screen.js",
+		"/Volumes/hd/sources/OpenVision/app/app.js",
+		"/Volumes/hd/sources/OpenVision/app/utils.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/base.js",
+		"/Volumes/hd/sources/OpenVision/package.json",
+		"/Volumes/hd/sources/OpenVision/node_modules/fs-promise/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/fs-extra/lib/mkdirs/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/fs-extra/lib/mkdirs/mkdirs.js",
+		"/Volumes/hd/sources/AcmeSoft/package.json",
+		"/Volumes/hd/sources/AcmeSoft/app/app.js",
+		"/Volumes/hd/sources/AcmeSoft/app/utils.js",
+		"/Volumes/hd/sources/AcmeSoft/app/style/app.css",
+		"/Volumes/hd/sources/AcmeSoft/app/html/app.html",
+		"/Volumes/hd/sources/AcmeSoft/src/index.js",
+		"/Volumes/hd/sources/AcmeSoft/.gitignore",
+		"/Volumes/hd/sources/AcmeSoft/.babelrc",
+		"/Volumes/hd/sources/AcmeSoft/README.md",
+		"/Volumes/hd/sources/AcmeSoft/index.html",
+		"/Volumes/hd/sources/AcmeSoft/webpack.config.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/text/text.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/pointrect.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/shapes/rectangle.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/selector.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/selectable.js",
+		"/Volumes/hd/sources/OpenVision/app/plugin.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/objects.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/rendering/renderable.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/interactive.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/movable.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/resizable.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/scrollable.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/states/disabled.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/states/editable.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/states/readonly.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/states/states.js",
+		"/Volumes/hd/sources/OpenVision/user/plugins/test.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/inputs/mouse.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/inputs/keyboard.js",
+		"/Volumes/hd/sources/OpenVision/app/deprecated/mode.js",
+		"/Volumes/hd/sources/OpenVision/app/meta.js",
 		"/Volumes/hd/sources/OpenVision/app/objects/db.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/textedit.js",
+		"/Volumes/hd/sources/OpenVision/app/command.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/settings.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/encoder.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/pixi/container.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/theme.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/patch.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/markers.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/fs.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/errors.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/change.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/range.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/updates.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/shapes/oval.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/changes.js",
+		"/Volumes/hd/sources/OpenVision/app/shortcut.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/multimatch/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/multimatch/readme.md",
+		"/Volumes/hd/sources/OpenVision/app/objects/pixi/texture.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/pixi/sprite.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/text/textedit.js",
+		"/Volumes/hd/sources/OpenVision/app/vm.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/event.js",
+		"/Volumes/hd/sources/OpenVision/app/lib/contexts.js",
+		"/Volumes/hd/sources/OpenVision/app/mode.js",
+		"/Volumes/hd/sources/OpenVision/app/encoder.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/point.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/readonly.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/control.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/editable.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/disabled.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/mouse.js",
 		"/Volumes/hd/sources/OpenVision/app/plugins/text.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/textedit.js",
+		"/Volumes/hd/sources/OpenVision/app/plugins/caret.js",
+		"/Volumes/hd/sources/OpenVision/app/updates.js",
+		"/Volumes/hd/sources/OpenVision/app/range.js",
+		"/Volumes/hd/sources/OpenVision/app/patch.js",
 		"/Volumes/hd/sources/OpenVision/app/changes.js",
 		"/Volumes/hd/sources/OpenVision/app/markers.js",
-		"/Volumes/hd/sources/OpenVision/app/patch.js",
-		"/Volumes/hd/sources/OpenVision/app/range.js",
-		"/Volumes/hd/sources/OpenVision/app/app.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/caret.js",
-		"/Volumes/hd/sources/OpenVision/app/objects/base.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/text/Text.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/utils/index.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/const.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/Rectangle.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/Point.js",
+		"/Volumes/hd/sources/OpenVision/app/contexts.js",
+		"/Volumes/hd/sources/OpenVision/app/protos/index.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/graphics.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/texture.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/sprite.js",
 		"/Volumes/hd/sources/OpenVision/app/objects/text.js",
-		"/Volumes/hd/sources/OpenVision/app/utils.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/editable.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/focusable.js",
-		"/Volumes/hd/sources/OpenVision/app/screen.js",
-		"/Volumes/hd/sources/OpenVision/app/plugin.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/mouse.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/movable.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/display.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/container.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/Polygon.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/RoundedRectangle.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/Ellipse.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/webgl/GraphicsRenderer.js",
+		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/GraphicsData.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/rect.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/encoder.js",
+		"/Volumes/hd/sources/OpenVision/app/objects/graphicsdata.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/interaction/InteractionData.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/Matrix.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/interactive.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/Point.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/const.js",
-		"/Volumes/hd/sources/OpenVision/app/objects/container.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/textures/BaseTexture.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/sprites/Sprite.js",
-		"/Volumes/hd/sources/OpenVision/app/objects/objects.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/renderers/webgl/shaders/Shader.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/textures/Texture.js",
 		"/Volumes/hd/sources/OpenVision/app/objects/rectangle.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/Rectangle.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/display/Container.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/display/DisplayObject.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-utils/src/uuid.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-utils/lib/index.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-utils/lib/index-browser.js",
 		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-browser/lib/index.es.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-browser/src/index.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-binary-utils/lib/index-browser.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-utils/src/updateDoc.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-utils/src/parseDoc.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-utils/src/processDocs.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-browser/lib/index.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-utils/src/index.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-memory/lib/index.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-adapter-memory/src/index.js",
-		"/Volumes/hd/sources/OpenVision/package.json",
-		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-browser/README.md",
-		"/Volumes/hd/sources/OpenVision/node_modules/uuid/v4.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/uuid/v1.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/uuid/index.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/uuid/lib/rng.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/uuid/lib/rng-browser.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/uuid/lib/bytesToUuid.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/uuid/bin/uuid",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/core/function/config.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/core/function/import.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/core/function/typed.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/type/string.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/function.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/index.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/header.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/constants.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/types.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/object.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/emitter.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/latex.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/string.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/core/core.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/type/number.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/mathjs/lib/utils/number.js",
-		"/Volumes/hd/sources/OpenVision/app/protos/array.js",
-		"/Volumes/hd/sources/OpenVision/app/meta.js",
-		"/Volumes/hd/sources/OpenVision/webpack.config.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/behaviors/focusable.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/behaviors/keyboard.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/keyboardjs/README.md",
-		"/Volumes/hd/sources/OpenVision/app/plugins/rendering/renderable.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/bin/pixi.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/accessibility-developer-tools/lib/closure-library/closure/goog/events/keycodes.js",
-		"/Volumes/hd/sources/OpenVision/app/shortcut.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/keyboardjs/dist/keyboard.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/behaviors/selector.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/behaviors/selectable.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/resizable.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/scrollable.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/accessibility/AccessibilityManager.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/states.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/behaviors/mouse.js",
-		"/Volumes/hd/sources/OpenVision/user/plugins/test.js",
-		"/Volumes/hd/sources/OpenVision/app/plugins/interactions/caret.js",
-		"/Volumes/hd/sources/OpenVision/app/event.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/filters/color/ColorMatrixFilter.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixrem/README.md",
-		"/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/index.js",
-		"/Volumes/hd/sources/OpenVision/app/mode.js",
-		"/Volumes/hd/sources/OpenVision/app/protos/string.js",
-		"/Volumes/hd/sources/OpenVision/app/protos/index.js",
-		"/Volumes/hd/sources/OpenVision/app/protos/number.js",
-		"/Volumes/hd/sources/OpenVision/app/protos/math.js",
-		"/Volumes/hd/sources/OpenVision/app/protos/date.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/babel-polyfill/dist/polyfill.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/lodash/fill.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/alasql/dist/alasql.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/alasql/dist/alasql-worker.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/alasql/dist/alasql-worker.min.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/JSONSelect/README.md",
-		"/Volumes/hd/sources/OpenVision/app/vm.js",
-		"/Volumes/hd/sources/OpenVision/app/style/app.css",
-		"/Volumes/hd/sources/OpenVision/app/main.js",
-		"/Volumes/hd/sources/OpenVision/app/html/app.html",
-		"/Volumes/hd/sources/OpenVision/build/systemjs-plugin-babel/package.json",
-		"/Volumes/hd/sources/OpenVision/app/contexts.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/systemjs/dist/system.src.js",
-		"/Volumes/hd/sources/OpenVision/build/systemjs-plugin-babel/plugin-babel.js",
-		"/Volumes/hd/sources/OpenVision/node_modules/babel-standalone/src/index.js"
+		"/Volumes/hd/sources/OpenVision/node_modules/pouchdb-browser/src/index.js"
 	],
 	"find":
 	{
@@ -1282,134 +1243,134 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"_lineTint",
-			"shape = ",
-			".shape = ",
-			".shape",
-			"graphicsData",
-			"color",
-			"Color",
-			"color",
-			"_color",
-			"Color",
-			"color",
-			"Color",
-			"color",
-			"Color",
-			"color",
-			"_color",
-			"lineWidth",
-			"draw",
-			"radius",
-			"lineWidth",
-			"radius",
+			"caretOffsetX",
+			"this.caretStyle",
+			"width",
+			"caretWidth",
+			"caret",
+			"caretWidth",
+			"_alpha",
 			"alpha",
-			"width",
-			"color",
-			"height",
-			"width",
-			"color",
-			"width",
-			"oldValue",
-			"REPLACE",
-			"deleteTextAt",
-			"this.high",
-			"range.high",
-			".low",
-			"range.low",
-			"low",
-			"range.",
-			"low",
-			"high",
-			"range",
-			"start",
-			"value",
-			"this.end",
-			"this.start",
-			"this.end",
-			"start",
-			"this._list.length",
-			"ChangeAction",
+			"over",
+			"focusRectPadding",
+			"isFocusRectVisible",
+			"hideFocusRect",
+			"showFocusRect",
+			"_focusrect",
+			"focusRectPadding",
+			"startCaretBlink",
+			"blinkCaret",
+			".visible",
+			"canShowCaret",
+			"blinkCaret",
+			"caretVisible",
+			"test",
+			"_stage",
+			"Screen",
+			"Sprite",
+			"Container",
+			"return",
+			"make",
+			"fs",
 			"p",
-			"action",
-			"_time",
-			"action",
-			"end",
-			"start",
-			"new",
-			"old",
-			"end",
-			"start",
-			"action",
-			"old",
-			"end",
-			"start",
-			"groupDelay",
-			"list",
-			"v",
-			"id",
-			"start",
-			"list",
-			"start",
-			"end",
-			"start",
-			"children",
-			"prevNonWordChar",
-			"isUpper",
-			"u",
-			"U",
-			"UPPER",
-			"moveByWord",
-			"uppercase",
-			"camelcase",
-			"isWordCharAt",
-			"isWordChar",
-			"1",
-			"-1",
-			"isWordCharAt",
-			"PUNCTUATION",
-			"nextNonPunctuation",
-			"nextPunctuation",
-			"prevNonPunctuation",
-			"prevPunctuation",
-			"isPunctuation",
-			"isUpper",
-			"uppercase",
-			"PUNCTUATION",
-			".length",
-			"wordAtPos",
-			"deleteTextAtPos",
-			"deleteText",
-			"charAt",
-			"lineAtPos",
-			"charAtPos",
-			"insertTextAtPos",
-			"insertTextAt",
-			"setLineAt",
-			"insertLineAtPos",
-			"deleteTextAt",
-			"deleteWordAtPos",
-			"deleteLineAtPos",
-			"this.lineCount",
-			".text",
-			"_lines = ",
+			"openvision",
+			"pixelToCaret",
 			"charWidth",
-			"acceptTab",
-			"multiline",
-			"SPACE",
-			"this.text",
-			"text",
+			"updateTexture",
 			"width",
-			"break",
-			"outputText",
-			"wrapwidth",
-			"wordwrap",
-			"yy",
-			"lineCount",
-			"outputText",
-			"wordbreak",
-			"wrapwidth",
-			"lines"
+			"lineWidth",
+			"padding",
+			"getTextWidth",
+			"width",
+			"alpha",
+			"obj.__plugins",
+			"width",
+			"Rectangle",
+			"proto",
+			"root",
+			".load",
+			"root",
+			"loadLevel <= 1",
+			"!root",
+			" || this",
+			"pn",
+			"canUnload",
+			"unload",
+			"load",
+			"root",
+			".load",
+			"silence",
+			"pad",
+			"_deps",
+			"load (obj",
+			"extractMetaFromOptions",
+			"dep",
+			"_name",
+			"dep",
+			"deps =",
+			"deps:",
+			"pn",
+			"dependencies",
+			"__plugins[k]",
+			"_name",
+			"this.__plugins",
+			"pn",
+			"caret",
+			"pn",
+			"exclude",
+			"super",
+			"PluginObject",
+			"super",
+			"prevPrototype",
+			"Circle",
+			"propertyNames",
+			"_name",
+			"propertyNames",
+			"this",
+			"pull",
+			"(obj) {\n    _.pul",
+			"_.find",
+			"__plugins",
+			"_files",
+			"limit",
+			"_children",
+			"_list",
+			" e(",
+			"e(",
+			"name",
+			"inherit",
+			"_db",
+			"'_db",
+			"var",
+			"_list",
+			"list",
+			"Markers",
+			"new Ch",
+			"new Patch",
+			"new Marker",
+			"new Range",
+			"Range",
+			"Ranges",
+			"FSError",
+			"errors.",
+			"FSError",
+			"tabIndex",
+			"_.has",
+			".__",
+			"__",
+			"'__' + ",
+			"lineAlpha",
+			"lineColor",
+			"lineWidth",
+			"fillAlpha",
+			"fillColor",
+			"_lineAlpha",
+			"_lineColor",
+			"_lineWidth",
+			"_fillAlpha",
+			"_fillColor",
+			"_lineWidth",
+			"drawShape"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1458,109 +1419,109 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/objects/rectangle.js",
+					"file": "app/app.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 812,
+						"buffer_size": 7915,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								337,
-								337
+								6346,
+								6346
 							]
 						],
 						"settings":
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
 							"git_gutter_enabled": true,
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/objects/rectangle.js",
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/app.js",
 							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tabs_extra_last_activated": 1483118041.18,
+							"tab_size": 2,
+							"tabs_extra_last_activated": 1484051360.11,
 							"tabs_extra_last_activated_sheet_index": 0,
-							"tabs_extra_spawned": true
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 5786.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "app/objects/shape.js",
+					"file": "app/plugins/interactions/focusable.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1577,
+						"buffer_size": 2557,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								57,
-								57
+								1555,
+								1555
 							]
 						],
 						"settings":
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
 							"git_gutter_enabled": true,
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/objects/shape.js",
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/plugins/interactions/focusable.js",
 							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
-							"open_with_edit": true,
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
-							"tabs_extra_last_activated": 1483118000.82,
+							"tabs_extra_last_activated": 1484056849.91,
 							"tabs_extra_last_activated_sheet_index": 1,
 							"tabs_extra_spawned": true,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 879.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "app/objects/oval.js",
+					"file": "app/plugins/text/caret.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 653,
+						"buffer_size": 6519,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								495,
-								495
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
 							"git_gutter_enabled": true,
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/objects/oval.js",
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/plugins/text/caret.js",
 							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
-							"open_with_edit": true,
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
-							"tabs_extra_last_activated": 1483118026.26,
+							"tabs_extra_last_activated": 1484056907.93,
 							"tabs_extra_last_activated_sheet_index": 2,
 							"tabs_extra_spawned": true,
 							"translate_tabs_to_spaces": true
@@ -1574,172 +1535,11 @@
 				},
 				{
 					"buffer": 3,
-					"file": "app/objects/container.js",
+					"file": "app/plugins/controls/textedit.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1773,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1615,
-								1615
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
-							"git_gutter_enabled": true,
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/objects/container.js",
-							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"tabs_extra_last_activated": 1483117490.18,
-							"tabs_extra_last_activated_sheet_index": 3,
-							"tabs_extra_moving":
-							[
-								2,
-								0
-							],
-							"tabs_extra_spawned": true,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 795.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/objects/graphics.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1977,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1170,
-								1170
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
-							"git_gutter_enabled": true,
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/objects/graphics.js",
-							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tabs_extra_last_activated": 1483117976.54,
-							"tabs_extra_last_activated_sheet_index": 4,
-							"tabs_extra_moving":
-							[
-								2,
-								0
-							],
-							"tabs_extra_spawned": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 581.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "node_modules/pixi.js/src/core/graphics/GraphicsData.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2249,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								701,
-								701
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
-							"git_gutter_enabled": true,
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/GraphicsData.js",
-							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"tabs_extra_last_activated": 1483117901.56,
-							"tabs_extra_last_activated_sheet_index": 5,
-							"tabs_extra_spawned": true,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1048.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "node_modules/pixi.js/src/core/graphics/Graphics.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 31090,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4630,
-								4630
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
-							"git_gutter_enabled": true,
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/Graphics.js",
-							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"tabs_extra_last_activated": 1483117876.3,
-							"tabs_extra_last_activated_sheet_index": 7,
-							"tabs_extra_moving":
-							[
-								2,
-								0
-							],
-							"tabs_extra_spawned": true,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4457.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "node_modules/pixi.js/src/core/graphics/webgl/GraphicsRenderer.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 24691,
+						"buffer_size": 4369,
 						"regions":
 						{
 						},
@@ -1754,12 +1554,49 @@
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
 							"git_gutter_enabled": true,
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/graphics/webgl/GraphicsRenderer.js",
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/plugins/controls/textedit.js",
+							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"tabs_extra_last_activated": 1484056911.93,
+							"tabs_extra_last_activated_sheet_index": 3,
+							"tabs_extra_spawned": true,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 112.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "node_modules/pixi.js/src/core/text/Text.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 22432,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
+							"git_gutter_enabled": true,
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/text/Text.js",
 							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 4,
-							"tabs_extra_last_activated": 1483117849.35,
-							"tabs_extra_last_activated_sheet_index": 8,
+							"tabs_extra_last_activated": 1484056906.37,
+							"tabs_extra_last_activated_sheet_index": 2,
 							"tabs_extra_spawned": true,
 							"translate_tabs_to_spaces": true
 						},
@@ -1767,117 +1604,44 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "node_modules/pixi.js/src/core/math/shapes/Ellipse.js",
+					"buffer": 5,
+					"file": "app/plugin.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2159,
+						"buffer_size": 6592,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1886,
-								1886
+								2018,
+								2018
 							]
 						],
 						"settings":
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
 							"git_gutter_enabled": true,
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/Ellipse.js",
+							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/app/plugin.js",
 							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"tabs_extra_last_activated": 1483117591.69,
-							"tabs_extra_last_activated_sheet_index": 7,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 292.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "node_modules/pixi.js/src/core/math/shapes/RoundedRectangle.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2256,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
-							"git_gutter_enabled": true,
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/RoundedRectangle.js",
-							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"tabs_extra_last_activated": 1483117591.89,
-							"tabs_extra_last_activated_sheet_index": 8,
+							"tab_size": 2,
+							"tabs_extra_last_activated": 1484056849.15,
+							"tabs_extra_last_activated_sheet_index": 1,
 							"tabs_extra_spawned": true,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 166.0,
+						"translation.y": 1801.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "node_modules/pixi.js/src/core/math/shapes/Polygon.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2957,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1189,
-								1189
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Afterglow-twilight (SL).tmTheme",
-							"git_gutter_enabled": true,
-							"git_savvy.file_path": "/Volumes/hd/sources/OpenVision/node_modules/pixi.js/src/core/math/shapes/Polygon.js",
-							"git_savvy.repo_path": "/Volumes/hd/sources/OpenVision",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"tabs_extra_last_activated": 1483117603.31,
-							"tabs_extra_last_activated_sheet_index": 9,
-							"tabs_extra_spawned": true,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 74.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -1976,6 +1740,42 @@
 		"selected_items":
 		[
 			[
+				"graphics",
+				"node_modules/pixi.js/src/core/graphics/Graphics.js"
+			],
+			[
+				"graphi",
+				"app/objects/pixi/graphics.js"
+			],
+			[
+				"interac",
+				"node_modules/pixi.js/src/interaction/InteractionManager.js"
+			],
+			[
+				"utils",
+				"app/utils.js"
+			],
+			[
+				"pack",
+				"package.json"
+			],
+			[
+				"packag",
+				"package.json"
+			],
+			[
+				"text",
+				"node_modules/pixi.js/src/core/text/Text.js"
+			],
+			[
+				"multimatch",
+				"node_modules/multimatch/index.js"
+			],
+			[
+				"piximath",
+				"node_modules/pixi.js/src/core/math/index.js"
+			],
+			[
 				"focusa",
 				"app/plugins/interactions/focusable.js"
 			],
@@ -2002,10 +1802,6 @@
 			[
 				"color",
 				"node_modules/pixi.js/src/filters/color/ColorMatrixFilter.js"
-			],
-			[
-				"text",
-				"node_modules/pixi.js/src/core/text/Text.js"
 			],
 			[
 				"webpa",
@@ -2454,38 +2250,6 @@
 			[
 				"rel",
 				"app/elements/help/release-notes.html"
-			],
-			[
-				"checkb",
-				"bower_components/paper-checkbox/paper-checkbox.html"
-			],
-			[
-				"paper-over",
-				"bower_components/paper-dialog-behavior/paper-dialog-behavior.html"
-			],
-			[
-				"freez",
-				"bower_components/freezer-js/README.md"
-			],
-			[
-				"freezread",
-				"bower_components/freezer-js/README.md"
-			],
-			[
-				"freezer",
-				"bower_components/freezer-js/README.md"
-			],
-			[
-				"free",
-				"bower_components/freezer-js/build/freezer.js"
-			],
-			[
-				"layout",
-				"bower_components/iron-flex-layout/iron-flex-layout-classes.html"
-			],
-			[
-				"paper-dialog",
-				"bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html"
 			]
 		],
 		"width": 0.0

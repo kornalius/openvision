@@ -54,10 +54,8 @@ export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
     }
 
     for (let k of this.prototypeNames) {
-      if (_.get(this.interface, k + '.declared', false) && _.isUndefined(obj[k]) && !_.includes(this.prototypeNames, k)) {
-        if (loadLevel === 0) {
-          console.error('Missing interface declaration ' + k)
-        }
+      if (_.get(this.interface, k + '.declared', false) && _.isUndefined(obj[k])) {
+        console.error('Missing interface declaration ' + k)
         return false
       }
     }

@@ -8,7 +8,7 @@ export default class Control extends Plugin {
     this._author = 'Alain Deschenes'
     this._version = '1.0.1'
     this._date = '01/07/2017'
-    this._deps = ['interactive', 'mouse', 'keyboard', 'disabled', 'focusable', 'renderable']
+    this._deps = ['interactive', 'mouse', 'keyboard', 'disabled', 'focusable', 'hover', 'renderable']
   }
 
   load (obj, options = {}) {

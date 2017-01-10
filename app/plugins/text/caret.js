@@ -6,8 +6,8 @@ export default class Caret extends Plugin {
     this._name = 'caret'
     this._desc = 'Creates a text caret.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
-    this._date = '01/07/2017'
+    this._version = '1.0.2'
+    this._date = '01/10/2017'
     this._interface = {
       caretWidth: { declared: true },
       caretHeight: { declared: true },
@@ -25,17 +25,23 @@ export default class Caret extends Plugin {
       obj.addChild(obj._caret)
 
       obj._caret._interval = 0
+      obj._caret._style = _.get(options, 'style', 'vline')
 
       obj.caretVisible = _.get(options, 'visible', true)
       obj.caretBlink = _.get(options, 'blink', 500)
-      obj.caretOffsetX = _.get(options, 'offsetX', 0)
-      obj.caretOffsetY = _.get(options, 'offsetY', -1)
       obj.caretWrap = _.get(options, 'wrap', true)
+
+      obj.setCaretShape()
+
+      obj._caret.visible = obj.canShowCaret
 
       obj.moveCaret(_.get(options, 'x', 0), _.get(options, 'y', 0))
 
       obj.on('mousedown', obj.onMouseDownCaret)
       obj.on('mousemove', obj.onMouseMoveCaret)
+
+      obj.on('blur', obj.onBlur)
+      obj.on('focus', obj.onFocus)
     }
   }
 
@@ -60,16 +66,6 @@ export default class Caret extends Plugin {
     this.update()
   }
 
-  get caretOffsetX () { return this._caret._offsetX }
-  set caretOffsetX (value) {
-    this._caret._offsetX = value
-  }
-
-  get caretOffsetY () { return this._caret._offsetY }
-  set caretOffsetY (value) {
-    this._caret._offsetY = value
-  }
-
   get caretWrap () { return this._caret._wrap }
   set caretWrap (value) {
     this._caret._wrap = value
@@ -77,6 +73,36 @@ export default class Caret extends Plugin {
 
   get caretWidth () { return 0 }
   get caretHeight () { return 0 }
+
+  get caretStyle () { return this._caret._style }
+  set caretStyle (value) {
+    if (_.includes(['vline', 'block', 'underline'])) {
+      this._caret._style = value
+      this.setCaretShape()
+    }
+  }
+
+  setCaretShape () {
+    this._caret.width = this.caretViewWidth
+    this._caret.height = this.caretViewHeight
+    this.update()
+  }
+
+  get caretViewLeft () {
+    return _.includes(['vline', 'underline'], this.caretStyle) ? -1 : 0
+  }
+
+  get caretViewTop () {
+    return this.caretStyle === 'underline' ? this.caretHeight - this.caretViewHeight : 0
+  }
+
+  get caretViewWidth () {
+    return this.caretStyle === 'vline' ? 3 : this.caretWidth + (this.caretStyle === 'underline' ? 1 : 0)
+  }
+
+  get caretViewHeight () {
+    return this.caretStyle === 'underline' ? 3 : this.caretHeight
+  }
 
   caretMinX (y) { return 0 }
   caretMinY (x) { return 0 }
@@ -87,7 +113,12 @@ export default class Caret extends Plugin {
   posToCaret (pos) { return { x: 0, y: 0 } }
 
   pixelToCaret (x, y) {
-    x = Math.trunc(x / this.caretWidth)
+    if (this.caretStyle === 'vline') {
+      x = Math.ceil((x - 1) / this.caretWidth)
+    }
+    else {
+      x = Math.trunc(x / this.caretWidth)
+    }
     y = Math.trunc(y / this.caretHeight)
     return { x, y }
   }
@@ -106,8 +137,20 @@ export default class Caret extends Plugin {
   get caretBlink () { return this._caret._blink }
   set caretBlink (ms) {
     this._caret._blink = ms
-    clearInterval(this._caret._interval)
+    if (this.canShowCaret) {
+      this.startCaretBlink()
+    }
+  }
+
+  get canShowCaret () { return this._caret._show && this.focused }
+
+  startCaretBlink () {
+    this.stopCaretBlink()
     this._caret._interval = setInterval(this.blinkCaret.bind(this), this._caret._blink)
+  }
+
+  stopCaretBlink () {
+    clearInterval(this._caret._interval)
   }
 
   get caretVisible () { return this._caret._show }
@@ -145,11 +188,12 @@ export default class Caret extends Plugin {
       this._caret._posY = y
       this._caret._posX = x
 
-      this._caret.position.set(x * this.caretWidth + this.caretOffsetX, y * this.caretHeight + this.caretOffsetY)
-      this._caret.visible = this._caret._show
+      this._caret.position.set(x * this.caretWidth + this.caretViewLeft, y * this.caretHeight + this.caretViewTop)
+      this._caret.visible = this.canShowCaret
 
       return this.update()
     }
+
     return this
   }
 
@@ -214,4 +258,15 @@ export default class Caret extends Plugin {
     }
   }
 
+  onFocus () {
+    this._caret.visible = true
+    this.startCaretBlink()
+    this.update()
+  }
+
+  onBlur () {
+    this._caret.visible = false
+    this.stopCaretBlink()
+    this.update()
+  }
 }

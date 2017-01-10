@@ -1,4 +1,4 @@
-import { p, name, version, electron, openFile, saveFile, messageBox, BrowserWindow, electronApp, fs, path, IS_WIN, IS_OSX, IS_LINUX, dirs, raf, now, process, _vm, os, child_process, dns, http, https, net, querystring, stream, tls, tty, url, zlib, jsonquery, q } from './utils.js'
+import * as utils from './utils.js'
 
 import './style/app.css'
 // import t from './html/app.html'
@@ -26,7 +26,7 @@ import { Range, Ranges, RANGE_NORMAL, RANGE_RECT } from './lib/range.js'
 
 
 window.Plugin = Plugin
-window.q = q
+window.q = utils.q
 
 
 export const APP_STOPPED = 0
@@ -67,6 +67,7 @@ export class App extends Base {
     this._dblClickDistance = _.get(options, 'dblClickDistance', this._defaults.dblClickDistance)
 
     this.screen = new Screen(this, this._width, this._height, this._scale)
+    this.loadTexture = this.screen.loadTexture.bind(this.screen)
 
     let that = this
     PIXI.ticker.shared.add(time => {
@@ -146,38 +147,38 @@ export class App extends Base {
   get keyboard () { return keyboard }
   get vm () { return vm }
 
-  get p () { return p }
-  get name () { return name }
-  get version () { return version }
-  get app () { return electronApp }
-  get BrowserWindow () { return BrowserWindow }
-  get electron () { return electron }
-  get openFile () { return openFile }
-  get saveFile () { return saveFile }
-  get messageBox () { return messageBox }
-  get fs () { return fs }
-  get path () { return path }
-  get IS_WIN () { return IS_WIN }
-  get IS_OSX () { return IS_OSX }
-  get IS_LINUX () { return IS_LINUX }
-  get dirs () { return dirs }
-  get raf () { return raf }
-  get now () { return now }
-  get process () { return process }
-  get _vm () { return _vm }
-  get os () { return os }
-  get child_process () { return child_process }
-  get dns () { return dns }
-  get http () { return http }
-  get https () { return https }
-  get net () { return net }
-  get querystring () { return querystring }
-  get stream () { return stream }
-  get tls () { return tls }
-  get tty () { return tty }
-  get url () { return url }
-  get zlib () { return zlib }
-  get jsonquery () { return jsonquery }
+  get p () { return utils.p }
+  get name () { return utils.name }
+  get version () { return utils.version }
+  get app () { return utils.electronApp }
+  get BrowserWindow () { return utils.BrowserWindow }
+  get electron () { return utils.electron }
+  get openFile () { return utils.openFile }
+  get saveFile () { return utils.saveFile }
+  get messageBox () { return utils.messageBox }
+  get fs () { return utils.fs }
+  get path () { return utils.path }
+  get IS_WIN () { return utils.IS_WIN }
+  get IS_OSX () { return utils.IS_OSX }
+  get IS_LINUX () { return utils.IS_LINUX }
+  get dirs () { return utils.dirs }
+  get raf () { return utils.raf }
+  get now () { return utils.now }
+  get process () { return utils.process }
+  get _vm () { return utils._vm }
+  get os () { return utils.os }
+  get child_process () { return utils.child_process }
+  get dns () { return utils.dns }
+  get http () { return utils.http }
+  get https () { return utils.https }
+  get net () { return utils.net }
+  get querystring () { return utils.querystring }
+  get stream () { return utils.stream }
+  get tls () { return utils.tls }
+  get tty () { return utils.tty }
+  get url () { return utils.url }
+  get zlib () { return utils.zlib }
+  get jsonquery () { return utils.jsonquery }
 
   get littleEndian () { return littleEndian }
 
@@ -219,7 +220,7 @@ export class App extends Base {
   start () {
     this.status = APP_RUNNING
     loadPlugins().then(() => {
-      this.test()
+      this.async(this.test, 100)
     })
     return this
   }
@@ -272,6 +273,21 @@ export class App extends Base {
   }
 
   test () {
+    let t = new Sprite(this.loadTexture('test.png'))
+    this.stage.addChild(t)
+
+    let text = new Text('This is a pixi text\nHere is another line\nAnd another!', { font: '20px "Glass TTY VT220"', fill: 0xFFFFFF })
+    this.stage.addChild(text)
+    text.moveTo(50, 50)
+
+    let text2 = new Text('Cool another box of text', { font: '20px "Glass TTY VT220"', fill: 0xffcc66 })
+    this.stage.addChild(text2)
+    text2.moveTo(50, 120)
+
+    this.screen.refresh()
+
+    text.plug(['textedit', 'caret'])
+    text2.plug(['textedit'])
   }
 
 }

@@ -70,10 +70,10 @@ export class Shape extends Graphics {
 
   _drawShape () {
     this.clear()
-    this.lineStyle(this._borderSize, this._borderColor, this._borderAlpha)
     if (this._fill) {
       this.beginFill(this._color, this._alpha)
     }
+    this.lineStyle(this._borderSize, this._borderColor, this._borderAlpha)
     this.draw()
     if (this._fill) {
       this.endFill()

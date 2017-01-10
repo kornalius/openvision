@@ -56,7 +56,7 @@ String.prototype.splice = function (start = 0, count = this.length, str = '') {
 
 let userPath = path.join(app.getAppPath(), '/user')
 if (!fs.existsSync(userPath)) {
-  fs.makeTreeSync(userPath)
+  fs.mkdirs(userPath)
 }
 
 let IS_WIN = /^win/.test(process.platform)
@@ -75,7 +75,7 @@ let dirs = {
 }
 
 if (!fs.existsSync(dirs.app)) {
-  fs.makeTreeSync(dirs.app)
+  fs.mkdirs(dirs.app)
 }
 
 let p = (...args) => path.join(__dirname, ...args)

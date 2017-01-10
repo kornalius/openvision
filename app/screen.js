@@ -235,13 +235,6 @@ export class Screen extends Display {
   }
 
   test () {
-    let t = new Sprite(this.loadTexture('test.png'))
-    this._stage.addChild(t)
-
-    let text = new Text('This is a pixi text\nHere is another line\nAnd another!', { font: '20px "Glass TTY VT220"', fill: 0xFFFFFF })
-    this._stage.addChild(text)
-    text.moveTo(50, 50)
-    this.refresh()
   }
 
   onMouseDown (e) {

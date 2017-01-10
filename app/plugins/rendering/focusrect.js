@@ -18,7 +18,7 @@ export default class FocusRect extends Plugin {
       obj._focusrect.fill = false
       obj._focusrect.borderSize = _.get(options, 'size', 1)
       obj._focusrect.borderColor = _.get(options, 'color', 0xFFFFFF)
-      obj._focusrect.borderAlpha = _.get(options, 'alpha', 1)
+      obj._focusrect.borderAlpha = _.get(options, 'alpha', 0.25)
       obj._focusrect.visible = false
       obj.addChild(obj._focusrect)
       if (obj.focused) {
