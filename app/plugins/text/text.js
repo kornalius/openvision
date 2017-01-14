@@ -34,7 +34,7 @@ export default class Text extends Plugin {
     this._name = 'text'
     this._desc = 'Add text manipulation functions to text container.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.2'
+    this._version = '1.0.0'
     this._date = '01/07/2017'
   }
 

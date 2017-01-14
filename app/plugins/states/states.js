@@ -6,7 +6,7 @@ export default class States extends Plugin {
     this._name = 'states'
     this._desc = 'Add states functions to a container.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
+    this._version = '1.0.0'
     this._date = '01/07/2017'
   }
 
@@ -97,6 +97,10 @@ export default class States extends Plugin {
       this.removeState(state)
     }
     return this
+  }
+
+  queryStates (state, arr) {
+    return _.filter(arr, a => a.hasState && a.hasState(state))
   }
 
 }

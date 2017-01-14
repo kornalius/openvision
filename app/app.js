@@ -163,7 +163,7 @@ export class App extends Base {
   get IS_LINUX () { return utils.IS_LINUX }
   get dirs () { return utils.dirs }
   get raf () { return utils.raf }
-  get now () { return utils.now }
+  get caf () { return utils.raf.cancel }
   get process () { return utils.process }
   get _vm () { return utils._vm }
   get os () { return utils.os }
@@ -179,6 +179,8 @@ export class App extends Base {
   get url () { return utils.url }
   get zlib () { return utils.zlib }
   get jsonquery () { return utils.jsonquery }
+
+  get now () { return performance.now() }
 
   get littleEndian () { return littleEndian }
 
@@ -256,7 +258,7 @@ export class App extends Base {
     let local = e.data.getLocalPosition(this.stage)
     let dist = e.data.getLocalPosition(e.target)
     return {
-      time: performance.now(),
+      time: this.now,
       button: e.data.originalEvent.button,
       leftButton: e.data.originalEvent.button === 0,
       middleButton: e.data.originalEvent.button === 1,

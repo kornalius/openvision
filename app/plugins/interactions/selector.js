@@ -6,7 +6,7 @@ export default class Selector extends Plugin {
     this._name = 'selector'
     this._desc = 'Allow child containers to be selectable.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
+    this._version = '1.0.0'
     this._date = '01/07/2017'
     this._deps = ['interactive', 'mouse', 'keyboard']
   }

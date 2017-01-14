@@ -6,7 +6,7 @@ export default class Readonly extends Plugin {
     this._name = 'readonly'
     this._desc = 'Allow container to be in a readonly state.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
+    this._version = '1.0.0'
     this._date = '01/07/2017'
   }
 

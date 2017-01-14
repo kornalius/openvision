@@ -6,7 +6,7 @@ export default class Interactive extends Plugin {
     this._name = 'interactive'
     this._desc = 'Allow container to be interacted with the mouse or touch.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
+    this._version = '1.0.0'
     this._date = '01/07/2017'
   }
 

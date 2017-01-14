@@ -22,6 +22,10 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
     super.destroy()
   }
 
+  onChildrenChange () {
+    return this.emit('childrenchange', ...arguments)
+  }
+
   onMouseOver (e) {
     app.screen.currentOver = this
   }

@@ -6,7 +6,7 @@ export default class Caret extends Plugin {
     this._name = 'caret'
     this._desc = 'Creates a text caret.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.2'
+    this._version = '1.0.0'
     this._date = '01/10/2017'
     this._interface = {
       caretWidth: { declared: true },

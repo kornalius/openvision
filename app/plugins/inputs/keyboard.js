@@ -6,7 +6,7 @@ export default class extends Plugin {
     this._name = 'keyboard'
     this._desc = 'Allow container to accept keyboard events.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
+    this._version = '1.0.0'
     this._date = '01/07/2017'
   }
 

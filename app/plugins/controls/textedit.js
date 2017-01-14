@@ -6,7 +6,7 @@ export default class TextEdit extends Plugin {
     this._name = 'textedit'
     this._desc = 'Allow text to be editable.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.2'
+    this._version = '1.0.0'
     this._date = '01/07/2017'
     this._deps = ['control', 'editable', 'text']
     this._requires = ['caret']

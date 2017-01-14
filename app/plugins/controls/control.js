@@ -6,7 +6,7 @@ export default class Control extends Plugin {
     this._name = 'control'
     this._desc = 'Allow a container to act as a control.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
+    this._version = '1.0.0'
     this._date = '01/07/2017'
     this._deps = ['interactive', 'mouse', 'keyboard', 'disabled', 'focusable', 'hover', 'renderable']
   }

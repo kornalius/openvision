@@ -6,7 +6,7 @@ export default class Editable extends Plugin {
     this._name = 'editable'
     this._desc = 'Allow container to be editable.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.2'
+    this._version = '1.0.0'
     this._date = '01/07/2017'
     this._deps = ['readonly']
   }

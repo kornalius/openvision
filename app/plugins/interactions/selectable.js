@@ -6,7 +6,7 @@ export default class Selectable extends Plugin {
     this._name = 'selectable'
     this._desc = 'Allow container to be selected.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.1'
+    this._version = '1.0.0'
     this._date = '01/07/2017'
     this._deps = ['interactive', 'mouse', 'keyboard']
   }

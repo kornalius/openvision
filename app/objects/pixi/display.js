@@ -16,6 +16,30 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
     super.destroy()
   }
 
+  get left () { return this.x }
+  set left (value) {
+    this.x = value
+    this.update()
+  }
+
+  get top () { return this.y }
+  set top (value) {
+    this.y = value
+    this.update()
+  }
+
+  get right () { return this.x + this.width }
+  set right (value) {
+    this.width = value - this.x
+    this.update()
+  }
+
+  get bottom () { return this.y + this.height }
+  set bottom (value) {
+    this.height = value - this.y
+    this.update()
+  }
+
   update (options = {}) {
     updates.add(this, _.extend(options, {
       cb: () => {
@@ -37,6 +61,12 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
 
   moveBy (bx, by) {
     return this.moveTo(this.x + bx, this.y + by)
+  }
+
+  resize (width, height) {
+    this.width = width
+    this.height = height
+    return this.update()
   }
 
 })

@@ -67,7 +67,7 @@ export class Changes extends Patches {
   get last () { return this._last }
 
   add (c) {
-    let t = performance.now()
+    let t = app.now
     c._parent = this
     if (this._last && t - this._last.time <= this._groupDelay && this._last.action === c.action) {
       c.time = t
@@ -104,7 +104,7 @@ export class Changes extends Patches {
 
   createCheckpoint () {
     let cp = new Checkpoint()
-    cp.time = performance.now()
+    cp.time = app.now
     this._list.push(cp)
     this._last = null
     return cp

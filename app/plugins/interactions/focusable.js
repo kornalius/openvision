@@ -8,7 +8,7 @@ export default class Focusable extends Plugin {
     this._name = 'focusable'
     this._desc = 'Allow container to be focused with mouse and tab key.'
     this._author = 'Alain Deschenes'
-    this._version = '1.0.2'
+    this._version = '1.0.0'
     this._date = '01/07/2017'
     this._deps = ['interactive', 'mouse', 'keyboard', 'focusrect']
   }
