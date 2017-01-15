@@ -1,23 +1,27 @@
 import Scanner from 'str-scan'
 import { parse } from 'levn'
 import { format } from 'string-kit'
-import us from 'underscore.string'
+import underscore_string from 'underscore.string'
 import is from 'is_js'
-import { instanceFunctions } from '../utils.js'
+import { instanceFunctions, instanceFunction } from '../utils.js'
 
 
-String.prototype.parse = parse
+instanceFunction(String.prototype, 'parse', parse)
 
-String.prototype.format = format
+instanceFunction(String.prototype, 'format', format)
 
-String.prototype.scan = function () { return new Scanner(this) }
+instanceFunction(String.prototype, 'scan', function () { return new Scanner(this) })
 
 let oldReplace = String.prototype.replace
-String.prototype.replace = function (find, replace, ignorecase) {
-  return oldReplace.call(this, find, replace, (ignorecase ? 'i' : ''))
-}
+instanceFunction(String.prototype, 'replace', function (find, replace, ignorecase) {
+  return oldReplace.call(this, find, replace, ignorecase ? 'i' : '')
+}, true)
 
-instanceFunctions(String, us.exports(), [
+instanceFunction(String.prototype, 'splice', function (start = 0, count = this.length, str = '') {
+  return this.slice(0, start) + str + this.slice(start + count)
+})
+
+instanceFunctions(String.prototype, underscore_string.exports(), [
   'chop',
   'classify',
   'clean',
@@ -36,7 +40,7 @@ instanceFunctions(String, us.exports(), [
   'lower',
 ])
 
-instanceFunctions(String, is, [
+instanceFunctions(String.prototype, is, [
   ['is.space', 'space'],
   ['is.url', 'url'],
   ['is.email', 'email'],

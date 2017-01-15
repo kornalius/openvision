@@ -114,7 +114,7 @@ export default class Caret extends Plugin {
 
   pixelToCaret (x, y) {
     if (this.caretStyle === 'vline') {
-      x = Math.ceil((x - 1) / this.caretWidth)
+      x = Math.ceil((x - this.caretWidth * 0.25) / this.caretWidth)
     }
     else {
       x = Math.trunc(x / this.caretWidth)

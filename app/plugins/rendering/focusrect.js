@@ -20,6 +20,7 @@ export default class FocusRect extends Plugin {
       obj._focusrect.borderColor = _.get(options, 'color', 0xFFFFFF)
       obj._focusrect.borderAlpha = _.get(options, 'alpha', 0.25)
       obj._focusrect.visible = false
+      obj.on('updatetransform', obj._onUpdateFocusRectTransform)
       obj.addChild(obj._focusrect)
       if (obj.focused) {
         this.showFocusRect()
@@ -31,6 +32,7 @@ export default class FocusRect extends Plugin {
     if (super.unload(obj)) {
       obj.removeChild(obj._focusrect)
       delete obj._focusrect
+      obj.off('updatetransform', obj._onUpdateFocusRectTransform)
       obj.update()
     }
   }
@@ -45,14 +47,24 @@ export default class FocusRect extends Plugin {
     this._focusrect.height = this.height + r.height
     this._focusrect.visible = true
     this._focusrect.update()
-    this.update()
   }
 
   hideFocusRect () {
     this._focusrect.visible = false
     this._focusrect.update()
-    this.update()
   }
 
   isFocusRectVisible () { return this._focusrect.visible }
+
+  _onUpdateFocusRectTransform () {
+    let r = this.focusRectPadding
+    if (this._focusrect.visible && (this._focusrect.x !== r.x || this._focusrect.y !== r.y || this._focusrect.width !== this.width + r.width || this._focusrect.height !== this.height + r.height)) {
+      this._focusrect.x = r.x
+      this._focusrect.y = r.y
+      this._focusrect.width = this.width + r.width
+      this._focusrect.height = this.height + r.height
+      this._focusrect.update()
+    }
+  }
+
 }

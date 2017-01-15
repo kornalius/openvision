@@ -291,7 +291,7 @@ export class App extends Base {
 
     this.screen.refresh()
 
-    text.plug(['textedit', 'caret'])
+    text.plug(['textedit'])
     text2.plug(['textedit'])
   }
 

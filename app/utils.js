@@ -38,6 +38,7 @@ _.templateSettings.interpolate = /#{([\s\S]+?)}/g
 
 window.is = is
 
+
 PIXI.Point.prototype.distance = function (target) {
   return Math.sqrt((this.x - target.x) * (this.x - target.x) + (this.y - target.y) * (this.y - target.y))
 }
@@ -48,10 +49,6 @@ PIXI.Point.prototype.toString = function () {
 
 PIXI.Rectangle.prototype.toString = function () {
   return _.template('(#{x}, #{y}, #{x + width}, #{y + height})(#{width}, #{height})')(this)
-}
-
-String.prototype.splice = function (start = 0, count = this.length, str = '') {
-  return this.slice(0, start) + str + this.slice(start + count)
 }
 
 let userPath = path.join(app.getAppPath(), '/user')
@@ -276,8 +273,8 @@ window.utoa = utoa
 window.atou = atou
 
 
-let instanceFunction = (target, name, fn) => {
-  if (!target.hasOwnProperty(name)) {
+let instanceFunction = (target, name, fn, force = false) => {
+  if (force || !target.hasOwnProperty(name)) {
     Object.defineProperty(target, name, {
       value: fn,
       writable: true,

@@ -24,6 +24,7 @@ export default class Hover extends Plugin {
 
       obj.on('mouseover', obj.showHover)
       obj.on('mouseout', obj.hideHover)
+      obj.on('updatetransform', obj._onUpdateHoverTransform)
 
       obj.alpha = obj._hover._alpha
 
@@ -35,6 +36,7 @@ export default class Hover extends Plugin {
     if (super.unload(obj)) {
       obj.off('mouseover', obj.showHover)
       obj.off('mouseout', obj.hideHover)
+      obj.off('updatetransform', obj._onUpdateHoverTransform)
       obj.removeChild(obj._hover)
       delete obj._hover
       obj.update()
@@ -52,15 +54,25 @@ export default class Hover extends Plugin {
     this._hover.height = this.height + r.height
     this._hover.visible = true
     this._hover.update()
-    this.update()
   }
 
   hideHover () {
     this.alpha = this._hover._alpha
     this._hover.visible = false
     this._hover.update()
-    this.update()
   }
 
   isHoverVisible () { return this._hover.visible }
+
+  _onUpdateHoverTransform () {
+    let r = this.hoverPadding
+    if (this._hover.visible && (this._hover.x !== r.x || this._hover.y !== r.y || this._hover.width !== this.width + r.width || this._hover.height !== this.height + r.height)) {
+      this._hover.x = r.x
+      this._hover.y = r.y
+      this._hover.width = this.width + r.width
+      this._hover.height = this.height + r.height
+      this._hover.update()
+    }
+  }
+
 }

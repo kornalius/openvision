@@ -39,7 +39,6 @@ class EmptyClass {}
 
 export class Base extends mix(EmptyClass).with(EmitterMixin, BaseMixin, DBMixin, PluginMixin, CommandMixin, ShortcutMixin) {}
 
-console.log(Base.prototype)
 
 Encoder.register('Base', {
   encode: obj => { return {} },

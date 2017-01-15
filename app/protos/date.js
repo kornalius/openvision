@@ -3,7 +3,7 @@ import is from 'is_js'
 import { instanceFunctions } from '../utils.js'
 
 
-instanceFunctions(Date, dm, [
+instanceFunctions(Date.prototype, dm, [
   'hour',
   'minute',
   'second',
@@ -13,7 +13,7 @@ instanceFunctions(Date, dm, [
   'year',
 ])
 
-instanceFunctions(Date, is, [
+instanceFunctions(Date.prototype, is, [
   ['isToday', 'today'],
   ['isYesterday', 'yesterday'],
   ['isTomorrow', 'tomorrow'],

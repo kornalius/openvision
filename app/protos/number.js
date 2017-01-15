@@ -3,7 +3,7 @@ import math from 'mathjs'
 import is from 'is_js'
 
 
-instanceFunctions(Number, Math, [
+instanceFunctions(Number.prototype, Math, [
   'radToDeg',
   'degToRad',
   'sign',
@@ -16,7 +16,7 @@ instanceFunctions(Number, Math, [
 ])
 
 
-instanceFunctions(Number, is, [
+instanceFunctions(Number.prototype, is, [
   ['isEven', 'even'],
   ['isOdd', 'odd'],
   ['isPositive', 'positive'],
@@ -29,7 +29,7 @@ instanceFunctions(Number, is, [
 ])
 
 
-instanceFunctions(Number, math, [
+instanceFunctions(Number.prototype, math, [
   'cbrt',
   'cube',
   'nthRoot',

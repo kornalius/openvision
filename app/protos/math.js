@@ -1,6 +1,7 @@
 import math from 'mathjs'
 import { instanceFunction, instanceFunctions } from '../utils.js'
 
+Math.PI2 = Math.PI * 2
 
 instanceFunction(Math, 'round', function (value, places, increment) {
   increment = increment || 1e-20
@@ -105,9 +106,28 @@ instanceFunction(Math, 'div', function () {
   return num
 })
 
+instanceFunction(Math, 'maxAdd', function (value, amount, max) { return Math.min(value + amount, max) })
+
+instanceFunction(Math, 'minSub', function (value, amount, min) { return Math.max(value - amount, min) })
+
 instanceFunction(Math, 'radToDeg', function (value) { return value * 57.29577951308232 })
 
 instanceFunction(Math, 'degToRad', function (value) { return value * 0.017453292519943295 })
+
+instanceFunction(Math, 'angleBetween', function (x1, y1, x2, y2) { return Math.atan2(y2 - y1, x2 - x1) })
+
+instanceFunction(Math, 'angleBetweenY', function (x1, y1, x2, y2) { return Math.atan2(x2 - x1, y2 - y1) })
+
+instanceFunction(Math, 'angleBetweenPoints', function (point1, point2) { return Math.atan2(point2.y - point1.y, point2.x - point1.x) })
+
+instanceFunction(Math, 'angleBetweenPointsY', function (point1, point2) { return Math.atan2(point2.x - point1.x, point2.y - point1.y) })
+
+instanceFunction(Math, 'reverseAngle', function (angleRad) { return this.normalizeAngle(angleRad + Math.PI, true) })
+
+instanceFunction(Math, 'normalizeAngle', function (angleRad) {
+  angleRad %= Math.PI2
+  return angleRad >= 0 ? angleRad : angleRad + Math.PI2
+})
 
 instanceFunction(Math, 'clockwise', function (from, to, range) {
   while (to > from) {
@@ -128,18 +148,120 @@ instanceFunction(Math, 'avg', function () { return Math.add.apply(Math, argument
 
 instanceFunction(Math, 'between', function (from, to, ratio) { return from + (to - from) * ratio })
 
-let oldMathRandom = Math.random
+instanceFunction(Math, 'linear', function (p0, p1, t) { return (p1 - p0) * t + p0 })
 
+instanceFunction(Math, 'fuzzyEqual', function (a, b, epsilon = 0.0001) { return Math.abs(a - b) < epsilon })
+
+instanceFunction(Math, 'fuzzyLessThan', function (a, b, epsilon = 0.0001) { return a < b + epsilon })
+
+instanceFunction(Math, 'fuzzyGreaterThan', function (a, b, epsilon = 0.0001) { return a > b - epsilon })
+
+instanceFunction(Math, 'fuzzyCeil', function (val, epsilon = 0.0001) { return Math.ceil(val - epsilon) })
+
+instanceFunction(Math, 'fuzzyFloor', function (val, epsilon = 0.0001) { return Math.floor(val + epsilon) })
+
+instanceFunction(Math, 'shear', function (val) { return val % 1 })
+
+let oldMathRandom = Math.random
 instanceFunction(Math, 'random', function () {
   let nums = arguments
   if (nums.length === 0) {
     return oldMathRandom()
   }
   else if (nums.length === 1) {
-    return oldMathRandom() * nums[0]
+    return Math.floor(oldMathRandom() * nums[0])
   }
   else {
-    return oldMathRandom() * (nums[1] - nums[0]) + nums[0]
+    return Math.floor(oldMathRandom() * (nums[1] - nums[0] + 1) + nums[0])
+  }
+}, true)
+
+instanceFunction(Math, 'linearInterpolation', function (v, k) {
+  let m = v.length - 1
+  let f = m * k
+  let i = Math.floor(f)
+  if (k < 0) {
+    return this.linear(v[0], v[1], f)
+  }
+  if (k > 1) {
+    return this.linear(v[m], v[m - 1], m - f)
+  }
+  return this.linear(v[i], v[i + 1 > m ? m : i + 1], f - i)
+})
+
+instanceFunction(Math, 'bezierInterpolation', function (v, k) {
+  let b = 0
+  let n = v.length - 1
+  for (let i = 0; i <= n; i++) {
+    b += Math.pow(1 - k, n - i) * Math.pow(k, i) * v[i] * this.bernstein(n, i)
+  }
+  return b
+})
+
+instanceFunction(Math, 'factorial', function (value) {
+  if (value === 0) {
+    return 1
+  }
+  let res = value
+  while (--value) {
+    res *= value
+  }
+  return res
+})
+
+instanceFunction(Math, 'difference', function (a, b) { return Math.abs(a - b) })
+
+instanceFunction(Math, 'distance', function (x1, y1, x2, y2) {
+  let dx = x1 - x2
+  let dy = y1 - y2
+  return Math.sqrt(dx * dx + dy * dy)
+})
+
+instanceFunction(Math, 'distanceSq', function (x1, y1, x2, y2) {
+  let dx = x1 - x2
+  let dy = y1 - y2
+  return dx * dx + dy * dy
+})
+
+instanceFunction(Math, 'distancePow', function (x1, y1, x2, y2, pow = 2) { return Math.sqrt(Math.pow(x2 - x1, pow) + Math.pow(y2 - y1, pow)) })
+
+instanceFunction(Math, 'clamp', function (v, min, max) {
+  if (v < min) {
+    return min
+  }
+  else if (max < v) {
+    return max
+  }
+  else {
+    return v
+  }
+})
+
+instanceFunction(Math, 'clampBottom', function (x, a) { return x < a ? a : x })
+
+instanceFunction(Math, 'within', function (a, b, tolerance) { return (Math.abs(a - b) <= tolerance) })
+
+instanceFunction(Math, 'mapLinear', function (x, a1, a2, b1, b2) { return b1 + ( x - a1 ) * ( b2 - b1 ) / ( a2 - a1 ) })
+
+instanceFunction(Math, 'smoothstep', function (x, min, max) {
+  x = Math.max(0, Math.min(1, (x - min) / (max - min)))
+  return x * x * (3 - 2 * x)
+})
+
+instanceFunction(Math, 'smootherstep', function (x, min, max) {
+  x = Math.max(0, Math.min(1, (x - min) / (max - min)))
+  return x * x * x * (x * (x * 6 - 15) + 10)
+})
+
+instanceFunction(Math, 'percent', function (a, b, base = 0) {
+  if (a > b || base > b) {
+    return 1
+  }
+  else if (a < base || base > a) {
+    return 0
+  }
+  else {
+    return (a - base) / b
   }
 })
 
