@@ -1,5 +1,6 @@
 import { Range } from './range.js'
 import { Encoder, e, d } from './encoder.js'
+import { Emitter } from '../event.js'
 
 
 export const MARKER_NORMAL = 0
@@ -54,7 +55,7 @@ export class Marker extends Range {
 }
 
 
-export class Markers extends PIXI.utils.EventEmitter {
+export class Markers extends Emitter {
 
   constructor (options = {}) {
     super()

@@ -23,6 +23,7 @@ import { Theme, Themes } from './lib/theme.js'
 import { Settings, sysSettings, usrSettings } from './lib/settings.js'
 import { Checkpoint, Change, Changes } from './lib/change.js'
 import { Range, Ranges, RANGE_NORMAL, RANGE_RECT } from './lib/range.js'
+import { Emitter } from './event.js'
 
 
 window.Plugin = Plugin
@@ -105,6 +106,8 @@ export class App extends Base {
   get Settings () { return Settings }
   get sysSettings () { return sysSettings }
   get usrSettings () { return usrSettings }
+
+  get Emitter () { return Emitter }
 
   get Base () { return Base }
   get Container () { return Container }

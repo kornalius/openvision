@@ -1,4 +1,5 @@
 import { BaseMixin } from '../base.js'
+import { EmitterMixin } from '../../event.js'
 import { PluginMixin } from '../../plugin.js'
 import { CommandMixin } from '../../command.js'
 import { ShortcutMixin } from '../../shortcut.js'
@@ -13,7 +14,7 @@ export let SpriteMixin = Mixin(superclass => class SpriteMixin extends superclas
 })
 
 
-export class Sprite extends mix(PIXI.Sprite).with(BaseMixin, DBMixin, PluginMixin, CommandMixin, ShortcutMixin, DisplayMixin, ContainerMixin, SpriteMixin) {}
+export class Sprite extends mix(PIXI.Sprite).with(EmitterMixin, BaseMixin, DBMixin, PluginMixin, CommandMixin, ShortcutMixin, DisplayMixin, ContainerMixin, SpriteMixin) {}
 
 
 Encoder.register('Sprite', {

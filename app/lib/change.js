@@ -1,8 +1,9 @@
 import { Patch, Patches } from './patch.js'
 import { Encoder, e, d } from './encoder.js'
+import { Emitter } from '../event.js'
 
 
-export class Checkpoint extends PIXI.utils.EventEmitter {
+export class Checkpoint extends Emitter {
 
   constructor (parent, options = {}) {
     super()

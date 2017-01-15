@@ -3,6 +3,7 @@ import { CommandMixin } from '../command.js'
 import { ShortcutMixin } from '../shortcut.js'
 import { DBMixin } from './db.js'
 import { Encoder } from '../lib/encoder.js'
+import { EmitterMixin } from '../event.js'
 
 
 export let BaseMixin = Mixin(superclass => class BaseMixin extends superclass {
@@ -34,9 +35,11 @@ export let BaseMixin = Mixin(superclass => class BaseMixin extends superclass {
 
 })
 
+class EmptyClass {}
 
-export class Base extends mix(PIXI.utils.EventEmitter).with(BaseMixin, DBMixin, PluginMixin, CommandMixin, ShortcutMixin) {}
+export class Base extends mix(EmptyClass).with(EmitterMixin, BaseMixin, DBMixin, PluginMixin, CommandMixin, ShortcutMixin) {}
 
+console.log(Base.prototype)
 
 Encoder.register('Base', {
   encode: obj => { return {} },

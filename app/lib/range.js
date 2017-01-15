@@ -1,12 +1,13 @@
 import { Point, Rectangle } from 'rectangular'
 import { Encoder, e, d } from './encoder.js'
+import { Emitter } from '../event.js'
 
 
 export const RANGE_NORMAL = 0
 export const RANGE_RECT = 1
 
 
-export class Range extends PIXI.utils.EventEmitter {
+export class Range extends Emitter {
 
   static Empty (type) {
     switch (type) {
@@ -243,7 +244,7 @@ export class Range extends PIXI.utils.EventEmitter {
 }
 
 
-export class Ranges extends PIXI.utils.EventEmitter {
+export class Ranges extends Emitter {
 
   constructor (options = {}) {
     super()

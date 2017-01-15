@@ -1,5 +1,6 @@
 import { Range } from './range.js'
 import { Encoder, e, d } from './encoder.js'
+import { Emitter } from '../event.js'
 
 
 export const PATCH_INSERT = 'i'
@@ -47,7 +48,7 @@ export class Patch extends Range {
 }
 
 
-export class Patches extends PIXI.utils.EventEmitter {
+export class Patches extends Emitter {
 
   constructor (options = {}) {
     super()

@@ -1,5 +1,6 @@
 import { fs, dirs, path } from './utils.js'
 import { MetaMixin, extractMetaFromOptions } from './meta.js'
+import { EmitterMixin } from './event.js'
 
 
 System.defaultJSExtensions = true
@@ -19,7 +20,9 @@ System.config({
 export var plugins = {}
 var loadLevel = 0
 
-export class Plugin extends mix(PIXI.utils.EventEmitter).with(MetaMixin) {
+class EmptyClass {}
+
+export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
 
   constructor (options = {}) {
     super(...arguments)
