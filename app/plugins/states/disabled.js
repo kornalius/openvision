@@ -12,7 +12,7 @@ export default class Disabled extends Plugin {
 
   load (obj, options = {}) {
     if (super.load(obj, options)) {
-      obj.disabled = false
+      obj.disabled = true
     }
   }
 
@@ -23,7 +23,6 @@ export default class Disabled extends Plugin {
   }
 
   get disabled () { return this._disabled }
-
   set disabled (value) {
     this._disabled = value
     this.update()

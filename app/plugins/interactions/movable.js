@@ -8,7 +8,7 @@ export default class Movable extends Plugin {
     this._author = 'Alain Deschenes'
     this._version = '1.0.0'
     this._date = '01/12/2017'
-    this._deps = ['interactive', 'mouse', 'keyboard', 'align', 'layout', 'tile']
+    this._deps = ['interactive', 'mouse', 'keyboard']
   }
 
   load (obj, options = {}) {

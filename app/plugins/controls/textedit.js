@@ -8,7 +8,7 @@ export default class TextEdit extends Plugin {
     this._author = 'Alain Deschenes'
     this._version = '1.0.0'
     this._date = '01/07/2017'
-    this._deps = ['control', 'editable', 'text']
+    this._deps = ['control', 'focusable', 'hover', 'editable', 'text']
     this._requires = ['caret']
   }
 
@@ -18,6 +18,8 @@ export default class TextEdit extends Plugin {
       obj._oldTabIndex = obj.tabIndex
       obj.acceptTab = _.get(options, 'acceptTab', false)
       obj._onKeyDownTextEdit = obj.onKeyDownTextEdit.bind(obj)
+      obj._oldDefaultCursor = obj.defaultCursor
+      obj.defaultCursor = 'text'
       window.addEventListener('keydown', obj._onKeyDownTextEdit, false)
     }
   }
@@ -29,6 +31,8 @@ export default class TextEdit extends Plugin {
       delete obj._acceptTab
       window.removeEventListener('keydown', obj._onKeyDownTextEdit, false)
       delete obj._onKeyDownTextEdit
+      obj.defaultCursor = obj._oldDefaultCursor
+      delete obj._oldDefaultCursor
     }
   }
 
@@ -139,7 +143,7 @@ export default class TextEdit extends Plugin {
   }
 
   onKeyDownTextEdit (e) {
-    if (this.focused) {
+    if (this.focused && !this.readonly) {
       if (e.key === 'Tab' && this.acceptTab) {
         this.insertText('  ')
         this.moveCaretPosBy(2)

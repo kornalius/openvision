@@ -7,7 +7,7 @@ export default class Tile extends Plugin {
     this._desc = 'Allow layouting a container to specific areas of parent container.'
     this._author = 'Alain Deschenes'
     this._version = '1.0.0'
-    this._date = '01/13/2017'
+    this._date = '01/16/2017'
   }
 
   load (obj, options) {
@@ -136,12 +136,11 @@ export default class Tile extends Plugin {
         let w = parent.width / this.children.count
         let h = parent.height
         for (let c of this.children) {
-          c.x = x
+          c.x = x += w
           c.y = 0
           c.width = w
           c.height = h
           c.update()
-          x += w
         }
       }
       else if (this.isVerticalTile) {
@@ -150,11 +149,10 @@ export default class Tile extends Plugin {
         let h = parent.height / this.children.count
         for (let c of this.children) {
           c.x = 0
-          c.y = y
+          c.y = y += h
           c.width = w
           c.height = h
           c.update()
-          y += h
         }
       }
       this.update()

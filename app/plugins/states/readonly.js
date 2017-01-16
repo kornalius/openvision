@@ -7,7 +7,7 @@ export default class Readonly extends Plugin {
     this._desc = 'Allow container to be in a readonly state.'
     this._author = 'Alain Deschenes'
     this._version = '1.0.0'
-    this._date = '01/07/2017'
+    this._date = '01/16/2017'
   }
 
   load (obj, options = {}) {
@@ -23,7 +23,6 @@ export default class Readonly extends Plugin {
   }
 
   get readonly () { return this._readonly }
-
   set readonly (value) {
     this._readonly = value
     this.update()
