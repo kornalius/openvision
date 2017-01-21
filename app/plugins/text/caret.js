@@ -1,182 +1,176 @@
 
 export default class Caret extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'caret'
-    this._desc = 'Creates a text caret.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/10/2017'
-    this._interface = {
-      caretWidth: { declared: true },
-      caretHeight: { declared: true },
-      caretMaxX: { declared: true },
-      caretMaxY: { declared: true },
-      caretToPos: { declared: true },
-      posToCaret: { declared: true },
+  constructor () {
+    super()
+    this.name = 'caret'
+    this.desc = 'Creates a text caret.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.dependencies = ['editable']
+    this.properties = {
+      x: { value: 0, options: 'x' },
+      y: { value: 0, options: 'y' },
+      style: { value: 'vline', options: 'style', set: this.setStyle },
+      color: { value: 0xFFFFFF, options: 'color', set: this.setColor },
+      alpha: { value: 1, options: 'alpha', set: this.setAlpha },
+      show: { value: true, options: 'visible', set: this.setVisible },
+      speed: { value: 500, options: 'speed', set: this.setSpeed },
+      wrap: { value: false, options: 'wrap' },
     }
-    this._deps = ['editable']
-  }
-
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      obj._caret = new app.Rectangle(obj.caretWidth, obj.caretHeight, _.get(options, 'color', 0xFFFFFF), _.get(options, 'alpha', 1))
-      obj.addChild(obj._caret)
-
-      obj._caret._interval = 0
-      obj._caret._style = _.get(options, 'style', 'vline')
-
-      obj.caretVisible = _.get(options, 'visible', true)
-      obj.caretBlink = _.get(options, 'blink', 500)
-      obj.caretWrap = _.get(options, 'wrap', true)
-
-      obj.setCaretShape()
-
-      obj._caret.visible = obj.canShowCaret
-
-      obj.moveCaret(_.get(options, 'x', 0), _.get(options, 'y', 0))
-
-      obj.on('mousedown', obj.onMouseDownCaret)
-      obj.on('mousemove', obj.onMouseMoveCaret)
-
-      obj.on('blur', obj.onBlur)
-      obj.on('focus', obj.onFocus)
+    this.listeners = {
+      $mousedown: this.onMousedown,
+      $mousemove: this.onMousemove,
+      $focus: this.onFocus,
+      $blur: this.onBlur,
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      clearInterval(obj._caret._interval)
-      obj.removeChild(obj._caret)
-      delete obj._caret
-      if (_.isFunction(obj.update)) {
-        obj.update()
-      }
-      obj.off('mousedown', obj.onMouseDownCaret)
-      obj.off('mousemove', obj.onMouseMoveCaret)
-    }
+  get text () { return this.owner.textbuffer }
+
+  init (owner, options = {}) {
+    let c = this._shape = new app.Rectangle(this.viewWidth, this.viewHeight)
+    c.color = this._color
+    c.alpha = this._alpha
+    c.visible = this.canShow
+
+    this.reshape()
+
+    owner.addChild(c)
+
+    this.set(this._x, this._y)
   }
 
-  blinkCaret () {
-    this._caret.visible = !this._caret.visible
-    if (!this._caret._show) {
-      this._caret.visible = false
-    }
-    this.update()
+  destroy (owner) {
+    clearInterval(this._interval)
+    owner.removeChild(this._shape)
+    owner.update()
   }
 
-  get caretWrap () { return this._caret._wrap }
-  set caretWrap (value) {
-    this._caret._wrap = value
-  }
-
-  get caretWidth () { return 0 }
-  get caretHeight () { return 0 }
-
-  get caretStyle () { return this._caret._style }
-  set caretStyle (value) {
+  setStyle (value) {
     if (_.includes(['vline', 'block', 'underline'])) {
-      this._caret._style = value
-      this.setCaretShape()
+      this._style = value
     }
+    this.reshape()
   }
 
-  setCaretShape () {
-    this._caret.width = this.caretViewWidth
-    this._caret.height = this.caretViewHeight
-    this.update()
+  setColor (value) {
+    this._color = value
+    this._shape.color = value
+    this.reshape()
   }
 
-  get caretViewLeft () {
-    return _.includes(['vline', 'underline'], this.caretStyle) ? -1 : 0
+  setAlpha (value) {
+    this._alpha = value
+    this._shape.alpha = value
+    this.reshape()
   }
 
-  get caretViewTop () {
-    return this.caretStyle === 'underline' ? this.caretHeight - this.caretViewHeight : 0
+  reshape () {
+    let c = this._shape
+    c.width = this.viewWidth
+    c.height = this.viewHeight
+    c.color = this._color
+    c.alpha = this._alpha
+    return this.owner.update()
   }
 
-  get caretViewWidth () {
-    return this.caretStyle === 'vline' ? 3 : this.caretWidth + (this.caretStyle === 'underline' ? 1 : 0)
+  get viewLeft () {
+    return _.includes(['vline', 'underline'], this._style) ? -1 : 0
   }
 
-  get caretViewHeight () {
-    return this.caretStyle === 'underline' ? 3 : this.caretHeight
+  get viewTop () {
+    return this._style === 'underline' ? this.height - this.viewHeight : 0
   }
 
-  caretMinX (y) { return 0 }
-  caretMinY (x) { return 0 }
-  caretMaxX (y) { return 0 }
-  caretMaxY (x) { return 0 }
+  get viewWidth () {
+    return this._style === 'vline' ? 3 : this.width + (this._style === 'underline' ? 1 : 0)
+  }
 
-  caretToPos (x, y) { return 0 }
-  posToCaret (pos) { return { x: 0, y: 0 } }
+  get viewHeight () {
+    return this._style === 'underline' ? 3 : this.height
+  }
 
-  pixelToCaret (x, y) {
-    if (this.caretStyle === 'vline') {
-      x = Math.ceil((x - this.caretWidth * 0.25) / this.caretWidth)
+  get width () { return 0 }
+
+  get height () { return 0 }
+
+  minX (y) { return 0 }
+
+  minY (x) { return 0 }
+
+  maxX (y) { return 0 }
+
+  maxY (x) { return 0 }
+
+  fromPixel (x, y) {
+    if (this.style === 'vline') {
+      x = Math.ceil((x - this.width * 0.25) / this.width)
     }
     else {
-      x = Math.trunc(x / this.caretWidth)
+      x = Math.trunc(x / this.width)
     }
-    y = Math.trunc(y / this.caretHeight)
+    y = Math.trunc(y / this.height)
     return { x, y }
   }
 
-  caretToPixel (x, y) {
-    x *= this.caretWidth
-    y *= this.caretHeight
+  toPixel (x, y) {
+    x *= this.width
+    y *= this.height
     return { x, y }
   }
 
-  get caretPos () { return this.caretToPos(this.caretX, this.caretY) }
-
-  get caretX () { return this._caret._posX }
-  get caretY () { return this._caret._posY }
-
-  get caretBlink () { return this._caret._blink }
-  set caretBlink (ms) {
-    this._caret._blink = ms
-    if (this.canShowCaret) {
-      this.startCaretBlink()
+  setSpeed (ms) {
+    this._speed = ms
+    if (this.canShow) {
+      this.startBlink()
     }
   }
 
-  get canShowCaret () { return this._caret._show && this.focused }
-
-  startCaretBlink () {
-    this.stopCaretBlink()
-    this._caret._interval = setInterval(this.blinkCaret.bind(this), this._caret._blink)
+  setVisible (value) {
+    this._show = value
+    this.startBlink()
   }
 
-  stopCaretBlink () {
-    clearInterval(this._caret._interval)
+  get canShow () { return this._show && (!this.owner.focusable || this.owner.focusable.focused) }
+
+  blink () {
+    this._shape.visible = !this._show ? false : !this._shape.visible
+    return this.owner.update()
   }
 
-  get caretVisible () { return this._caret._show }
-  set caretVisible (value) {
-    this._caret._show = value
+  startBlink () {
+    this.stopBlink()
+    this._interval = setInterval(this.blink.bind(this), this._speed)
   }
 
-  moveCaret (x, y) {
-    let minX = this.caretMinX(y)
-    let maxX = this.caretMaxX(y)
+  stopBlink () {
+    clearInterval(this._interval)
+  }
 
-    let minY = this.caretMinY(x)
-    let maxY = this.caretMaxY(x)
+  set visible (value) {
+    this._shape.visible = value
+  }
 
-    if (this.caretWrap) {
+  set (x, y) {
+    let minX = this.minX(y)
+    let maxX = this.maxX(y)
+
+    let minY = this.minY(x)
+    let maxY = this.maxY(x)
+
+    if (this._wrap) {
       if (x > maxX && y < maxY) {
         y++
         let omaxX = maxX
-        minX = this.caretMinX(y)
-        maxX = this.caretMaxX(y)
+        minX = this.minX(y)
+        maxX = this.maxX(y)
         x = minX + (x - omaxX - 1)
       }
       else if (x < minX && y > minY) {
         y--
-        minX = this.caretMinX(y)
-        maxX = this.caretMaxX(y)
+        minX = this.minX(y)
+        maxX = this.maxX(y)
         x = maxX + x + 1
       }
     }
@@ -184,89 +178,80 @@ export default class Caret extends Plugin {
     y = Math.max(minY, Math.min(maxY, y))
     x = Math.max(minX, Math.min(maxX, x))
 
-    if (x !== this.caretX || y !== this.caretY) {
-      this._caret._posY = y
-      this._caret._posX = x
+    if (x !== this._x || y !== this._y) {
+      this._y = y
+      this._x = x
 
-      this._caret.position.set(x * this.caretWidth + this.caretViewLeft, y * this.caretHeight + this.caretViewTop)
-      this._caret.visible = this.canShowCaret
+      this._shape.position.set(x * this.width + this.viewLeft, y * this.height + this.viewTop)
+      this._shape.visible = this.canShow
 
-      return this.update()
+      return this.owner.update()
     }
 
     return this
   }
 
-  moveCaretPos (pos) {
-    let { x, y } = this.posToCaret(pos)
-    return this.moveCaret(x, y)
+  by (bx, by) {
+    return this.set(this._x + bx, this._y + by)
   }
 
-  moveCaretPosBy (b) {
-    return this.moveCaretPos(this.caretPos + b)
+  left (bx = 1) {
+    return this.set(this._x - bx, this._y)
   }
 
-  moveCaretBy (bx, by) {
-    return this.moveCaret(this.caretX + bx, this.caretY + by)
+  right (bx = 1) {
+    return this.set(this._x + bx, this._y)
   }
 
-  moveCaretLeft (bx = 1) {
-    return this.moveCaret(this.caretX - bx, this.caretY)
+  up (by = 1) {
+    return this.set(this._x, this._y - by)
   }
 
-  moveCaretRight (bx = 1) {
-    return this.moveCaret(this.caretX + bx, this.caretY)
+  down (by = 1) {
+    return this.set(this._x, this._y + by)
   }
 
-  moveCaretUp (by = 1) {
-    return this.moveCaret(this.caretX, this.caretY - by)
+  bol () {
+    return this.set(this.minX(this._y), this._y)
   }
 
-  moveCaretDown (by = 1) {
-    return this.moveCaret(this.caretX, this.caretY + by)
+  eol () {
+    return this.set(this.maxX(this._y), this._y)
   }
 
-  moveCaretBol () {
-    return this.moveCaret(this.caretMinX(this.caretY), this.caretY)
-  }
-
-  moveCaretEol () {
-    return this.moveCaret(this.caretMaxX(this.caretY), this.caretY)
-  }
-
-  moveCaretNextLine () {
+  nextLine () {
     return this.moveCaretBol().moveCaretDown()
   }
 
-  onMouseDownCaret (e) {
+  onMousedown (e) {
     let info = app.mouseEvent(e)
-    if (info.target === this) {
-      if (this._pressed.down) {
-        let { x, y } = this.pixelToCaret(info.x, info.y)
-        this.moveCaret(x, y)
+    if (info.target === this.owner) {
+      if (this.owner._pressed.down) {
+        let { x, y } = this.fromPixel(info.x, info.y)
+        this.set(x, y)
       }
     }
   }
 
-  onMouseMoveCaret (e) {
+  onMousemove (e) {
     let info = app.mouseEvent(e)
-    if (info.target === this) {
-      if (this._pressed.down) {
-        let { x, y } = this.pixelToCaret(info.x, info.y)
-        this.moveCaret(x, y)
+    if (info.target === this.owner) {
+      if (this.owner._pressed.down) {
+        let { x, y } = this.fromPixel(info.x, info.y)
+        this.set(x, y)
       }
     }
   }
 
   onFocus () {
-    this._caret.visible = true
-    this.startCaretBlink()
-    this.update()
+    this._visible = true
+    this.startBlink()
+    this.owner.update()
   }
 
   onBlur () {
-    this._caret.visible = false
-    this.stopCaretBlink()
-    this.update()
+    this._visible = false
+    this.stopBlink()
+    this.owner.update()
   }
 }

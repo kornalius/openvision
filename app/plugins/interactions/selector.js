@@ -1,46 +1,34 @@
 
 export default class Selector extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'selector'
-    this._desc = 'Allow child containers to be selectable.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/07/2017'
-    this._deps = ['interactive', 'mouse', 'keyboard']
-  }
-
-  load (obj, options) {
-    if (super.load(obj, options)) {
-      obj._selectables = []
+  constructor () {
+    super()
+    this.name = 'selector'
+    this.desc = 'Allow child containers to be selectable.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.dependencies = ['interactive', 'mouse', 'keyboard']
+    this.properties = {
+      enabled: { value: true, options: 'enabled' },
+      selectables: { value: [], options: 'selectables' },
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      delete obj._selectables
-    }
-  }
-
-  get selectables () { return this._selectables }
-
-  addSelectable (obj) {
+  add (obj) {
     if (!_.includes(this._selectables, obj)) {
       this._selectables.push(obj)
-      obj._parentSelector = this
+      obj._selector = this
     }
-    return this
+    return this.owner
   }
 
-  removeSelectable (obj) {
+  remove (obj) {
     _.pull(this._selectables, obj)
-    delete obj._parentSelector
-    return this
+    return this.owner
   }
 
   canSelect (obj) {
-    return _.includes(this._selectables, obj) && obj.canSelect
+    return this._enabled && _.includes(this._selectables, obj) && obj.canSelect
   }
 
   isSelected (obj) {
@@ -51,14 +39,14 @@ export default class Selector extends Plugin {
     if (this.canSelect(obj)) {
       obj.select()
     }
-    return this
+    return this.owner
   }
 
   unselect (obj) {
     if (this.canSelect(obj)) {
       obj.unselect()
     }
-    return this
+    return this.owner
   }
 
   toggle (obj) {
@@ -70,14 +58,14 @@ export default class Selector extends Plugin {
         obj.select()
       }
     }
-    return this
+    return this.owner
   }
 
   setSelected (obj, value) {
     if (this.canSelect(obj)) {
       obj.selected = value
     }
-    return this
+    return this.owner
   }
 
 }

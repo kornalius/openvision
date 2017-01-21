@@ -1,106 +1,80 @@
 
 export default class TextEdit extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'textedit'
-    this._desc = 'Allow text to be editable.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/07/2017'
-    this._deps = ['control', 'focusable', 'hover', 'editable', 'text']
-    this._requires = ['caret']
-  }
-
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      obj._multiline = true
-      obj._oldTabIndex = obj.tabIndex
-      obj.acceptTab = _.get(options, 'acceptTab', false)
-      obj._onKeyDownTextEdit = obj.onKeyDownTextEdit.bind(obj)
-      obj._oldDefaultCursor = obj.defaultCursor
-      obj.defaultCursor = 'text'
-      window.addEventListener('keydown', obj._onKeyDownTextEdit, false)
+  constructor () {
+    super()
+    this.name = 'textedit'
+    this.desc = 'Allow text to be editable.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.dependencies = ['control', 'focusable', 'hover', 'editable', 'textbuffer', 'caret']
+    this.properties = {
+      multiline: { value: true, options: 'multiline' },
+      acceptTab: { value: false, options: 'acceptTab', set: this.setAcceptTab },
+    }
+    this.overrides = {
+      caret: {
+        width: { get: function width () { return this.owner.charWidth } },
+        height: { get: function height () { return this.owner.charHeight } },
+        maxX: function maxX (y) { return this.text.validLine(y) ? this.text.lineLength(y) : 0 },
+        maxY: function maxY (x) { return this.text.lineCount - 1 },
+      },
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      delete obj._multiline
-      delete obj._oldTabIndex
-      delete obj._acceptTab
-      window.removeEventListener('keydown', obj._onKeyDownTextEdit, false)
-      delete obj._onKeyDownTextEdit
-      obj.defaultCursor = obj._oldDefaultCursor
-      delete obj._oldDefaultCursor
-    }
+  init (owner, options = {}) {
+    this._oldTabIndex = owner.focusable.index
+
+    this._oldDefaultCursor = owner.defaultCursor
+    owner.defaultCursor = 'text'
+
+    this._onKeydown = this.onKeydown.bind(this)
+    window.addEventListener('keydown', this._onKeydown, false)
+
+    this.owner.caret.reshape()
   }
 
-  get acceptTab () { return this._acceptTab }
-  set acceptTab (value) {
+  destroy (owner) {
+    window.removeEventListener('keydown', this._onKeydown, false)
+    owner.defaultCursor = this._oldDefaultCursor
+  }
+
+  get text () { return this.owner.textbuffer }
+
+  get caret () { return this.owner.caret }
+
+  get focusable () { return this.owner.focusable }
+
+  setAcceptTab (value) {
     this._acceptTab = value
     if (value) {
-      this._oldTabIndex = this.tabIndex
-      this.tabIndex = -1
+      this._oldTabIndex = this.focusable.index
+      this.focusable.index = -1
     }
     else {
-      this.tabIndex = this._oldTabIndex
+      this.focusable.index = this._oldTabIndex
     }
   }
-
-  // get focusRectPadding () { return new PIXI.Rectangle(-2, -2, this.charWidth + 2, 2) }
-
-  get multiline () { return this._multiline }
-  set multiline (value) {
-    this._multiline = value
-  }
-
-  caretToPos (x, y) {
-    let i = this.lineInfo(y)
-    return (i ? i.start : 0) + x
-  }
-
-  posToCaret (pos) {
-    let x = 0
-    let y = 0
-    for (let yy = 0; yy < this.lineCount; yy++) {
-      let i = this.lineInfo(yy)
-      if (pos >= i.start && pos <= i.end) {
-        x = pos - i.start
-        break
-      }
-      y++
-    }
-    return { x, y }
-  }
-
-  get caretWidth () { return this.charWidth }
-
-  get caretHeight () { return this.charHeight }
-
-  caretMaxX (y) { return this.validLine(y) ? this.lineLength(y) : 0 }
-
-  caretMaxY (x) { return this.lineCount - 1 }
 
   // TODO
   ensureCaretInView () {
-    return this
+    return this.owner
   }
 
   moveByWord (dir, camelcase = false) {
     let w
     switch (dir) {
       case 'left':
-        w = this.prevWord(this.caretPos, camelcase)
-        return w ? this.moveCaretPos(w.start) : this
+        w = this.text.prevWord(this.caretPos, camelcase)
+        return w ? this.setCaretPos(w.start) : this.owner
       case 'right':
-        w = this.nextWord(this.caretPos, camelcase)
-        return w ? this.moveCaretPos(w.start) : this
+        w = this.text.nextWord(this.caretPos, camelcase)
+        return w ? this.setCaretPos(w.start) : this.owner
     }
-    return this
+    return this.owner
   }
 
-  moveCaretDir (dir, shiftKey, ctrlKey, altKey, metaKey) {
+  moveDir (dir, shiftKey, ctrlKey, altKey, metaKey) {
     if (shiftKey) {
     }
     else if (ctrlKey) {
@@ -122,53 +96,53 @@ export default class TextEdit extends Plugin {
     else if (metaKey) {
       switch (dir) {
         case 'left':
-          return this.moveCaretBol()
+          return this.caret.bol()
         case 'right':
-          return this.moveCaretEol()
+          return this.caret.eol()
       }
     }
     else {
       switch (dir) {
         case 'left':
-          return this.moveCaretLeft()
+          return this.caret.left()
         case 'right':
-          return this.moveCaretRight()
+          return this.caret.right()
         case 'up':
-          return this.moveCaretUp()
+          return this.caret.up()
         case 'down':
-          return this.moveCaretDown()
+          return this.caret.down()
       }
     }
-    return this
+    return this.owner
   }
 
-  onKeyDownTextEdit (e) {
-    if (this.focused && !this.readonly) {
-      if (e.key === 'Tab' && this.acceptTab) {
-        this.insertText('  ')
-        this.moveCaretPosBy(2)
+  onKeydown (e) {
+    if (this.focusable.focused && !this.readonly) {
+      if (e.key === 'Tab' && this._acceptTab) {
+        this.text.insert('  ')
+        this.caret.by(2, 0)
       }
       else if (e.key === 'Delete') {
-        this.deleteTextDir('right', e.shiftKey, e.ctrlKey, e.altKey, e.metaKey)
+        this.text.deleteDir('right', e.shiftKey, e.ctrlKey, e.altKey, e.metaKey)
       }
       else if (e.key === 'Backspace') {
-        this.deleteTextDir('left', e.shiftKey, e.ctrlKey, e.altKey, e.metaKey)
+        this.text.deleteDir('left', e.shiftKey, e.ctrlKey, e.altKey, e.metaKey)
       }
       else if (e.key.startsWith('Arrow')) {
-        this.moveCaretDir(e.key.substr(5).toLowerCase(), e.shiftKey, e.ctrlKey, e.altKey, e.metaKey)
+        this.moveDir(e.key.substr(5).toLowerCase(), e.shiftKey, e.ctrlKey, e.altKey, e.metaKey)
       }
       else if (e.key === 'Home' || e.key === 'End') {
-        this.moveCaret(e.key === 'Home' ? 0 : this.caretMaxX(this.caretY), this.caretY)
+        this.caret.set(e.key === 'Home' ? 0 : this.maxX(this._caret.y), this._caret.y)
       }
       else if (e.key.startsWith('Page')) {
       }
-      else if (e.key === 'Enter' && this.multiline) {
-        this.insertText(this.CR)
-        this.moveCaretNextLine()
+      else if (e.key === 'Enter' && this._multiline) {
+        this.text.insert(this.CR)
+        this.caret.nextLine()
       }
       else if (e.key.length === 1) {
-        this.insertText(e.key)
-        this.moveCaretPosBy(1)
+        this.text.insert(e.key)
+        this.caret.by(1, 0)
       }
       e.stopPropagation()
       e.preventDefault()

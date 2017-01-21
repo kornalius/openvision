@@ -2,26 +2,40 @@
 export let MetaMixin = Mixin(superclass => class MetaMixin extends superclass {
 
   get name () { return this._name }
+  set name (value) { this._name = value }
 
   get private () { return this._private }
+  set private (value) { this._private = value }
 
   get tags () { return this._tags }
+  set tags (value) { this._tags = value }
 
   get desc () { return this._desc }
+  set desc (value) { this._desc = value }
 
   get author () { return this._author }
+  set author (value) { this._author = value }
 
   get version () { return this._version }
+  set version (value) { this._version = value }
 
-  get date () { return this._date }
+  get dependencies () { return this._dependencies }
+  set dependencies (value) { this._dependencies = value }
 
-  get interface () { return this._interface }
+  get imports () { return this._imports }
+  set imports (value) { this._imports = value }
 
-  get dependencies () { return _.clone(this._deps || []).reverse() }
+  get properties () { return this._properties }
+  set properties (value) { this._properties = value }
 
-  get deps () { return this._deps }
+  get listeners () { return this._listeners }
+  set listeners (value) { this._listeners = value }
 
-  get requires () { return this._requires }
+  get overrides () { return this._overrides }
+  set overrides (value) { this._overrides = value }
+
+  get nolink () { return this._nolink }
+  set nolink (value) { this._nolink = value }
 
 })
 
@@ -32,9 +46,11 @@ export var extractMetaFromOptions = (instance, options) => {
   instance._desc = _.get(options, 'desc', '')
   instance._author = _.get(options, 'author', '')
   instance._version = _.get(options, 'version', '1.0.0')
-  instance._date = _.get(options, 'date', new Date().toISOString().split('T')[0])
   instance._tags = _.get(options, 'tags', [])
-  instance._interface = _.get(options, 'interface', {})
-  instance._deps = _.get(options, 'deps', [])
-  instance._requires = _.get(options, 'requires', [])
+  instance._dependencies = _.get(options, 'dependencies', [])
+  instance._imports = _.get(options, 'imports', [])
+  instance._properties = _.get(options, 'properties', {})
+  instance._listeners = _.get(options, 'listeners', {})
+  instance._overrides = _.get(options, 'overrides', {})
+  instance._nolink = _.get(options, 'nolink', false)
 }

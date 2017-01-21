@@ -1,113 +1,111 @@
 
 export default class Align extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'align'
-    this._desc = 'Allow aligning a container to specific areas of parent container.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/12/2017'
+  constructor () {
+    super()
+    this.name = 'align'
+    this.desc = 'Allow aligning a container to specific areas of parent container.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
   }
 
-  load (obj, options) {
-    if (super.load(obj, options)) {
+  top () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.y = 0
     }
+    return owner.update()
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
+  bottom () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.y = parent.height - owner.height
     }
+    return owner.update()
   }
 
-  alignTop () {
-    if (this.parent) {
-      this.y = 0
-      this.update()
+  left () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.x = 0
     }
-    return this
+    return owner.update()
   }
 
-  alignBottom () {
-    if (this.parent) {
-      this.y = this.parent.height - this.height
-      this.update()
+  right () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.x = parent.width - owner.width
     }
-    return this
+    return owner.update()
   }
 
-  alignLeft () {
-    if (this.parent) {
-      this.x = 0
-      this.update()
+  topLeft () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.x = 0
+      owner.y = 0
     }
-    return this
+    return owner.update()
   }
 
-  alignRight () {
-    if (this.parent) {
-      this.x = this.parent.width - this.width
-      this.update()
+  topRight () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.x = parent.width - owner.width
+      owner.y = 0
     }
-    return this
+    return owner.update()
   }
 
-  alignTopLeft () {
-    if (this.parent) {
-      this.x = 0
-      this.y = 0
-      this.update()
+  bottomLeft () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.x = 0
+      owner.y = parent.height - owner.height
     }
-    return this
+    return owner.update()
   }
 
-  alignTopRight () {
-    if (this.parent) {
-      this.x = this.parent.width - this.width
-      this.y = 0
-      this.update()
+  bottomRight () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.x = parent.width - owner.width
+      owner.y = parent.height - owner.height
     }
-    return this
+    return owner.update()
   }
 
-  alignBottomLeft () {
-    if (this.parent) {
-      this.x = 0
-      this.y = this.parent.height - this.height
-      this.update()
+  vcenter () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.y = parent.height / 2 - owner.height / 2
     }
-    return this
+    return owner.update()
   }
 
-  alignBottomRight () {
-    if (this.parent) {
-      this.x = this.parent.width - this.width
-      this.y = this.parent.height - this.height
-      this.update()
+  hcenter () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.x = parent.width / 2 - owner.width / 2
     }
-    return this
-  }
-
-  centerVertical () {
-    if (this.parent) {
-      this.y = this.parent.height / 2 - this.height / 2
-      this.update()
-    }
-    return this
-  }
-
-  centerHorizontal () {
-    if (this.parent) {
-      this.x = this.parent.width / 2 - this.width / 2
-      this.update()
-    }
-    return this
+    return owner.update()
   }
 
   center () {
-    this.centerVertical()
-    this.centerHorizontal()
-    return this
+    this.vcenter()
+    return this.hcenter()
   }
 
 }

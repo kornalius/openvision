@@ -1,31 +1,29 @@
 
 export default class Disabled extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'disabled'
-    this._desc = 'Allow container to be disabled.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/07/2017'
-  }
-
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      obj.disabled = true
+  constructor () {
+    super()
+    this.name = 'disabled'
+    this.desc = 'Allow container to be disabled.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.properties = {
+      disabled: { value: true, update: true },
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      delete obj._disabled
+  disable () {
+    if (!this._disabled) {
+      this.disabled = true
     }
+    return this.owner
   }
 
-  get disabled () { return this._disabled }
-  set disabled (value) {
-    this._disabled = value
-    this.update()
+  enable () {
+    if (this._disabled) {
+      this.disabled = false
+    }
+    return this.owner
   }
 
 }

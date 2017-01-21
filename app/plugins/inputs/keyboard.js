@@ -1,42 +1,38 @@
 
 export default class extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'keyboard'
-    this._desc = 'Allow container to accept keyboard events.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/07/2017'
+  constructor () {
+    super()
+    this.name = 'keyboard'
+    this.desc = 'Allow container to accept keyboard events.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.dependencies = ['focusable']
   }
 
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      obj.tabIndex = 1
-      obj._onKeyDown = obj.onKeyDown.bind(obj)
-      obj._onKeyUp = obj.onKeyUp.bind(obj)
-      window.addEventListener('keydown', obj._onKeyDown, false)
-      window.addEventListener('keyup', obj._onKeyUp, false)
-    }
+  init (owner, options = {}) {
+    owner.tabIndex = 1
+
+    this._onKeydown = this.onKeydown.bind(this)
+    window.addEventListener('keydown', this._onKeydown, false)
+
+    this._onKeyup = this.onKeyup.bind(this)
+    window.addEventListener('keyup', this._onKeyup, false)
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      window.removeEventListener('keydown', obj._onKeyDown, false)
-      window.removeEventListener('keyup', obj._onKeyUp, false)
-      delete obj._onKeyDown
-      delete obj._onKeyUp
-    }
+  unload (owner) {
+    window.removeEventListener('keydown', this._onKeydown, false)
+    window.removeEventListener('keyup', this._onKeyup, false)
   }
 
-  onKeyDown (e) {
-    if (this.focused) {
+  onKeydown (e) {
+    if (this.owner.focusable.focused) {
       // console.log('down', e)
     }
   }
 
-  onKeyUp (e) {
-    if (this.focused) {
+  onKeyup (e) {
+    if (this.owner.focusable.focused) {
       // console.log('up', e)
     }
   }

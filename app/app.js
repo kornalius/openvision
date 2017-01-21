@@ -225,7 +225,7 @@ export class App extends Base {
   start () {
     this.status = APP_RUNNING
     loadPlugins().then(() => {
-      this.async(this.test, 100)
+      this.async(this.test, 1)
     })
     return this
   }

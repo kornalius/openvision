@@ -30,7 +30,7 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     this.__loaded = []
   }
 
-  destroy () {
+  deconstructor () {
     for (let o of this.__loaded) {
       this.unload(o)
     }
@@ -41,118 +41,310 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
 
   get tags () { return _.concat(this._tags, this._name, 'plugin') }
 
-  get prototypeNames () {
-    let pluginProps = Object.getOwnPropertyNames(Object.getPrototypeOf(new Plugin()))
+  get _prototypeMethods () {
+    let pluginProps = Object.getOwnPropertyNames(Plugin.prototype)
     return _.filter(Object.getOwnPropertyNames(Object.getPrototypeOf(this)), k => !_.includes(pluginProps, k))
   }
 
-  canLoad (obj) {
+  _showErrors () {
+    return loadLevel === 0
+  }
+
+  _showMessages () {
+    return true
+  }
+
+  plugins (owner) { return _.get(owner, '__plugins', { __order: [] }) }
+
+  isPluginLoaded (owner, name) { return !_.isUndefined(this.plugins(owner)[name]) }
+
+  canLoad (owner) {
     let pn = this.name
 
-    if (_.get(obj, '__plugins.' + pn)) {
-      if (loadLevel === 0) {
+    if (this.isPluginLoaded(owner, pn)) {
+      if (this._showErrors()) {
         console.error('Plugin', pn, 'already loaded')
       }
       return false
     }
 
-    for (let k of this.prototypeNames) {
-      if (_.get(this.interface, k + '.declared', false) && _.isUndefined(obj[k])) {
-        console.error('Missing interface declaration ' + k)
-        return false
-      }
-    }
-
     return true
   }
 
-  load (obj, options = {}) {
-    console.log(_.repeat('  ', loadLevel) + 'Loading', this.name)
+  _createProperty (obj, name, get, set, value) {
+    if (value) {
+      Object.defineProperty(obj, name, {
+        configurable: true,
+        enumerable: true,
+        value,
+      })
+    }
+    else {
+      Object.defineProperty(obj, name, {
+        configurable: true,
+        enumerable: true,
+        get,
+        set,
+      })
+    }
+  }
 
-    if (!this.canLoad(obj)) {
+  _createProto () {
+    return {
+      // holds plugin's instance property names to be created
+      __props: {},
+
+      // holds owner's instance events
+      __listeners: {},
+
+      // holds owner's instance property names to be created
+      __ownerProps: {},
+
+      // holds owner's instance events
+      __ownerListeners: {},
+    }
+  }
+
+  // create properties on proto or owner instance
+  _createProperties (proto, owner, options) {
+    let _properties = this.properties
+
+    for (let k in _properties) {
+      let v = _properties[k]
+
+      // check if must be added to owner's or plugin's instance
+      let ownerProp = false
+      if (k.startsWith('$')) {
+        k = k.substring(1)
+        ownerProp = true
+      }
+
+      // get default value or options arg value
+      let value = v.options ? _.get(options, v.options, v.value) : v.value
+
+      // property declaration
+      if (!_.isUndefined(value)) {
+        // private property name
+        let name = '_' + k
+
+        // should the owner's instance call the update() method after the setter
+        let update = v.update
+
+        let p = ownerProp ? owner : proto
+        let props = ownerProp ? '__ownerProps' : '__props'
+
+        proto[props][name] = value
+
+        // create getter and setter
+        this._createProperty(p, k,
+          v.get || function () { return this[name] },
+          v.set || function (value) {
+            if (value !== this[name]) {
+              this[name] = value
+              if (_.isFunction(update)) {
+                update.call(this)
+              }
+              else {
+                this.owner.update()
+              }
+            }
+          }
+        )
+      }
+    }
+  }
+
+  // create listeners on proto or owner instance
+  _createListeners (proto, plugin, owner, options) {
+    let _listeners = this.listeners
+
+    for (let k in _listeners) {
+      let fn = _listeners[k]
+      let bounded = fn.bind(plugin)
+      let listenersName = '__listeners'
+
+      // check if must be added to owner's or plugin's instance
+      if (k.startsWith('$')) {
+        k = k.substring(1)
+        listenersName = '__ownerListeners'
+      }
+
+      proto[listenersName][k] = bounded
+    }
+  }
+
+  // copy plugin's methods to proto
+  _createMethods (proto, owner, options) {
+    let origProto = this.constructor.prototype
+
+    for (let k of this._prototypeMethods) {
+      Object.defineProperty(proto, k, Object.getOwnPropertyDescriptor(origProto, k))
+    }
+  }
+
+  // create plugin and owner instances properties
+  _createInstanceProperties (proto, plugin, owner, options) {
+    // plugin instance properties
+    let ip = proto.__props
+    for (let k in ip) {
+      plugin[k] = ip[k]
+    }
+
+    // owner instance properties
+    let op = proto.__ownerProps
+    for (let k in op) {
+      owner[k] = op[k]
+    }
+  }
+
+  // create plugin and owner instances listeners
+  _createInstanceListeners (proto, plugin, owner, options) {
+    // plugin instance listeners
+    let ie = proto.__listeners
+    for (let k in ie) {
+      plugin.on(k, ie[k])
+    }
+
+    // owner instance listeners
+    let oe = proto.__ownerListeners
+    for (let k in oe) {
+      owner.on(k, oe[k])
+    }
+  }
+
+  // set a getter on the owner's instance to access the plugin instance directly
+  _createPluginGetter (plugin, owner, name) {
+    if (!this.nolink) {
+      this._createProperty(owner, name, undefined, undefined, plugin)
+    }
+  }
+
+  // override other plugins instance methods
+  _createOverrides (proto, plugin, owner, options) {
+    let overrides = this.overrides
+
+    for (let name in overrides) {
+      let ownerPlugin = owner.__plugins[name]
+      if (plugins[name] && plugin) {
+        for (let k in overrides[name]) {
+          let getter
+          let setter
+          let value
+          let v = overrides[name][k]
+
+          if (_.isFunction(v.get)) {
+            getter = v.get.bind(plugin)
+          }
+          if (_.isFunction(v.set)) {
+            setter = v.set.bind(plugin)
+          }
+          if (_.isFunction(v)) {
+            value = v.bind(plugin)
+          }
+
+          this._createProperty(ownerPlugin, k, getter, setter, value)
+        }
+      }
+      else if (this._showMessages()) {
+        console.error('Cannot apply overrides to', name, ', the plugin is either not loaded or does not exists')
+      }
+    }
+  }
+
+  load (owner, options = {}) {
+    let pn = this.name
+
+    if (this._showMessages()) {
+      console.log(_.repeat('  ', loadLevel) + 'Loading', pn)
+    }
+
+    if (!this.canLoad(owner)) {
       return false
     }
 
     loadLevel++
 
-    obj.__plugins = _.get(obj, '__plugins', {})
+    // get or create the __plugins property from owner's instance
+    let __plugins = owner.__plugins = this.plugins(owner)
 
-    let proto = obj.__plugin_proto
-    if (!proto) {
-      proto = obj.__plugin_proto = Object.create({})
+    // new plugin prototype
+    let proto = this._createProto()
 
-      let ee = PIXI.utils.EventEmitter
+    this._createProperties(proto, owner, options)
 
-      let c = Object.getPrototypeOf(this)
-      c = Object.getPrototypeOf(c)
-      while (c && c.constructor !== ee) {
-        for (let k of Object.getOwnPropertyNames(c)) {
-          if (k !== 'constructor' && Object.hasOwnProperty(c, k)) {
-            Object.defineProperty(proto, k, Object.getOwnPropertyDescriptor(c, k))
-          }
-        }
-        c = Object.getPrototypeOf(c)
-      }
+    this._createMethods(proto, owner, options)
 
-      let oPrototype = Object.getPrototypeOf(obj)
-      Object.setPrototypeOf(proto, oPrototype)
-      Object.setPrototypeOf(obj, proto)
-    }
+    // create new plugin instance
+    let plugin = Object.create(proto, {})
+    plugin.owner = owner
 
-    let p = this.constructor.prototype
-    for (let k of this.prototypeNames) {
-      if (!_.get(this.interface, k + '.declared', false) && !_.get(this.interface, k + '.exclude', false)) {
-        if (!proto.hasOwnProperty(k) || _.get(this.interface, k + '.override', false)) {
-          Object.defineProperty(proto, k, Object.getOwnPropertyDescriptor(p, k))
-        }
-      }
-    }
+    // assign plugin instance into the owner's instance loaded plugins
+    __plugins[pn] = plugin
 
-    obj.__plugins[this.name] = _.get(obj, '__plugins.' + this.name, proto)
+    // add plugin name to owner's instance plugins load order
+    __plugins.__order.push(pn)
 
+    this._createListeners(proto, plugin, owner, options)
+
+    this._createInstanceProperties(proto, plugin, owner, options)
+
+    this._createInstanceListeners(proto, plugin, owner, options)
+
+    this._createPluginGetter(plugin, owner, pn)
+
+    // load plugin dependencies
     for (let n of this.dependencies) {
       let p = plugins[n]
-      if (p && p.canLoad(obj)) {
-        p.load(obj)
+      if (p && p.canLoad(owner)) {
+        p.load(owner, options)
       }
     }
 
-    for (let n of this._requires) {
+    this._createOverrides(proto, plugin, owner, options)
+
+    // import plugins
+    for (let n of this.imports) {
       let p = plugins[n]
-      if (p && p.canLoad(obj)) {
-        p.load(obj)
+      if (p && p.canLoad(owner)) {
+        p.load(owner, options)
       }
     }
 
-    this.__loaded.push(obj)
+    // tell this plugin instance that it's been loaded into owner instance
+    this.__loaded.push(owner)
+
+    // call new instance init method
+    if (_.isFunction(plugin.init)) {
+      plugin.init(owner, options)
+    }
 
     loadLevel--
 
     return true
   }
 
-  canUnload (obj) {
+  canUnload (owner) {
     let pn = this.name
-    let __plugins = obj.__plugins || {}
+    let __plugins = this.plugins(owner)
 
     if (!__plugins[pn]) {
-      if (loadLevel === 0) {
+      if (this._showErrors()) {
         console.error('Plugin', pn, 'not loaded')
       }
       return false
     }
 
     for (let k in __plugins) {
-      let p = plugins[k]
-      if (p && p.__plugin !== this) {
+      let p = __plugins[k]
+      if (p && !(p instanceof this.constructor.prototype)) {
         if (_.includes(p.dependencies, pn)) {
-          if (loadLevel === 0) {
+          if (this._showErrors()) {
             console.error(pn, 'is a dependency of plugin', k)
           }
           return false
         }
-        else if (_.includes(p._requires, pn)) {
-          if (loadLevel === 0) {
+        else if (_.includes(p.imports, pn)) {
+          if (this._showErrors()) {
             console.error(pn, 'is required by plugin', k)
           }
           return false
@@ -163,38 +355,82 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     return true
   }
 
-  unload (obj) {
-    console.log(_.repeat('  ', loadLevel) + 'Unloading', this.name)
+  unload (owner) {
+    let pn = this.name
 
-    if (!this.canUnload(obj)) {
+    if (this._showMessages()) {
+      console.log(_.repeat('  ', loadLevel) + 'Unloading', pn)
+    }
+
+    if (!this.canUnload(owner)) {
       return false
     }
 
     loadLevel++
 
-    let proto = obj.__plugin_proto
+    let __plugins = this.plugins(owner)
+    let plugin = __plugins[pn]
 
-    for (let k of this.prototypeNames) {
-      delete proto[k]
+    // call plugin instance destroy method
+    if (_.isFunction(plugin.destroy)) {
+      plugin.destroy(owner)
     }
 
-    delete obj.__plugins[this.name]
+    // delete owner's instance properties created by the plugin
+    for (let k of plugin.__ownerProps) {
+      delete owner[k]
+    }
 
-    for (let n of this._requires) {
-      let p = plugins[n]
-      if (p && p.canUnload(obj)) {
-        p.unload(obj)
+    // delete owner's instance overrides created by the plugin
+    let overrides = this.overrides
+    for (let name in overrides) {
+      let oplugin = owner.__plugins[name]
+      if (plugins[name] && oplugin) {
+        for (let k in overrides[name]) {
+          this._createProperty(oplugin, k, undefined, undefined, undefined)
+        }
       }
     }
 
-    for (let n of this._deps) {
+    // cancel plugin's instance events
+    let ie = plugin.__listeners
+    for (let k in ie) {
+      plugin.off(k, ie[k])
+    }
+
+    // cancel owner's instance events
+    let oe = plugin.__ownerListeners
+    for (let k in oe) {
+      owner.off(k, oe[k])
+    }
+
+    // delete the plugin from the owner's instance plugins list
+    delete __plugins[pn]
+
+    // remove the plugin name from the owner's instance plugins load order list
+    _.remove(__plugins.__order, pn)
+
+    // delete the plugin getter from the owner's instance
+    delete owner[pn]
+
+    // unload imported plugins
+    for (let n of this.imports.reverse()) {
       let p = plugins[n]
-      if (p && p.canUnload(obj)) {
-        p.unload(obj)
+      if (p && p.canUnload(owner)) {
+        p.unload(owner)
       }
     }
 
-    _.remove(this.__loaded, obj)
+    // try to unload plugin's dependencies
+    for (let n of this.dependencies.reverse()) {
+      let p = plugins[n]
+      if (p && p.canUnload(owner)) {
+        p.unload(owner)
+      }
+    }
+
+    // remove the owner from the plugin's loaded list
+    _.remove(this.__loaded, owner)
 
     loadLevel--
 
@@ -287,7 +523,7 @@ export var unloadPlugins = () => {
   return new Promise((resolve, reject) => {
     let keys = _.keys(plugins)
     for (let k of keys) {
-      plugins[k].destroy()
+      plugins[k].deconstructor()
     }
     plugins = {}
     resolve()

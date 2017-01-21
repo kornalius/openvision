@@ -1,135 +1,118 @@
 
 export default class Splitter extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'splitter'
-    this._desc = 'A splitter attached to a container.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/16/2017'
-    this._deps = ['interactive', 'mouse']
-  }
-
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      obj._splitter = {
-        side: _.get(options, 'side', 'r'),
-        size: _.get(options, 'size', 2),
-        container: _.get(options, 'container'),
-      }
-      obj._layoutSplitterBound = obj.layoutSplitter.bind(obj)
-      obj.on('mousemove', obj.onMouseMoveSplitter)
-      if (obj.splitterContainer) {
-        obj.splitterContainer.on('updatetransform', obj._layoutSplitterBound)
-      }
-      obj.layoutSplitter()
+  constructor () {
+    super()
+    this.name = 'splitter'
+    this.desc = 'A splitter attached to a container.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.dependencies = ['interactive', 'mouse']
+    this.properties = {
+      container: { value: null, options: 'container', set: this.setContainer },
+      size: { value: 2, options: 'size', update: this.layout },
+      side: { value: 'r', options: 'side', update: this.layout },
+    }
+    this.listeners = {
+      $mousemove: this.onMousemove,
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      delete obj._splitter
-      obj.off('mousemove', obj.onMouseMoveSplitter)
-      if (obj.splitterContainer) {
-        obj.splitterContainer.off('updatetransform', obj._layoutSplitterBound)
-      }
-      delete obj._layoutSplitterBound
+  init (owner, options = {}) {
+    this._layout = this.layout.bind(this)
+    if (this._container) {
+      this._container.on('updatetransform', this._layout)
+    }
+    this.layout()
+  }
+
+  destroy (owner) {
+    if (this._container) {
+      this._container.off('updatetransform', this._layout)
     }
   }
 
-  get splitterContainer () { return this._splitter.container }
-  set splitterContainer (value) {
-    if (this._splitter.container) {
-      this._splitter.container.off('updatetransform', this._layoutSplitterBound)
+  setContainer (value) {
+    if (this._container) {
+      this._container.off('updatetransform', this._layout)
     }
-    this._splitter.container = value
+    this._container = value
     if (value) {
-      this._splitter.container.on('updatetransform', this._layoutSplitterBound)
+      this._container.on('updatetransform', this._layout)
     }
-    this.layoutSplitter()
+    this.layout()
   }
 
-  get splitterSide () { return this._splitter.side }
-  set splitterSide (value) {
-    this._splitter.side = value
-    this.layoutSplitter()
-  }
-
-  get splitterSize () { return this._splitter.size }
-  set splitterSize (value) {
-    this._splitter.size = value
-    this.layoutSplitter()
-  }
-
-  layoutSplitter () {
-    let c = this._splitter.container
-    let size = this._splitter.size
-    switch (this._splitter.side) {
+  layout () {
+    let owner = this.owner
+    let c = this._container
+    let size = this._size
+    switch (this._side) {
       case 'l':
-        this.x = c.x - size
-        this.y = c.y
-        this.width = size
-        this.height = c.height
-        this.defaultCursor = 'ew-resize'
+        owner.x = c.x - size
+        owner.y = c.y
+        owner.width = size
+        owner.height = c.height
+        owner.defaultCursor = 'ew-resize'
         break
       case 'r':
-        this.x = c.right
-        this.y = c.y
-        this.width = size
-        this.height = c.height
-        this.defaultCursor = 'ew-resize'
+        owner.x = c.right
+        owner.y = c.y
+        owner.width = size
+        owner.height = c.height
+        owner.defaultCursor = 'ew-resize'
         break
       case 't':
-        this.x = c.x
-        this.y = c.y - size
-        this.width = c.width
-        this.height = size
-        this.defaultCursor = 'ns-resize'
+        owner.x = c.x
+        owner.y = c.y - size
+        owner.width = c.width
+        owner.height = size
+        owner.defaultCursor = 'ns-resize'
         break
       case 'b':
-        this.x = c.x
-        this.y = c.bottom
-        this.width = c.width
-        this.height = size
-        this.defaultCursor = 'ns-resize'
+        owner.x = c.x
+        owner.y = c.bottom
+        owner.width = c.width
+        owner.height = size
+        owner.defaultCursor = 'ns-resize'
         break
     }
-    return this.update()
+    return owner.update()
   }
 
-  onMouseMoveSplitter (e) {
+  onMousemove (e) {
+    let owner = this.owner
     let info = app.mouseEvent(e)
-    if (info.target === this) {
-      if (this._pressed.down) {
-        let x = info.sx - this._pressed.down.x
-        let y = info.sy - this._pressed.down.y
-        let c = this._splitter.container
+    if (info.target === owner) {
+      if (owner._pressed.down) {
+        let x = info.sx - owner._pressed.down.x
+        let y = info.sy - owner._pressed.down.y
+        let c = this._container
         let old
-        switch (this._splitter.side) {
+        switch (this._side) {
           case 'l':
             old = c.right
             c.x = x
             c.right = old
-            this.x = x
+            owner.x = x
             break
           case 'r':
             c.right = x
-            this.x = x
+            owner.x = x
             break
           case 't':
             old = c.bottom
             c.y = y
             c.bottom = old
-            this.y = y
+            owner.y = y
             break
           case 'b':
             c.bottom = y
-            this.y = y
+            owner.y = y
             break
         }
         c.update()
-        this.layoutSplitter()
+        this.layout()
       }
     }
   }

@@ -1,37 +1,31 @@
 
-export default class Control extends Plugin {
+export default class Button extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'button'
-    this._desc = 'Allow a container to act as a button.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/18/2017'
-    this._deps = ['control', 'shape', 'font']
-  }
-
-  canLoad (obj) { return super.canLoad(obj) && !(obj instanceof app.Shape) }
-
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      let t = obj._buttonText = new app.Text(_.get(options, 'text', 'BUTTON'), this.fontObject)
-      t.plug('align').center()
-      this.addChild(t)
+  constructor () {
+    super()
+    this.name = 'button'
+    this.desc = 'Allow a container to act as a button.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.dependencies = ['control']
+    this.properties = {
+      text: { value: 'BUTTON', options: 'text', set: this.setText },
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      obj.removeChild(obj._buttonText)
-      delete obj._buttonText
-    }
+  init (owner, options = {}) {
+    let t = this._displayObject = new app.Text(this._text, this._font)
+    t.plug('align').center()
+    owner.addChild(t)
   }
 
-  get text () { return this._button.title.text }
-  set text (value) {
-    this._buttonText.text = value
-    this._buttonText.update()
+  destroy (owner) {
+    owner.removeChild(this._displayObject)
+  }
+
+  setText (value) {
+    this._text = value
+    this._displayObject.update()
   }
 
 }

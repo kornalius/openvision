@@ -80,12 +80,12 @@ export default class Camera extends Plugin {
 
   focusCameraOn (displayObject) {
     this.moveTo(Math.round(displayObject.x - this.halfWidth), Math.round(displayObject.y - this.halfHeight))
-    return this.update()
+    return this.owner.update()
   }
 
   focusCameraOnXY (x, y) {
     this.moveTo(Math.round(x - this.halfWidth), Math.round(y - this.halfHeight))
-    return this.update()
+    return this.owner.update()
   }
 
   updateCameraTarget () {
@@ -123,7 +123,7 @@ export default class Camera extends Plugin {
     camera.displayObject.position.y = -this.y
     camera.displayObject.update()
 
-    return this.update()
+    return this.owner.update()
   }
 
   checkCameraBounds () {

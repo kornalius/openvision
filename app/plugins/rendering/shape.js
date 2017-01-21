@@ -1,40 +1,33 @@
 
 export default class Shape extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'shape'
-    this._desc = 'Add shape drawing abilities to container.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/18/2017'
-  }
-
-  canLoad (obj) { return super.canLoad(obj) && !(obj instanceof app.Shape) }
-
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      let c = obj._shape = new app.Shape(this.width, this.height)
-      c.fill = _.get(options, 'fill', true)
-      c.color = _.get(options, 'color', 0xFFFFFF)
-      c.alpha = _.get(options, 'alpha', 1)
-      c.borderSize = _.get(options, 'border.size', 1)
-      c.borderColor = _.get(options, 'border.color', 0)
-      c.borderAlpha = _.get(options, 'border.alpha', 1)
-      c.radius = _.get(options, 'radius', 0)
-      c.style = _.get(options, 'style', 'rect')
-      obj.on('updatetransform', obj._onUpdateShapeTransform)
-      obj.addChild(c)
+  constructor () {
+    super()
+    this.name = 'shape'
+    this.desc = 'Add shape drawing abilities to container.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.listeners = {
+      $updatetransform: this.onUpdateTransform,
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      obj.removeChild(obj._shape)
-      delete obj._shape
-      obj.off('updatetransform', obj._onUpdateShapeTransform)
-      obj.update()
-    }
+  init (owner, options = {}) {
+    let c = this._shape = new app.Shape(owner.width, owner.height)
+    c.fill = _.get(options, 'fill', true)
+    c.color = _.get(options, 'color', 0xFFFFFF)
+    c.alpha = _.get(options, 'alpha', 1)
+    c.borderSize = _.get(options, 'border.size', 1)
+    c.borderColor = _.get(options, 'border.color', 0)
+    c.borderAlpha = _.get(options, 'border.alpha', 1)
+    c.radius = _.get(options, 'radius', 0)
+    c.style = _.get(options, 'style', 'rect')
+    owner.addChild(c)
+  }
+
+  destroy (owner) {
+    owner.removeChild(this._shape)
+    owner.update()
   }
 
   get fill () { return this._shape.fill }
@@ -87,7 +80,6 @@ export default class Shape extends Plugin {
 
   draw () {
     let c = this._shape
-
     if (this.style === 'rect') {
       if (this.radius) {
         c.drawRoundedRect(0, 0, this.width - 1, this.height - 1, this.radius)
@@ -103,7 +95,6 @@ export default class Shape extends Plugin {
 
   _drawShape () {
     let c = this._shape
-
     c.clear()
     if (this.fill) {
       c.beginFill(this.color, this.alpha)
@@ -116,11 +107,12 @@ export default class Shape extends Plugin {
     c.update()
   }
 
-  _onUpdateShapeTransform () {
+  onUpdateTransform () {
     let c = this._shape
-    if (c.width !== this.width || c.height !== this.height) {
-      c.width = this.width
-      c.height = this.height
+    let owner = this.owner
+    if (c.width !== owner.width || c.height !== owner.height) {
+      c.width = owner.width
+      c.height = owner.height
       c._drawShape()
     }
   }

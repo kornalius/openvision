@@ -15,10 +15,10 @@ class TextPatch extends Patch {
   apply (obj) {
     switch (this.action) {
       case INSERT:
-        this.insertTextAt(this.start, this.value)
+        this.insertAt(this.start, this.value)
         break
       case DELETE:
-        this.deleteTextAt(this.start, this.length)
+        this.deleteAt(this.start, this.length)
         break
     }
     return this
@@ -27,75 +27,80 @@ class TextPatch extends Patch {
 }
 
 
-export default class Text extends Plugin {
+export default class TextBuffer extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'text'
-    this._desc = 'Add text manipulation functions to text container.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/07/2017'
-  }
-
-  canLoad (obj) { return super.canLoad(obj) && obj instanceof app.Text }
-
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      obj._value = _.get(options, 'value', obj._text || '')
-      obj._lines = null
-      obj._linesInfo = null
-      obj._wordwrap = _.get(options, 'wordwrap', false)
-      obj._wrapwidth = _.get(options, 'wrapwidth', 0)
-      obj._wordbreak = _.get(options, 'wordbreak', false)
+  constructor () {
+    super()
+    this.name = 'textbuffer'
+    this.desc = 'Add text manipulation functions to text container.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.properties = {
+      value: { value: '', set: this.set },
+      wordwrap: { value: false, options: 'wordwrap', set: this.setWordwrap },
+      wrapwidth: { value: 0, options: 'wrapwidth', set: this.setWrapwidth },
+      wordbreak: { value: false, options: 'wordbreak', set: this.setWordbreak },
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      delete obj._value
-      delete obj._lines
-      delete obj._linesInfo
-      delete obj._wordwrap
-      delete obj._wrapwidth
-      delete obj._wordbreak
-    }
+  init (owner, options = {}) {
+    this.value = owner.text || this._value
   }
 
   get CR () { return CR }
   get TAB () { return TAB }
   get SPACE () { return SPACE }
 
-  get value () { return this._value }
-  set value (value) {
+  get caret () { return this.owner.caret }
+
+  set (value) {
     this._value = value
-    this.refreshText()
+    this.owner.text = value
+    this.refresh()
     return this.lines // to update text on Text container
   }
 
   get length () { return this._value.length }
 
-  refreshText () {
+  refresh () {
     this._lines = null
     this._linesInfo = null
   }
 
-  get wordwrap () { return this._wordwrap }
-  set wordwrap (value) {
+  setWordwrap (value) {
     this._wordwrap = value
-    this.refreshText()
+    this.refresh()
   }
 
-  get wrapwidth () { return this._wrapwidth }
-  set wrapwidth (value) {
+  setWrapwidth (value) {
     this._wrapwidth = value
-    this.refreshText()
+    this.refresh()
   }
 
-  get wordbreak () { return this._wordbreak }
-  set wordbreak (value) {
+  setWordbreak (value) {
     this._wordbreak = value
-    this.refreshText()
+    this.refresh()
+  }
+
+  get caretPos () {
+    let c = this.caret
+    let i = this.lineInfo(c.y)
+    return (i ? i.start : 0) + c.x
+  }
+
+  set caretPos (value) {
+    let x = 0
+    let y = 0
+    let lc = this.lineCount
+    for (let yy = 0; yy < lc; yy++) {
+      let i = this.lineInfo(yy)
+      if (value >= i.start && value <= i.end) {
+        x = value - i.start
+        break
+      }
+      y++
+    }
+    this.caret.set(x, y)
   }
 
   clipPos (pos) { return Math.max(0, Math.min(pos, this.length - 1)) }
@@ -121,9 +126,8 @@ export default class Text extends Plugin {
       let text = this._wordwrap ? this.wrapLines(this._value, { wrapwidth: this._wrapwidth, wordbreak: this._wordbreak }) : this._value
       this._lines = text.split(/(?:\r\n|\r|\n)/)
       this._linesInfo = null
-      if (this.text) {
-        this.text = text
-      }
+      this._value = text
+      this.owner.text = text
     }
     return this._lines
   }
@@ -148,20 +152,20 @@ export default class Text extends Plugin {
 
   lineInfo (y) { return this.validLine(y) && this.linesInfo[y] }
 
-  insertTextAt (pos, s) {
+  insertAt (pos, s) {
     this.value = this.value.splice(pos, 0, s)
-    return this.update()
+    return this.owner.update()
   }
 
-  insertText (s = '') {
-    return this.insertTextAt(this.caretPos, s)
+  insert (s = '') {
+    return this.insertAt(this.caretPos, s)
   }
 
   setLineAt (y, s = '') {
     let i = this.lineInfo(y)
     if (i) {
       this.value = this.value.splice(i.start, i.length - 1, s)
-      this.update()
+      this.owner.update()
     }
     return this
   }
@@ -169,36 +173,36 @@ export default class Text extends Plugin {
   insertLineAt (y, s = '') {
     let i = this.lineInfo(y)
     if (i) {
-      this.insertTextAt(i.start, s + CR)
+      this.insertAt(i.start, s + CR)
     }
     return this
   }
 
   newLine (s = '') {
     this.value += s + CR
-    return this.update()
+    return this.owner.update()
   }
 
-  deleteTextAt (pos, count = 1) {
+  deleteAt (pos, count = 1) {
     this.value = this.value.splice(pos, count)
-    return this.update()
+    return this.owner.update()
   }
 
-  deleteText (count = 1) {
-    return this.deleteTextAt(this.caretPos, count)
+  delete (count = 1) {
+    return this.deleteAt(this.caretPos, count)
   }
 
   deleteWordAt (pos, camelcase = false, count = 1) {
     let word = this.wordAt(pos, camelcase)
     while (word && count) {
-      this.deleteTextAt(word.start, word.length)
+      this.deleteAt(word.start, word.length)
       word = this.wordAt(pos)
       count--
     }
     return this
   }
 
-  deleteTextDir (dir, shiftKey, ctrlKey, altKey, metaKey) {
+  deleteDir (dir, shiftKey, ctrlKey, altKey, metaKey) {
     if (ctrlKey) {
     }
     else if (altKey) {
@@ -208,11 +212,11 @@ export default class Text extends Plugin {
     else {
       switch (dir) {
         case 'left':
-          this.moveCaretLeft()
-          this.deleteText()
+          this.caret.left()
+          this.delete()
           break
         case 'right':
-          this.deleteText()
+          this.delete()
           break
       }
     }
@@ -395,6 +399,7 @@ export default class Text extends Plugin {
   }
 
   get firstLine () { return this.lineAt(0) }
+
   get lastLine () { return this.lineAt(this.lineCount - 1) }
 
   isBlankLine (y) { return /\S/.test(this.lineAt(y)) }

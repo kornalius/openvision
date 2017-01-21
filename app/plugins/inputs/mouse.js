@@ -1,48 +1,36 @@
 
 export default class extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'mouse'
-    this._desc = 'Allow container to be interacted with the mouse.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/07/2017'
-    this._deps = ['interactive']
-  }
-
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      obj._pressed = {}
-      obj.on('mousedown', obj.onMouseDown)
-      obj.on('mousemove', obj.onMouseMove)
-      obj.on('mouseup', obj.onMouseUp)
-      obj.on('mouseupoutside', obj.onMouseUp)
+  constructor () {
+    super()
+    this.name = 'mouse'
+    this.desc = 'Allow container to be interacted with the mouse.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.dependencies = ['interactive']
+    this.properties = {
+      $pressed: { value: {} },
+    }
+    this.listeners = {
+      $mousedown: this.onMousedown,
+      $mousemove: this.onMousemove,
+      $mouseup: this.onMouseup,
+      $mouseoutside: this.onMouseup,
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      delete obj._pressed
-      obj.off('mousedown', obj.onMouseDown)
-      obj.off('mousemove', obj.onMouseMove)
-      obj.off('mouseup', obj.onMouseUp)
-      obj.off('mouseupoutside', obj.onMouseUp)
-    }
-  }
-
-  onMouseDown (e) {
+  onMousedown (e) {
     let info = app.mouseEvent(e)
     if (info.leftButton) {
-      this._pressed.down = info
+      this.owner._pressed.down = info
     }
   }
 
-  onMouseMove (e) {
+  onMousemove (e) {
   }
 
-  onMouseUp (e) {
-    this._pressed = {}
+  onMouseup (e) {
+    this.owner._pressed = {}
   }
 
 }

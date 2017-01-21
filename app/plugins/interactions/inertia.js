@@ -3,215 +3,194 @@
 
 export default class Snapper extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'inertia'
-    this._desc = 'Provides inertia when release mouse button.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/11/2017'
-  }
-
-  load (obj, options) {
-    if (super.load(obj, options)) {
-      obj._inertia = {
-        enabled: _.get(options, 'enabled', true),
-        resistance: _.get(options, 'resistance', 10),
-        minSpeed: _.get(options, 'minSpeed', 100),
-        endSpeed: _.get(options, 'endSpeed', 10),
-        active: null,
-        smoothEnd: true,
-        smoothEndDuration: _.get(options, 'smoothEndDuration', 300),
-        xe: 0,
-        ye: 0,
-        px: 0,
-        py: 0,
-        sx: 0,
-        sy: 0,
-        dx: 0,
-        dy: 0,
-        t0: 0,
-        v0: 0,
-        x0: 0,
-        y0: 0,
-        t1: 0,
-        v1: 0,
-        x1: 0,
-        y1: 0,
-        lambda_v0: 0,
-        one_ve_v0: 0,
-        i: null,
-      }
-      obj.on('mousedown', obj.onInertiaMousedown)
-      obj.on('mouseup', obj.onInertiaMouseup)
+  constructor () {
+    super()
+    this.name = 'inertia'
+    this.desc = 'Provides inertia when release mouse button.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.properties = {
+      enabled: { value: true, options: 'enabled' },
+      resistance: { value: 10, options: 'resistance' },
+      minSpeed: { value: 100, options: 'minSpeed' },
+      endSpeed: { value: 10, options: 'endSpeed' },
+      active: { value: null },
+      smoothEnd: { value: true },
+      smoothEndDuration: { value: 300, options: 'smoothEndDuration' },
+      xe: { value: 0 },
+      ye: { value: 0 },
+      px: { value: 0 },
+      py: { value: 0 },
+      sx: { value: 0 },
+      sy: { value: 0 },
+      dx: { value: 0 },
+      dy: { value: 0 },
+      t0: { value: 0 },
+      v0: { value: 0 },
+      x0: { value: 0 },
+      y0: { value: 0 },
+      t1: { value: 0 },
+      v1: { value: 0 },
+      x1: { value: 0 },
+      y1: { value: 0 },
+      lambda_v0: { value: 0 },
+      one_ve_v0: { value: 0 },
+      i: { value: null },
     }
-  }
-
-  unload (obj) {
-    if (super.unload(obj)) {
-      delete obj._inertia
-      obj.off('mousedown', obj.onInertiaMousedown)
-      obj.off('mouseup', obj.onInertiaMouseup)
+    this.listeners = {
+      $mousedown: this.onMousedown,
+      $mouseup: this.onMouseup,
     }
   }
 
   _calculateInertia (e) {
-    let i = this._inertia
     let info = app.mouseEvent(e)
 
-    let lambda = i.resistance
-    let inertiaDur = -Math.log(i.endSpeed / i.v) / lambda
+    let lambda = this._resistance
+    let inertiaDur = -Math.log(this._endSpeed / this._v) / lambda
 
-    i.x0 = i.px
-    i.y0 = i.py
-    i.t0 = info.time / 1000
-    i.sx = 0
-    i.sy = 0
+    this._x0 = this._px
+    this._y0 = this._py
+    this._t0 = info.time / 1000
+    this._sx = 0
+    this._sy = 0
 
-    i.modifiedXe = i.xe = (i.x0 - inertiaDur) / lambda
-    i.modifiedYe = i.ye = (i.y0 - inertiaDur) / lambda
-    i.te = inertiaDur
+    this._modifiedXe = this._xe = (this._x0 - inertiaDur) / lambda
+    this._modifiedYe = this._ye = (this._y0 - inertiaDur) / lambda
+    this._te = inertiaDur
 
-    i.lambda_v0 = lambda / i.v0
-    i.one_ve_v0 = 1 - i.endSpeed / i.v0
+    this._lambda_v0 = lambda / this._v0
+    this._one_ve_v0 = 1 - this._endSpeed / this._v0
   }
 
   cancelInertia () {
-    let i = this._inertia
-    app.raf.cancel(i.i)
-    i.interval = 0
-    i.active = null
+    app.raf.cancel(this._i)
+    this._interval = 0
+    this._active = null
   }
 
   hypot (x, y) { return Math.sqrt(x * x + y * y) }
 
-  onInertiaMousedown (e) {
-    let i = this._inertia
-    let info = app.mouseEvent(e)
-    if (i.active === info.target) {
-      this.cancelInertia()
+  _inertiaInterval () {
+    let lambda = this._resistance
+    let t = app.now / 1000 - this._t0
+
+    if (t < this._te) {
+      let progress = 1 - (Math.exp(-lambda * t) - this._lambda_v0) / this._one_ve_v0
+
+      if (this._modifiedXe === this._xe && this._modifiedYe === this._ye) {
+        this._sx = this._xe * progress
+        this._sy = this._ye * progress
+      }
+      else {
+        let quadPoint = utils.getQuadraticCurvePoint(0, 0, this._xe, this._ye, this._modifiedXe, this._modifiedYe, progress)
+        this._sx = quadPoint.x
+        this._sy = quadPoint.y
+      }
+
+      this.exec()
+
+      this._i = app.raf.request(this.boundInertiaFrame)
     }
-    if (info.leftButton) {
-      i.t0 = app.now
-      i.x0 = info.sx
-      i.y0 = info.sy
-      i.v = 0
-      i.vx = 0
-      i.vy = 0
+    else {
+      this._sx = this._modifiedXe
+      this._sy = this._modifiedYe
+
+      this.exec()
+
+      this.end(this._startEvent)
+
+      this._active = null
     }
   }
 
-  onInertiaMouseup (e) {
-    let i = this._inertia
+  smoothEndFrame () {
+    if (this._active) {
+      this._x += this._sx
+      this._y += this._sy
+    }
+
+    let t = app.now - this._t0
+    let duration = this._smoothEndDuration
+
+    if (t < duration) {
+      this._sx = utils.easeOutQuad(t, 0, this._xe, duration)
+      this._sy = utils.easeOutQuad(t, 0, this._ye, duration)
+
+      this.pointerMove(this._startEvent, this._startEvent)
+
+      this._i = app.raf.request(this.boundSmoothEndFrame)
+    }
+    else {
+      this._sx = this._xe
+      this._sy = this._ye
+
+      this.pointerMove(this._startEvent, this._startEvent)
+
+      this.end(this._startEvent)
+
+      this._smoothEnd = false
+      this._active = null
+    }
+  }
+
+  onMousedown (e) {
+    let info = app.mouseEvent(e)
+    if (this._active === info.target) {
+      this.cancelInertia()
+    }
+    if (info.leftButton) {
+      this._t0 = app.now
+      this._x0 = info.sx
+      this._y0 = info.sy
+      this._v = 0
+      this._vx = 0
+      this._vy = 0
+    }
+  }
+
+  onMouseup (e) {
     let info = app.mouseEvent(e)
     if (info.leftButton) {
-      if (i.enabled && i.active === info.target) {
+      if (this._enabled && this._active === info.target) {
         let now = app.now
-        let vel = i.v
-        let inertia = now - i.t0 < 50 && vel > i.minSpeed && vel > i.endSpeed
+        let vel = this._v
+        let inertia = now - this._t0 < 50 && vel > this._minSpeed && vel > this._endSpeed
         let smoothEnd = !inertia
 
         if (!(inertia || smoothEnd)) {
           return
         }
 
-        i.active = info.target
-        i.t1 = now
+        this._active = info.target
+        this._t1 = now
 
         if (inertia) {
-          i.x1 = info.sx
-          i.y1 = info.sy
+          this._x1 = info.sx
+          this._y1 = info.sy
 
-          i.dx = i.x1 - i.x0
-          i.dy = i.y1 - i.y0
+          this._dx = this._x1 - this._x0
+          this._dy = this._y1 - this._y0
 
-          let dt = Math.max((i.t1 - i.t0) / 1000, 0.001)
-          i.v = this.hypot(i.x0, i.y0) / dt
-          i.vx = i.x0 / dt
-          i.vy = i.y0 / dt
+          let dt = Math.max((this._t1 - this._t0) / 1000, 0.001)
+          this._v = this.hypot(this._x0, this._y0) / dt
+          this._vx = this._x0 / dt
+          this._vy = this._y0 / dt
 
           this._calculateInertia(e)
         }
         else {
-          i.smoothEnd = true
-          i.xe = modifierResult.dx
-          i.ye = modifierResult.dy
+          this._smoothEnd = true
+          this._xe = modifierResult.dx
+          this._ye = modifierResult.dy
 
-          i.sx = 0
-          i.sy = 0
+          this._sx = 0
+          this._sy = 0
 
-          i.interval = setInterval(() => {
-
+          this._interval = setInterval(() => {
           })
         }
       }
     }
   }
-
-  _inertiaInterval () {
-    let i = this._inertia
-    let lambda = i.resistance
-    let t = app.now / 1000 - i.t0
-
-    if (t < i.te) {
-      let progress = 1 - (Math.exp(-lambda * t) - i.lambda_v0) / i.one_ve_v0
-
-      if (i.modifiedXe === i.xe && i.modifiedYe === i.ye) {
-        i.sx = i.xe * progress
-        i.sy = i.ye * progress
-      }
-      else {
-        let quadPoint = utils.getQuadraticCurvePoint(0, 0, i.xe, i.ye, i.modifiedXe, i.modifiedYe, progress)
-        i.sx = quadPoint.x
-        i.sy = quadPoint.y
-      }
-
-      this.doMove()
-
-      i.i = app.raf.request(this.boundInertiaFrame)
-    }
-    else {
-      i.sx = i.modifiedXe
-      i.sy = i.modifiedYe
-
-      this.doMove()
-
-      this.end(i.startEvent)
-
-      i.active = null
-    }
-  }
-
-  smoothEndFrame () {
-    let i = this._inertia
-
-    if (i.active) {
-      i.x += i.sx
-      i.y += i.sy
-    }
-
-    let t = app.now - i.t0
-    let duration = i.smoothEndDuration
-
-    if (t < duration) {
-      i.sx = utils.easeOutQuad(t, 0, i.xe, duration)
-      i.sy = utils.easeOutQuad(t, 0, i.ye, duration)
-
-      this.pointerMove(i.startEvent, i.startEvent)
-
-      i.i = app.raf.request(this.boundSmoothEndFrame)
-    }
-    else {
-      i.sx = i.xe
-      i.sy = i.ye
-
-      this.pointerMove(i.startEvent, i.startEvent)
-
-      this.end(i.startEvent)
-
-      i.smoothEnd = false
-      i.active = null
-    }
-  }
-
 }

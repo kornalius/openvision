@@ -1,38 +1,23 @@
 
 export default class Bar extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'bar'
-    this._desc = 'Container that has sections.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/16/2017'
-    this._deps = ['control', 'layout']
+  constructor () {
+    super()
+    this.name = 'bar'
+    this.desc = 'Container that has sections.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.dependencies = ['control', 'layout']
   }
 
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      obj._bar = {
-      }
-      obj.layout()
-    }
+  addSection (container) {
+    this.owner.addChild(container)
+    return this.owner.update()
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      delete obj._bar
-    }
-  }
-
-  addBarSection (container) {
-    this.addChild(container)
-    this.update()
-  }
-
-  removeBarSection (container) {
-    this.removeChild(container)
-    this.update()
+  removeSection (container) {
+    this.owner.removeChild(container)
+    return this.owner.update()
   }
 
 }

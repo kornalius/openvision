@@ -1,141 +1,142 @@
 
 export default class Tile extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'align'
-    this._desc = 'Allow layouting a container to specific areas of parent container.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/16/2017'
-  }
-
-  load (obj, options) {
-    if (super.load(obj, options)) {
-      obj._tileLayout = _.get(options, 'layout', 'h')
-      obj._zones = _.get(options, 'zones', 3)
-      this.on('childrenchange', this.retile)
+  constructor () {
+    super()
+    this.name = 'align'
+    this.desc = 'Allow layouting a container to specific areas of parent container.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.properties = {
+      layout: { value: 'h', options: 'layout' },
+      zones: { value: 3, options: 'zones' },
+    }
+    this.listeners = {
+      $childrenchange: this.exec,
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      delete obj._tileLayout
-      delete obj._zones
-      this.off('childrenchange', this.retile)
-    }
-  }
+  get isHorizontal () { return this._layout === 'h' }
 
-  isHorizontalTile () { return this._tileLayout === 'h' }
-  isVerticalTile () { return this._tileLayout === 'v' }
+  get isVertical () { return this._layout === 'v' }
 
-  tileTop () {
-    if (this.parent) {
-      this.width = this.parent.width
-      this.height = this.parent.height / this._zones
-      this.x = 0
-      this.y = 0
-      this.update()
-    }
-    return this
-  }
-
-  tileBottom () {
-    if (this.parent) {
-      this.width = this.parent.width
-      this.height = this.parent.height / this._zones
-      this.x = 0
-      this.y = this.parent.height - this.height
-      this.update()
-    }
-    return this
-  }
-
-  tileLeft () {
-    if (this.parent) {
-      this.width = this.parent.width / this._zones
-      this.height = this.parent.height
-      this.x = 0
-      this.y = 0
-      this.update()
-    }
-    return this
-  }
-
-  tileRight () {
-    if (this.parent) {
-      this.width = this.parent.width / this._zones
-      this.height = this.parent.height
-      this.x = this.parent.width - this.width
-      this.y = 0
-      this.update()
-    }
-    return this
-  }
-
-  tileTopLeft () {
-    if (this.parent) {
-      this.width = this.parent.width / this._zones
-      this.height = this.parent.height / this._zones
-      this.x = 0
-      this.y = 0
-      this.update()
-    }
-    return this
-  }
-
-  tileTopRight () {
-    if (this.parent) {
-      this.width = this.parent.width / this._zones
-      this.height = this.parent.height / this._zones
-      this.x = this.parent.width - this.width
-      this.y = 0
-      this.update()
-    }
-    return this
-  }
-
-  tileBottomLeft () {
-    if (this.parent) {
-      this.width = this.parent.width / this._zones
-      this.height = this.parent.height / this._zones
-      this.x = 0
-      this.y = this.parent.height - this.height
-      this.update()
-    }
-    return this
-  }
-
-  tileBottomRight () {
-    if (this.parent) {
-      this.width = this.parent.width / this._zones
-      this.height = this.parent.height / this._zones
-      this.x = this.parent.width - this.width
-      this.y = this.parent.height - this.height
-      this.update()
-    }
-    return this
-  }
-
-  tileCenter () {
-    if (this.parent) {
-      this.width = this.parent.width / this._zones
-      this.height = this.parent.height / this._zones
-      this.x = this.parent.width / 2 - this.width / 2
-      this.y = this.parent.height / 2 - this.height / 2
-      this.update()
-    }
-    return this
-  }
-
-  retile () {
-    let parent = this.parent
+  top () {
+    let owner = this.owner
+    let parent = owner.parent
     if (parent) {
-      if (this.isHorizontalTile) {
+      owner.width = parent.width
+      owner.height = parent.height / this._zones
+      owner.x = 0
+      owner.y = 0
+    }
+    return owner.update()
+  }
+
+  bottom () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.width = parent.width
+      owner.height = parent.height / this._zones
+      owner.x = 0
+      owner.y = parent.height - owner.height
+    }
+    return owner.update()
+  }
+
+  left () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.width = parent.width / this._zones
+      owner.height = parent.height
+      owner.x = 0
+      owner.y = 0
+    }
+    return owner.update()
+  }
+
+  right () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.width = parent.width / this._zones
+      owner.height = parent.height
+      owner.x = parent.width - owner.width
+      owner.y = 0
+    }
+    return owner.update()
+  }
+
+  topLeft () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.width = parent.width / this._zones
+      owner.height = parent.height / this._zones
+      owner.x = 0
+      owner.y = 0
+    }
+    return owner.update()
+  }
+
+  topRight () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.width = parent.width / this._zones
+      owner.height = parent.height / this._zones
+      owner.x = parent.width - owner.width
+      owner.y = 0
+    }
+    return owner.update()
+  }
+
+  bottomLeft () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.width = parent.width / this._zones
+      owner.height = parent.height / this._zones
+      owner.x = 0
+      owner.y = parent.height - owner.height
+    }
+    return owner.update()
+  }
+
+  bottomRight () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.width = parent.width / this._zones
+      owner.height = parent.height / this._zones
+      owner.x = parent.width - owner.width
+      owner.y = parent.height - owner.height
+    }
+    return owner.update()
+  }
+
+  center () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      owner.width = parent.width / this._zones
+      owner.height = parent.height / this._zones
+      owner.x = parent.width / 2 - owner.width / 2
+      owner.y = parent.height / 2 - owner.height / 2
+    }
+    return owner.update()
+  }
+
+  exec () {
+    let owner = this.owner
+    let parent = owner.parent
+    if (parent) {
+      if (this.isHorizontal) {
         let x = 0
-        let w = parent.width / this.children.count
+        let w = parent.width / owner.children.count
         let h = parent.height
-        for (let c of this.children) {
+        for (let c of owner.children) {
           c.x = x += w
           c.y = 0
           c.width = w
@@ -143,11 +144,11 @@ export default class Tile extends Plugin {
           c.update()
         }
       }
-      else if (this.isVerticalTile) {
+      else if (this.isVertical) {
         let y = 0
         let w = parent.width
-        let h = parent.height / this.children.count
-        for (let c of this.children) {
+        let h = parent.height / owner.children.count
+        for (let c of owner.children) {
           c.x = 0
           c.y = y += h
           c.width = w
@@ -155,9 +156,8 @@ export default class Tile extends Plugin {
           c.update()
         }
       }
-      this.update()
     }
-    return this
+    return owner.update()
   }
 
 }

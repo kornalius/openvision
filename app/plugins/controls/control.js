@@ -1,72 +1,67 @@
 
 export default class Control extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'control'
-    this._desc = 'Allow a container to act as a control.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/16/2017'
-    this._deps = ['interactive', 'mouse', 'keyboard']
-  }
-
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      obj.x = _.get(options, 'x', obj.x)
-      obj.y = _.get(options, 'y', obj.y)
-      obj.width = _.get(options, 'width', obj.width)
-      obj.height = _.get(options, 'height', obj.height)
-      obj.alpha = _.get(options, 'alpha', obj.alpha)
-      obj.scale.x = _.get(options, 'scaleX', obj.scale.x)
-      obj.scale.y = _.get(options, 'scaleY', obj.scale.y)
-      obj.pivot.x = _.get(options, 'pivotX', obj.pivot.x)
-      obj.pivot.y = _.get(options, 'pivotY', obj.pivot.y)
-      obj.skew.x = _.get(options, 'skewX', obj.skew.x)
-      obj.skew.y = _.get(options, 'skewY', obj.skew.y)
-      obj.rotation = _.get(options, 'rotation', obj.rotation)
-      obj.visible = _.get(options, 'visible', obj.visible)
-      obj._splitters = {}
+  constructor () {
+    super()
+    this.name = 'control'
+    this.desc = 'Allow a container to act as a control.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.dependencies = ['interactive', 'mouse', 'keyboard']
+    this.properties = {
+      splitters: { value: [] },
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      obj.removeAllSplitters()
-      delete obj._splitters
-    }
+  init (owner, options = {}) {
+    owner.x = _.get(options, 'x', owner.x)
+    owner.y = _.get(options, 'y', owner.y)
+    owner.width = _.get(options, 'width', owner.width)
+    owner.height = _.get(options, 'height', owner.height)
+    owner.alpha = _.get(options, 'alpha', owner.alpha)
+    owner.scale.x = _.get(options, 'scaleX', owner.scale.x)
+    owner.scale.y = _.get(options, 'scaleY', owner.scale.y)
+    owner.pivot.x = _.get(options, 'pivotX', owner.pivot.x)
+    owner.pivot.y = _.get(options, 'pivotY', owner.pivot.y)
+    owner.skew.x = _.get(options, 'skewX', owner.skew.x)
+    owner.skew.y = _.get(options, 'skewY', owner.skew.y)
+    owner.rotation = _.get(options, 'rotation', owner.rotation)
+    owner.visible = _.get(options, 'visible', owner.visible)
+    owner.update()
   }
 
-  getSplitter (side = 'r') { return this._splitters[side] }
+  destroy (owner) {
+    this.clear()
+  }
 
-  addSplitter (side = 'r', size = 2, color = 0xFFFFFF) {
-    let s = this.getSplitter(side)
+  get (side = 'r') { return this._splitters[side] }
+
+  add (side = 'r', size = 2, color = 0xFFFFFF) {
+    let s = this.get(side)
     if (!s) {
       s = new app.Rectangle()
       s.color = color
-      this.parent.addChild(s)
+      this.owner.parent.addChild(s)
       s.plug('splitter', { side, size, container: this })
       s.update()
-      this.update()
     }
-    return this
+    return this.owner.update()
   }
 
-  removeSplitter (side = 'r') {
-    let s = this.getSplitter(side)
+  remove (side = 'r') {
+    let s = this.get(side)
     if (s) {
-      this.removeChild(s)
+      this.owner.parent.removeChild(s)
       delete this._splitters[side]
-      this.update()
     }
-    return this
+    return this.owner.update()
   }
 
-  removeAllSplitters () {
+  clear () {
     for (let side in this._splitters) {
-      this.removeSplitter(side)
+      this.remove(side)
     }
-    return this.update()
+    return this.owner.update()
   }
 
 }

@@ -3,45 +3,36 @@ export let focused = null
 
 export default class Focusable extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'focusable'
-    this._desc = 'Allow container to be focused with mouse and tab key.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/07/2017'
-    this._deps = ['interactive', 'mouse', 'keyboard', 'focusrect']
-  }
-
-  load (obj, options) {
-    if (super.load(obj, options)) {
-      obj._tabIndex = _.get(options, 'tabIndex', -1)
-      obj._focusable = _.get(options, 'focusable', true)
-      obj.on('mousedown', obj.focus)
-      obj._onKeydownFocusable = obj.onKeydownFocusable.bind(obj)
-      window.addEventListener('keydown', obj._onKeydownFocusable, false)
+  constructor () {
+    super()
+    this.name = 'focusable'
+    this.desc = 'Allow container to be focused with mouse and tab key.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.dependencies = ['interactive', 'mouse', 'keyboard', 'focusrect']
+    this.properties = {
+      enabled: { value: true, options: 'enabled' },
+      index: { value: -1, options: 'index' },
+    }
+    this.listeners = {
+      $mousedown: this.focus,
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      window.removeEventListener('keydown', obj._onKeydownFocusable, false)
-      delete obj._tabIndex
-      delete obj._focusable
-      delete obj._onKeydownFocusable
-      obj.off('mousedown', obj.focus)
-    }
+  init (owner, options) {
+    this._onKeydown = this.onKeydown.bind(this)
+    window.addEventListener('keydown', this._onKeydown, false)
   }
 
-  get focused () { return focused === this }
+  destroy (owner) {
+    window.removeEventListener('keydown', this._onKeydown, false)
+  }
 
-  get focusable () { return this._focusable }
-  set focusable (value) { this._focusable = value }
+  get focused () { return focused === this.owner }
 
-  get tabIndex () { return this._tabIndex }
-  set tabIndex (value) {
-    if (this._tabIndex !== value) {
-      this._tabIndex = value
+  setIndex (value) {
+    if (this._index !== value) {
+      this._index = value
       if (this.focused && value === -1) {
         this.focusPrev()
       }
@@ -51,57 +42,62 @@ export default class Focusable extends Plugin {
   get focusableChildren () {
     let l = []
     for (let c of this.children) {
-      if (c.focusable) {
+      let f = c.focusable
+      if (f && f.enabled) {
         l.push(c)
       }
     }
-    return _.sortBy(l, 'tabIndex')
+    return _.sortBy(l, 'focusable.index')
   }
 
   blur () {
     focused = null
-    this.hideFocusRect()
-    this.emit('blur')
-    return this
+    let owner = this.owner
+    owner.focusrect.hide()
+    owner.emit('blur')
+    return owner
   }
 
   focus () {
-    if (this.focusable) {
+    let owner = this.owner
+    if (this._enabled) {
       if (focused) {
-        focused.blur()
+        focused.focusable.blur()
       }
-      focused = this // eslint-disable-line consistent-this
-      this.showFocusRect()
-      this.emit('focus')
+      focused = owner
+      owner.focusrect.show()
+      owner.emit('focus')
     }
-    return this
+    return owner
   }
 
   focusPrev () {
-    let l = this._tabIndex
+    let owner = this.owner
+    let l = this._index
     for (let c of this.focusableChildren) {
-      if (c.tabIndex <= l && c !== this) {
-        c.focus()
-        return c.focused
+      let f = c.focusable
+      if (f && f.enabled && f.index <= l && c !== owner) {
+        f.focus()
+        return c
       }
-      return false
     }
-    return this
+    return owner
   }
 
   focusNext () {
-    let l = this._tabIndex
+    let owner = this.owner
+    let l = this._index
     for (let c of this.focusableChildren) {
-      if (c.tabIndex >= l && c !== this) {
-        c.focus()
-        return c.focused
+      let f = c.focusable
+      if (f && f.enabled && f.index >= l && c !== owner) {
+        f.focus()
+        return c
       }
-      return false
     }
-    return this
+    return owner
   }
 
-  onKeydownFocusable (e) {
+  onKeydown (e) {
     if (this.focused) {
       if (e.key === 'Tab') {
         if (e.shiftKey) {

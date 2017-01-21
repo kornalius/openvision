@@ -5,11 +5,12 @@ const TRANSITION_PLAYING = 2
 
 class Transition extends app.Emitter {
 
-  constructor (obj, prop, value, type, duration) {
+  constructor (instance, prop, value, type, duration) {
     super()
-    this.obj = obj
+    this.instance = instance
+    this.owner = instance.owner
     this.prop = prop
-    this.oldValue = obj[prop]
+    this.oldValue = this.owner[prop]
     this.newValue = value
     this.type = type
     this.duration = duration
@@ -99,7 +100,7 @@ class Transition extends app.Emitter {
         break
     }
 
-    this.obj[this.prop] += this.dist > 0 ? delta : -delta
+    this.owner[this.prop] += this.dist > 0 ? delta : -delta
   }
 
   get isPlaying () { return this.status === TRANSITION_PLAYING }
@@ -108,7 +109,7 @@ class Transition extends app.Emitter {
 
   remove () {
     this.stop()
-    delete this.obj._transitions[this.prop]
+    delete this.instance._transitions[this.prop]
     return this
   }
 
@@ -144,7 +145,7 @@ class Transition extends app.Emitter {
   }
 
   cancel () {
-    this.obj[this.prop] = this.oldValue
+    this.owner[this.prop] = this.oldValue
     return this.stop()
   }
 
@@ -162,31 +163,21 @@ class Transition extends app.Emitter {
 
 export default class Transitions extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'transitions'
-    this._desc = 'Allow container\'s prop value transitioning over time.'
-    this._author = 'Alain Deschenes'
-    this._version = '1.0.0'
-    this._date = '01/13/2017'
-  }
-
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      obj._transitions = {}
+  constructor () {
+    super()
+    this.name = 'transitions'
+    this.desc = 'Allow property values to transition over time to new values.'
+    this.author = 'Alain Deschenes'
+    this.version = '1.0.0'
+    this.properties = {
+      transitions: { value: {} },
     }
   }
 
-  unload (obj) {
-    if (super.unload(obj)) {
-      delete obj._transitions
-    }
-  }
+  find (prop) { return this._transitions[prop] }
 
-  findTransition (prop) { return this._transitions[prop] }
-
-  transition (prop, newValue, duration, type) {
-    let t = this.findTransition(prop)
+  create (prop, newValue, duration, type) {
+    let t = this.find(prop)
     let oldValue = this[prop]
     if (!t && oldValue !== newValue) {
       t = new Transition(this, prop, newValue, type, duration)
@@ -195,104 +186,104 @@ export default class Transitions extends Plugin {
     return t.play()
   }
 
-  removeTransition (prop) {
-    let t = this.findTransition(prop)
+  remove (prop) {
+    let t = this.find(prop)
     if (t) {
-      this.remove()
+      t.remove()
     }
-    return this
+    return this.owner
   }
 
-  isTransitionPlaying (prop) {
-    let t = this.findTransition(prop)
+  isPlaying (prop) {
+    let t = this.find(prop)
     return t && t.isPlaying
   }
 
-  isTransitionPaused (prop) {
-    let t = this.findTransition(prop)
+  isPaused (prop) {
+    let t = this.find(prop)
     return t && t.isPaused
   }
 
-  playTransition (prop) {
-    let t = this.findTransition(prop)
+  play (prop) {
+    let t = this.find(prop)
     if (t) {
       t.play()
     }
-    return this
+    return this.owner
   }
 
-  pauseTransition (prop) {
-    let t = this.findTransition(prop)
+  pause (prop) {
+    let t = this.find(prop)
     if (t) {
       t.pause()
     }
-    return this
+    return this.owner
   }
 
-  resumeTransition (prop) {
-    let t = this.findTransition(prop)
+  resume (prop) {
+    let t = this.find(prop)
     if (t) {
       t.resume()
     }
-    return this
+    return this.owner
   }
 
-  cancelTransition (prop) {
-    let t = this.findTransition(prop)
+  cancel (prop) {
+    let t = this.find(prop)
     if (t) {
       this.cancel()
     }
-    return this
+    return this.owner
   }
 
-  stopTransition (prop) {
-    let t = this.findTransition(prop)
+  stop (prop) {
+    let t = this.find(prop)
     if (t) {
       t.stop()
     }
-    return this.removeTransition(prop)
+    return this.remove(prop)
   }
 
-  playAllTransitions () {
+  playAll () {
     for (let k in this._transitions) {
       this._transitions[k].play()
     }
-    return this
+    return this.owner
   }
 
-  pauseAllTransitions () {
+  pauseAll () {
     for (let k in this._transitions) {
       this._transitions[k].pause()
     }
-    return this
+    return this.owner
   }
 
-  resumeAllTransitions () {
+  resumeAll () {
     for (let k in this._transitions) {
       this._transitions[k].resume()
     }
-    return this
+    return this.owner
   }
 
-  stopAllTransitions () {
+  stopAll () {
     for (let k in this._transitions) {
       this._transitions[k].stop()
     }
-    return this
+    return this.owner
   }
 
-  cancelAllTransitions () {
+  cancelAll () {
     for (let k in this._transitions) {
       this._transitions[k].cancel()
     }
-    return this
+    return this.owner
   }
 
-  removeAllTransitions () {
+  removeAll () {
     for (let k in this._transitions) {
       this._transitions[k].remove()
     }
-    return this
+    return this.owner
   }
 
 }
