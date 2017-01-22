@@ -54,16 +54,16 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     return true
   }
 
-  plugins (owner) { return _.get(owner, '__plugins', { __order: [] }) }
+  plugins ($) { return _.get($, '__plugins', { __order: [] }) }
 
-  isPluginLoaded (owner, name) { return !_.isUndefined(this.plugins(owner)[name]) }
+  isPluginLoaded ($, name) { return !_.isUndefined(this.plugins($)[name]) }
 
-  canLoad (owner) {
-    let pn = this.name
+  canLoad ($) {
+    let name = this.name
 
-    if (this.isPluginLoaded(owner, pn)) {
+    if (this.isPluginLoaded($, name)) {
       if (this._showErrors()) {
-        console.error('Plugin', pn, 'already loaded')
+        console.error('Plugin', name, 'already loaded')
       }
       return false
     }
@@ -105,8 +105,8 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     }
   }
 
-  // create properties on proto or owner instance
-  _createProperties (proto, owner, options) {
+  // create properties on proto or $ instance
+  _createProperties (proto, $, options) {
     let _properties = this.properties
 
     for (let k in _properties) {
@@ -130,7 +130,7 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
         // should the owner's instance call the update() method after the setter
         let update = v.update
 
-        let p = ownerProp ? owner : proto
+        let p = ownerProp ? $ : proto
         let props = ownerProp ? '__ownerProps' : '__props'
 
         proto[props][name] = value
@@ -145,7 +145,7 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
                 update.call(this)
               }
               else {
-                this.owner.update()
+                this.$.update()
               }
             }
           }
@@ -154,8 +154,8 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     }
   }
 
-  // create listeners on proto or owner instance
-  _createListeners (proto, plugin, owner, options) {
+  // create listeners on proto or $ instance
+  _createListeners (proto, plugin, $, options) {
     let _listeners = this.listeners
 
     for (let k in _listeners) {
@@ -174,7 +174,7 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
   }
 
   // copy plugin's methods to proto
-  _createMethods (proto, owner, options) {
+  _createMethods (proto, $, options) {
     let origProto = this.constructor.prototype
 
     for (let k of this._prototypeMethods) {
@@ -182,49 +182,49 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     }
   }
 
-  // create plugin and owner instances properties
-  _createInstanceProperties (proto, plugin, owner, options) {
+  // create plugin and $ instances properties
+  _createInstanceProperties (proto, plugin, $, options) {
     // plugin instance properties
     let ip = proto.__props
     for (let k in ip) {
       plugin[k] = ip[k]
     }
 
-    // owner instance properties
+    // $ instance properties
     let op = proto.__ownerProps
     for (let k in op) {
-      owner[k] = op[k]
+      $[k] = op[k]
     }
   }
 
-  // create plugin and owner instances listeners
-  _createInstanceListeners (proto, plugin, owner, options) {
+  // create plugin and $ instances listeners
+  _createInstanceListeners (proto, plugin, $, options) {
     // plugin instance listeners
     let ie = proto.__listeners
     for (let k in ie) {
       plugin.on(k, ie[k])
     }
 
-    // owner instance listeners
+    // $ instance listeners
     let oe = proto.__ownerListeners
     for (let k in oe) {
-      owner.on(k, oe[k])
+      $.on(k, oe[k])
     }
   }
 
   // set a getter on the owner's instance to access the plugin instance directly
-  _createPluginGetter (plugin, owner, name) {
+  _createPluginGetter (plugin, $, name) {
     if (!this.nolink) {
-      this._createProperty(owner, name, undefined, undefined, plugin)
+      this._createProperty($, '__' + name, undefined, undefined, plugin)
     }
   }
 
   // override other plugins instance methods
-  _createOverrides (proto, plugin, owner, options) {
+  _createOverrides (proto, plugin, $, options) {
     let overrides = this.overrides
 
     for (let name in overrides) {
-      let ownerPlugin = owner.__plugins[name]
+      let ownerPlugin = $.__plugins[name]
       if (plugins[name] && plugin) {
         for (let k in overrides[name]) {
           let getter
@@ -251,71 +251,71 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     }
   }
 
-  load (owner, options = {}) {
-    let pn = this.name
+  load ($, options = {}) {
+    let name = this.name
 
     if (this._showMessages()) {
-      console.log(_.repeat('  ', loadLevel) + 'Loading', pn)
+      console.log(_.repeat('  ', loadLevel) + 'Loading', name)
     }
 
-    if (!this.canLoad(owner)) {
+    if (!this.canLoad($)) {
       return false
     }
 
     loadLevel++
 
     // get or create the __plugins property from owner's instance
-    let __plugins = owner.__plugins = this.plugins(owner)
+    let __plugins = $.__plugins = this.plugins($)
 
     // new plugin prototype
     let proto = this._createProto()
 
-    this._createProperties(proto, owner, options)
+    this._createProperties(proto, $, options)
 
-    this._createMethods(proto, owner, options)
+    this._createMethods(proto, $, options)
 
     // create new plugin instance
     let plugin = Object.create(proto, {})
-    plugin.owner = owner
+    plugin.$ = $
 
     // assign plugin instance into the owner's instance loaded plugins
-    __plugins[pn] = plugin
+    __plugins[name] = plugin
 
     // add plugin name to owner's instance plugins load order
-    __plugins.__order.push(pn)
+    __plugins.__order.push(name)
 
-    this._createListeners(proto, plugin, owner, options)
+    this._createListeners(proto, plugin, $, options)
 
-    this._createInstanceProperties(proto, plugin, owner, options)
+    this._createInstanceProperties(proto, plugin, $, options)
 
-    this._createInstanceListeners(proto, plugin, owner, options)
+    this._createInstanceListeners(proto, plugin, $, options)
 
-    this._createPluginGetter(plugin, owner, pn)
+    this._createPluginGetter(plugin, $, name)
 
     // load plugin dependencies
     for (let n of this.dependencies) {
       let p = plugins[n]
-      if (p && p.canLoad(owner)) {
-        p.load(owner, options)
+      if (p && p.canLoad($)) {
+        p.load($, options)
       }
     }
 
-    this._createOverrides(proto, plugin, owner, options)
+    this._createOverrides(proto, plugin, $, options)
 
     // import plugins
     for (let n of this.imports) {
       let p = plugins[n]
-      if (p && p.canLoad(owner)) {
-        p.load(owner, options)
+      if (p && p.canLoad($)) {
+        p.load($, options)
       }
     }
 
-    // tell this plugin instance that it's been loaded into owner instance
-    this.__loaded.push(owner)
+    // tell this plugin instance that it's been loaded into $ instance
+    this.__loaded.push($)
 
     // call new instance init method
     if (_.isFunction(plugin.init)) {
-      plugin.init(owner, options)
+      plugin.init($, options)
     }
 
     loadLevel--
@@ -323,13 +323,13 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     return true
   }
 
-  canUnload (owner) {
-    let pn = this.name
-    let __plugins = this.plugins(owner)
+  canUnload ($) {
+    let name = this.name
+    let __plugins = this.plugins($)
 
-    if (!__plugins[pn]) {
+    if (!__plugins[name]) {
       if (this._showErrors()) {
-        console.error('Plugin', pn, 'not loaded')
+        console.error('Plugin', name, 'not loaded')
       }
       return false
     }
@@ -337,15 +337,15 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     for (let k in __plugins) {
       let p = __plugins[k]
       if (p && !(p instanceof this.constructor.prototype)) {
-        if (_.includes(p.dependencies, pn)) {
+        if (_.includes(p.dependencies, name)) {
           if (this._showErrors()) {
-            console.error(pn, 'is a dependency of plugin', k)
+            console.error(name, 'is a dependency of plugin', k)
           }
           return false
         }
-        else if (_.includes(p.imports, pn)) {
+        else if (_.includes(p.imports, name)) {
           if (this._showErrors()) {
-            console.error(pn, 'is required by plugin', k)
+            console.error(name, 'is required by plugin', k)
           }
           return false
         }
@@ -355,36 +355,36 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     return true
   }
 
-  unload (owner) {
-    let pn = this.name
+  unload ($) {
+    let name = this.name
 
     if (this._showMessages()) {
-      console.log(_.repeat('  ', loadLevel) + 'Unloading', pn)
+      console.log(_.repeat('  ', loadLevel) + 'Unloading', name)
     }
 
-    if (!this.canUnload(owner)) {
+    if (!this.canUnload($)) {
       return false
     }
 
     loadLevel++
 
-    let __plugins = this.plugins(owner)
-    let plugin = __plugins[pn]
+    let __plugins = this.plugins($)
+    let plugin = __plugins[name]
 
     // call plugin instance destroy method
     if (_.isFunction(plugin.destroy)) {
-      plugin.destroy(owner)
+      plugin.destroy($)
     }
 
     // delete owner's instance properties created by the plugin
     for (let k of plugin.__ownerProps) {
-      delete owner[k]
+      delete $[k]
     }
 
     // delete owner's instance overrides created by the plugin
     let overrides = this.overrides
     for (let name in overrides) {
-      let oplugin = owner.__plugins[name]
+      let oplugin = $.__plugins[name]
       if (plugins[name] && oplugin) {
         for (let k in overrides[name]) {
           this._createProperty(oplugin, k, undefined, undefined, undefined)
@@ -401,36 +401,36 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     // cancel owner's instance events
     let oe = plugin.__ownerListeners
     for (let k in oe) {
-      owner.off(k, oe[k])
+      $.off(k, oe[k])
     }
 
     // delete the plugin from the owner's instance plugins list
-    delete __plugins[pn]
+    delete __plugins[name]
 
     // remove the plugin name from the owner's instance plugins load order list
-    _.remove(__plugins.__order, pn)
+    _.remove(__plugins.__order, name)
 
     // delete the plugin getter from the owner's instance
-    delete owner[pn]
+    delete $[name]
 
     // unload imported plugins
     for (let n of this.imports.reverse()) {
       let p = plugins[n]
-      if (p && p.canUnload(owner)) {
-        p.unload(owner)
+      if (p && p.canUnload($)) {
+        p.unload($)
       }
     }
 
     // try to unload plugin's dependencies
     for (let n of this.dependencies.reverse()) {
       let p = plugins[n]
-      if (p && p.canUnload(owner)) {
-        p.unload(owner)
+      if (p && p.canUnload($)) {
+        p.unload($)
       }
     }
 
-    // remove the owner from the plugin's loaded list
-    _.remove(this.__loaded, owner)
+    // remove the $ from the plugin's loaded list
+    _.remove(this.__loaded, $)
 
     loadLevel--
 

@@ -28,7 +28,7 @@ export default class States extends Plugin {
         }
       }
     }
-    return this.owner
+    return this
   }
 
   remove (state) {
@@ -47,7 +47,7 @@ export default class States extends Plugin {
         }
       }
     }
-    return this.owner
+    return this
   }
 
   has (state) {
@@ -86,7 +86,7 @@ export default class States extends Plugin {
     else if (value === false) {
       this.remove(state)
     }
-    return this.owner
+    return this
   }
 
   query (state, arr) {

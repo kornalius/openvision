@@ -10,8 +10,8 @@ export default class extends Plugin {
     this.dependencies = ['focusable']
   }
 
-  init (owner, options = {}) {
-    owner.tabIndex = 1
+  init ($, options = {}) {
+    $.tabIndex = 1
 
     this._onKeydown = this.onKeydown.bind(this)
     window.addEventListener('keydown', this._onKeydown, false)
@@ -20,19 +20,19 @@ export default class extends Plugin {
     window.addEventListener('keyup', this._onKeyup, false)
   }
 
-  unload (owner) {
+  unload ($) {
     window.removeEventListener('keydown', this._onKeydown, false)
     window.removeEventListener('keyup', this._onKeyup, false)
   }
 
   onKeydown (e) {
-    if (this.owner.focusable.focused) {
+    if (this.$.__focusable.focused) {
       // console.log('down', e)
     }
   }
 
   onKeyup (e) {
-    if (this.owner.focusable.focused) {
+    if (this.$.__focusable.focused) {
       // console.log('up', e)
     }
   }

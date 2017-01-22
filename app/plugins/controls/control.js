@@ -13,24 +13,24 @@ export default class Control extends Plugin {
     }
   }
 
-  init (owner, options = {}) {
-    owner.x = _.get(options, 'x', owner.x)
-    owner.y = _.get(options, 'y', owner.y)
-    owner.width = _.get(options, 'width', owner.width)
-    owner.height = _.get(options, 'height', owner.height)
-    owner.alpha = _.get(options, 'alpha', owner.alpha)
-    owner.scale.x = _.get(options, 'scaleX', owner.scale.x)
-    owner.scale.y = _.get(options, 'scaleY', owner.scale.y)
-    owner.pivot.x = _.get(options, 'pivotX', owner.pivot.x)
-    owner.pivot.y = _.get(options, 'pivotY', owner.pivot.y)
-    owner.skew.x = _.get(options, 'skewX', owner.skew.x)
-    owner.skew.y = _.get(options, 'skewY', owner.skew.y)
-    owner.rotation = _.get(options, 'rotation', owner.rotation)
-    owner.visible = _.get(options, 'visible', owner.visible)
-    owner.update()
+  init ($, options = {}) {
+    $.x = _.get(options, 'x', $.x)
+    $.y = _.get(options, 'y', $.y)
+    $.width = _.get(options, 'width', $.width)
+    $.height = _.get(options, 'height', $.height)
+    $.alpha = _.get(options, 'alpha', $.alpha)
+    $.scale.x = _.get(options, 'scaleX', $.scale.x)
+    $.scale.y = _.get(options, 'scaleY', $.scale.y)
+    $.pivot.x = _.get(options, 'pivotX', $.pivot.x)
+    $.pivot.y = _.get(options, 'pivotY', $.pivot.y)
+    $.skew.x = _.get(options, 'skewX', $.skew.x)
+    $.skew.y = _.get(options, 'skewY', $.skew.y)
+    $.rotation = _.get(options, 'rotation', $.rotation)
+    $.visible = _.get(options, 'visible', $.visible)
+    $.update()
   }
 
-  destroy (owner) {
+  destroy ($) {
     this.clear()
   }
 
@@ -41,27 +41,30 @@ export default class Control extends Plugin {
     if (!s) {
       s = new app.Rectangle()
       s.color = color
-      this.owner.parent.addChild(s)
+      this.$.parent.addChild(s)
       s.plug('splitter', { side, size, container: this })
       s.update()
     }
-    return this.owner.update()
+    this.$.update()
+    return this
   }
 
   remove (side = 'r') {
     let s = this.get(side)
     if (s) {
-      this.owner.parent.removeChild(s)
+      this.$.parent.removeChild(s)
       delete this._splitters[side]
     }
-    return this.owner.update()
+    this.$.update()
+    return this
   }
 
   clear () {
     for (let side in this._splitters) {
       this.remove(side)
     }
-    return this.owner.update()
+    this.$.update()
+    return this
   }
 
 }

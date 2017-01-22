@@ -8,7 +8,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 module.exports = {
   debug: true,
 
-  devtool: 'inline-source-map',
+  devtool: 'eval',
 
   target: 'electron-renderer',
 

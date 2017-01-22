@@ -14,9 +14,9 @@ export default class Caret extends Plugin {
       style: { value: 'vline', options: 'style', set: this.setStyle },
       color: { value: 0xFFFFFF, options: 'color', set: this.setColor },
       alpha: { value: 1, options: 'alpha', set: this.setAlpha },
-      show: { value: true, options: 'visible', set: this.setVisible },
+      visible: { value: true, options: 'visible', set: this.setVisible },
       speed: { value: 500, options: 'speed', set: this.setSpeed },
-      wrap: { value: false, options: 'wrap' },
+      wrap: { value: true, options: 'wrap' },
     }
     this.listeners = {
       $mousedown: this.onMousedown,
@@ -26,9 +26,7 @@ export default class Caret extends Plugin {
     }
   }
 
-  get text () { return this.owner.textbuffer }
-
-  init (owner, options = {}) {
+  init ($, options = {}) {
     let c = this._shape = new app.Rectangle(this.viewWidth, this.viewHeight)
     c.color = this._color
     c.alpha = this._alpha
@@ -36,15 +34,15 @@ export default class Caret extends Plugin {
 
     this.reshape()
 
-    owner.addChild(c)
+    $.addChild(c)
 
     this.set(this._x, this._y)
   }
 
-  destroy (owner) {
+  destroy ($) {
     clearInterval(this._interval)
-    owner.removeChild(this._shape)
-    owner.update()
+    $.removeChild(this._shape)
+    $.update()
   }
 
   setStyle (value) {
@@ -72,7 +70,8 @@ export default class Caret extends Plugin {
     c.height = this.viewHeight
     c.color = this._color
     c.alpha = this._alpha
-    return this.owner.update()
+    c.update()
+    return this
   }
 
   get viewLeft () {
@@ -122,34 +121,36 @@ export default class Caret extends Plugin {
 
   setSpeed (ms) {
     this._speed = ms
-    if (this.canShow) {
-      this.startBlink()
-    }
   }
 
   setVisible (value) {
-    this._show = value
-    this.startBlink()
+    this._visible = value
+    this._shape.visible = value
+    this._shape.update()
+    return this
   }
 
-  get canShow () { return this._show && (!this.owner.focusable || this.owner.focusable.focused) }
+  get canShow () { return this._visible && this.$.__focusable.focused }
 
   blink () {
-    this._shape.visible = !this._show ? false : !this._shape.visible
-    return this.owner.update()
+    this._shape.visible = !this.canShow ? false : !this._shape.visible
+    this._shape.update()
+    return this
   }
 
   startBlink () {
     this.stopBlink()
     this._interval = setInterval(this.blink.bind(this), this._speed)
+    this._shape.visible = this.canShow
+    this._shape.update()
+    return this
   }
 
   stopBlink () {
     clearInterval(this._interval)
-  }
-
-  set visible (value) {
-    this._shape.visible = value
+    this._shape.visible = this.canShow
+    this._shape.update()
+    return this
   }
 
   set (x, y) {
@@ -179,13 +180,11 @@ export default class Caret extends Plugin {
     x = Math.max(minX, Math.min(maxX, x))
 
     if (x !== this._x || y !== this._y) {
-      this._y = y
       this._x = x
-
+      this._y = y
       this._shape.position.set(x * this.width + this.viewLeft, y * this.height + this.viewTop)
       this._shape.visible = this.canShow
-
-      return this.owner.update()
+      this._shape.update()
     }
 
     return this
@@ -220,13 +219,13 @@ export default class Caret extends Plugin {
   }
 
   nextLine () {
-    return this.moveCaretBol().moveCaretDown()
+    return this.bol().down()
   }
 
   onMousedown (e) {
     let info = app.mouseEvent(e)
-    if (info.target === this.owner) {
-      if (this.owner._pressed.down) {
+    if (info.target === this.$) {
+      if (this.$._pressed.down) {
         let { x, y } = this.fromPixel(info.x, info.y)
         this.set(x, y)
       }
@@ -235,8 +234,8 @@ export default class Caret extends Plugin {
 
   onMousemove (e) {
     let info = app.mouseEvent(e)
-    if (info.target === this.owner) {
-      if (this.owner._pressed.down) {
+    if (info.target === this.$) {
+      if (this.$._pressed.down) {
         let { x, y } = this.fromPixel(info.x, info.y)
         this.set(x, y)
       }
@@ -244,14 +243,10 @@ export default class Caret extends Plugin {
   }
 
   onFocus () {
-    this._visible = true
     this.startBlink()
-    this.owner.update()
   }
 
   onBlur () {
-    this._visible = false
     this.stopBlink()
-    this.owner.update()
   }
 }

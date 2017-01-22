@@ -22,10 +22,11 @@ export default class Scrollable extends Plugin {
   }
 
   scroll () {
-    for (let c of this.owner.children) {
+    for (let c of this.$.children) {
       c.update()
     }
-    return this.owner.update()
+    this.$.update()
+    return this
   }
 
   get scrollHorizontal () { return this._stepX > 0 }

@@ -43,19 +43,17 @@ export default class TextBuffer extends Plugin {
     }
   }
 
-  init (owner, options = {}) {
-    this.value = owner.text || this._value
+  init ($, options = {}) {
+    this.value = $.text || this._value
   }
 
   get CR () { return CR }
   get TAB () { return TAB }
   get SPACE () { return SPACE }
 
-  get caret () { return this.owner.caret }
-
   set (value) {
     this._value = value
-    this.owner.text = value
+    this.$.text = value
     this.refresh()
     return this.lines // to update text on Text container
   }
@@ -83,7 +81,7 @@ export default class TextBuffer extends Plugin {
   }
 
   get caretPos () {
-    let c = this.caret
+    let c = this.$.__caret
     let i = this.lineInfo(c.y)
     return (i ? i.start : 0) + c.x
   }
@@ -100,7 +98,7 @@ export default class TextBuffer extends Plugin {
       }
       y++
     }
-    this.caret.set(x, y)
+    this.$.__caret.set(x, y)
   }
 
   clipPos (pos) { return Math.max(0, Math.min(pos, this.length - 1)) }
@@ -127,7 +125,7 @@ export default class TextBuffer extends Plugin {
       this._lines = text.split(/(?:\r\n|\r|\n)/)
       this._linesInfo = null
       this._value = text
-      this.owner.text = text
+      this.$.text = text
     }
     return this._lines
   }
@@ -154,7 +152,8 @@ export default class TextBuffer extends Plugin {
 
   insertAt (pos, s) {
     this.value = this.value.splice(pos, 0, s)
-    return this.owner.update()
+    this.update()
+    return this
   }
 
   insert (s = '') {
@@ -165,7 +164,7 @@ export default class TextBuffer extends Plugin {
     let i = this.lineInfo(y)
     if (i) {
       this.value = this.value.splice(i.start, i.length - 1, s)
-      this.owner.update()
+      this.$.update()
     }
     return this
   }
@@ -180,12 +179,14 @@ export default class TextBuffer extends Plugin {
 
   newLine (s = '') {
     this.value += s + CR
-    return this.owner.update()
+    this.update()
+    return this
   }
 
   deleteAt (pos, count = 1) {
     this.value = this.value.splice(pos, count)
-    return this.owner.update()
+    this.update()
+    return this
   }
 
   delete (count = 1) {
@@ -212,7 +213,7 @@ export default class TextBuffer extends Plugin {
     else {
       switch (dir) {
         case 'left':
-          this.caret.left()
+          this.$.__caret.left()
           this.delete()
           break
         case 'right':

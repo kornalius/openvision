@@ -25,9 +25,9 @@ export default class Snap extends Plugin {
   get center () { return this._sides.indexOf('c') }
 
   exec () {
-    let owner = this.owner
-    let x = owner.x
-    let y = owner.y
+    let $ = this.$
+    let x = $.x
+    let y = $.y
     let d = this._distance
 
     let containers = this._containers
@@ -90,10 +90,10 @@ export default class Snap extends Plugin {
       }
     }
 
-    owner.x = x
-    owner.y = y
+    $.x = x
+    $.y = y
 
-    return owner.update()
+    return $.update()
   }
 
 }

@@ -16,7 +16,7 @@ export default class Layout extends Plugin {
     }
   }
 
-  init (owner, options) {
+  init ($, options) {
     this.exec()
   }
 
@@ -37,7 +37,7 @@ export default class Layout extends Plugin {
     let y = 0
 
     if (this.enabled) {
-      for (var c of this.owner.children) {
+      for (var c of this.$.children) {
         c.x = x
         c.y = y
 
@@ -61,7 +61,8 @@ export default class Layout extends Plugin {
       }
     }
 
-    return this.owner.update()
+    this.$.update()
+    return this
   }
 
 }

@@ -12,8 +12,8 @@ export default class Shape extends Plugin {
     }
   }
 
-  init (owner, options = {}) {
-    let c = this._shape = new app.Shape(owner.width, owner.height)
+  init ($, options = {}) {
+    let c = this._shape = new app.Shape($.width, $.height)
     c.fill = _.get(options, 'fill', true)
     c.color = _.get(options, 'color', 0xFFFFFF)
     c.alpha = _.get(options, 'alpha', 1)
@@ -22,12 +22,12 @@ export default class Shape extends Plugin {
     c.borderAlpha = _.get(options, 'border.alpha', 1)
     c.radius = _.get(options, 'radius', 0)
     c.style = _.get(options, 'style', 'rect')
-    owner.addChild(c)
+    $.addChild(c)
   }
 
-  destroy (owner) {
-    owner.removeChild(this._shape)
-    owner.update()
+  destroy ($) {
+    $.removeChild(this._shape)
+    $.update()
   }
 
   get fill () { return this._shape.fill }
@@ -109,10 +109,10 @@ export default class Shape extends Plugin {
 
   onUpdateTransform () {
     let c = this._shape
-    let owner = this.owner
-    if (c.width !== owner.width || c.height !== owner.height) {
-      c.width = owner.width
-      c.height = owner.height
+    let $ = this.$
+    if (c.width !== $.width || c.height !== $.height) {
+      c.width = $.width
+      c.height = $.height
       c._drawShape()
     }
   }

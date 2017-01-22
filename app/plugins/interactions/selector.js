@@ -19,12 +19,12 @@ export default class Selector extends Plugin {
       this._selectables.push(obj)
       obj._selector = this
     }
-    return this.owner
+    return this
   }
 
   remove (obj) {
     _.pull(this._selectables, obj)
-    return this.owner
+    return this
   }
 
   canSelect (obj) {
@@ -39,14 +39,14 @@ export default class Selector extends Plugin {
     if (this.canSelect(obj)) {
       obj.select()
     }
-    return this.owner
+    return this
   }
 
   unselect (obj) {
     if (this.canSelect(obj)) {
       obj.unselect()
     }
-    return this.owner
+    return this
   }
 
   toggle (obj) {
@@ -58,14 +58,14 @@ export default class Selector extends Plugin {
         obj.select()
       }
     }
-    return this.owner
+    return this
   }
 
   setSelected (obj, value) {
     if (this.canSelect(obj)) {
       obj.selected = value
     }
-    return this.owner
+    return this
   }
 
 }

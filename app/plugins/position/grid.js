@@ -14,9 +14,10 @@ export default class Grid extends Plugin {
   }
 
   exec () {
-    this.owner.x = Math.trunc(this.owner.x / this.width)
-    this.owner.y = Math.trunc(this.owner.y / this.height)
-    return this.owner.update()
+    this.$.x = Math.trunc(this.$.x / this.width)
+    this.$.y = Math.trunc(this.$.y / this.height)
+    this.$.update()
+    return this
   }
 
 }

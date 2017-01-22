@@ -21,122 +21,122 @@ export default class Tile extends Plugin {
   get isVertical () { return this._layout === 'v' }
 
   top () {
-    let owner = this.owner
-    let parent = owner.parent
+    let $ = this.$
+    let parent = $.parent
     if (parent) {
-      owner.width = parent.width
-      owner.height = parent.height / this._zones
-      owner.x = 0
-      owner.y = 0
+      $.width = parent.width
+      $.height = parent.height / this._zones
+      $.x = 0
+      $.y = 0
     }
-    return owner.update()
+    return $.update()
   }
 
   bottom () {
-    let owner = this.owner
-    let parent = owner.parent
+    let $ = this.$
+    let parent = $.parent
     if (parent) {
-      owner.width = parent.width
-      owner.height = parent.height / this._zones
-      owner.x = 0
-      owner.y = parent.height - owner.height
+      $.width = parent.width
+      $.height = parent.height / this._zones
+      $.x = 0
+      $.y = parent.height - $.height
     }
-    return owner.update()
+    return $.update()
   }
 
   left () {
-    let owner = this.owner
-    let parent = owner.parent
+    let $ = this.$
+    let parent = $.parent
     if (parent) {
-      owner.width = parent.width / this._zones
-      owner.height = parent.height
-      owner.x = 0
-      owner.y = 0
+      $.width = parent.width / this._zones
+      $.height = parent.height
+      $.x = 0
+      $.y = 0
     }
-    return owner.update()
+    return $.update()
   }
 
   right () {
-    let owner = this.owner
-    let parent = owner.parent
+    let $ = this.$
+    let parent = $.parent
     if (parent) {
-      owner.width = parent.width / this._zones
-      owner.height = parent.height
-      owner.x = parent.width - owner.width
-      owner.y = 0
+      $.width = parent.width / this._zones
+      $.height = parent.height
+      $.x = parent.width - $.width
+      $.y = 0
     }
-    return owner.update()
+    return $.update()
   }
 
   topLeft () {
-    let owner = this.owner
-    let parent = owner.parent
+    let $ = this.$
+    let parent = $.parent
     if (parent) {
-      owner.width = parent.width / this._zones
-      owner.height = parent.height / this._zones
-      owner.x = 0
-      owner.y = 0
+      $.width = parent.width / this._zones
+      $.height = parent.height / this._zones
+      $.x = 0
+      $.y = 0
     }
-    return owner.update()
+    return $.update()
   }
 
   topRight () {
-    let owner = this.owner
-    let parent = owner.parent
+    let $ = this.$
+    let parent = $.parent
     if (parent) {
-      owner.width = parent.width / this._zones
-      owner.height = parent.height / this._zones
-      owner.x = parent.width - owner.width
-      owner.y = 0
+      $.width = parent.width / this._zones
+      $.height = parent.height / this._zones
+      $.x = parent.width - $.width
+      $.y = 0
     }
-    return owner.update()
+    return $.update()
   }
 
   bottomLeft () {
-    let owner = this.owner
-    let parent = owner.parent
+    let $ = this.$
+    let parent = $.parent
     if (parent) {
-      owner.width = parent.width / this._zones
-      owner.height = parent.height / this._zones
-      owner.x = 0
-      owner.y = parent.height - owner.height
+      $.width = parent.width / this._zones
+      $.height = parent.height / this._zones
+      $.x = 0
+      $.y = parent.height - $.height
     }
-    return owner.update()
+    return $.update()
   }
 
   bottomRight () {
-    let owner = this.owner
-    let parent = owner.parent
+    let $ = this.$
+    let parent = $.parent
     if (parent) {
-      owner.width = parent.width / this._zones
-      owner.height = parent.height / this._zones
-      owner.x = parent.width - owner.width
-      owner.y = parent.height - owner.height
+      $.width = parent.width / this._zones
+      $.height = parent.height / this._zones
+      $.x = parent.width - $.width
+      $.y = parent.height - $.height
     }
-    return owner.update()
+    return $.update()
   }
 
   center () {
-    let owner = this.owner
-    let parent = owner.parent
+    let $ = this.$
+    let parent = $.parent
     if (parent) {
-      owner.width = parent.width / this._zones
-      owner.height = parent.height / this._zones
-      owner.x = parent.width / 2 - owner.width / 2
-      owner.y = parent.height / 2 - owner.height / 2
+      $.width = parent.width / this._zones
+      $.height = parent.height / this._zones
+      $.x = parent.width / 2 - $.width / 2
+      $.y = parent.height / 2 - $.height / 2
     }
-    return owner.update()
+    return $.update()
   }
 
   exec () {
-    let owner = this.owner
-    let parent = owner.parent
+    let $ = this.$
+    let parent = $.parent
     if (parent) {
       if (this.isHorizontal) {
         let x = 0
-        let w = parent.width / owner.children.count
+        let w = parent.width / $.children.count
         let h = parent.height
-        for (let c of owner.children) {
+        for (let c of $.children) {
           c.x = x += w
           c.y = 0
           c.width = w
@@ -147,8 +147,8 @@ export default class Tile extends Plugin {
       else if (this.isVertical) {
         let y = 0
         let w = parent.width
-        let h = parent.height / owner.children.count
-        for (let c of owner.children) {
+        let h = parent.height / $.children.count
+        for (let c of $.children) {
           c.x = 0
           c.y = y += h
           c.width = w
@@ -157,7 +157,7 @@ export default class Tile extends Plugin {
         }
       }
     }
-    return owner.update()
+    return $.update()
   }
 
 }

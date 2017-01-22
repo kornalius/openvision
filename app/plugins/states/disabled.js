@@ -16,14 +16,14 @@ export default class Disabled extends Plugin {
     if (!this._disabled) {
       this.disabled = true
     }
-    return this.owner
+    return this
   }
 
   enable () {
     if (this._disabled) {
       this.disabled = false
     }
-    return this.owner
+    return this
   }
 
 }

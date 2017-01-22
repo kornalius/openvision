@@ -10,17 +10,17 @@ export default class Interactive extends Plugin {
     this.nolink = true
   }
 
-  init (owner, options = {}) {
-    owner.interactive = true
-    owner.buttonMode = true
-    this._oldDefaultCursor = owner.defaultCursor
-    owner.defaultCursor = 'default'
+  init ($, options = {}) {
+    $.interactive = true
+    $.buttonMode = true
+    this._oldDefaultCursor = $.defaultCursor
+    $.defaultCursor = 'default'
   }
 
-  destroy (owner) {
-    owner.interactive = false
-    owner.buttonMode = false
-    owner.defaultCursor = this._oldDefaultCursor
+  destroy ($) {
+    $.interactive = false
+    $.buttonMode = false
+    $.defaultCursor = this._oldDefaultCursor
   }
 
 }

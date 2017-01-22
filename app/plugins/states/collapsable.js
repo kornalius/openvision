@@ -21,61 +21,69 @@ export default class Collapsable extends Plugin {
 
   collapse () {
     if (this.isExpanded) {
-      let owner = this.owner
+      let $ = this.$
       switch (this._dir) {
         case 'l':
           this._active = true
-          this._oldWidth = owner.width
-          owner.x = owner.right - this._size
-          owner.width = this._size
-          return this.owner.update()
+          this._oldWidth = $.width
+          $.x = $.right - this._size
+          $.width = this._size
+          this.$.update()
+          break
         case 'r':
           this._active = true
-          this._oldWidth = owner.width
-          owner.width = this._size
-          return this.owner.update()
+          this._oldWidth = $.width
+          $.width = this._size
+          this.$.update()
+          break
         case 't':
           this._active = true
-          this._oldHeight = owner.height
-          owner.height = this._size
-          return this.owner.update()
+          this._oldHeight = $.height
+          $.height = this._size
+          this.$.update()
+          break
         case 'b':
           this._active = true
-          this._oldHeight = owner.height
-          owner.y = this.bottom - this._size
-          owner.height = this._size
-          return this.owner.update()
+          this._oldHeight = $.height
+          $.y = this.bottom - this._size
+          $.height = this._size
+          this.$.update()
+          break
       }
     }
-    return this.owner
+    return this
   }
 
   expand () {
     if (this.isCollapsed) {
-      let owner = this.owner
+      let $ = this.$
       switch (this._dir) {
         case 'l':
           this._active = false
-          this._oldWidth = owner.width
-          owner.x -= this._oldWidth
-          owner.width = this._oldWidth
-          return this.owner.update()
+          this._oldWidth = $.width
+          $.x -= this._oldWidth
+          $.width = this._oldWidth
+          this.$.update()
+          break
         case 'r':
           this._active = false
-          owner.width = this._oldWidth
-          return this.owner.update()
+          $.width = this._oldWidth
+          this.$.update()
+          break
         case 't':
           this._active = false
-          owner.height = this._oldHeight
-          return this.owner.update()
+          $.height = this._oldHeight
+          this.$.update()
+          break
         case 'b':
           this._active = false
-          owner.y -= this._oldHeight
-          owner.height = this._oldHeight
-          return this.owner.update()
+          $.y -= this._oldHeight
+          $.height = this._oldHeight
+          this.$.update()
+          break
       }
     }
-    return this.owner
+    return this
   }
 
   toggle () {

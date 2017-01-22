@@ -14,19 +14,19 @@ export default class Movable extends Plugin {
   }
 
   onMousemove (e) {
-    let owner = this.owner
+    let $ = this.$
     let info = app.mouseEvent(e)
-    if (info.target === owner) {
-      if (owner._pressed.down) {
-        let x = info.sx - owner._pressed.down.x
-        let y = info.sy - owner._pressed.down.y
-        if (owner.x !== x) {
-          owner.x = x
-          owner.update()
+    if (info.target === $) {
+      if ($._pressed.down) {
+        let x = info.sx - $._pressed.down.x
+        let y = info.sy - $._pressed.down.y
+        if ($.x !== x) {
+          $.x = x
+          $.update()
         }
-        if (owner.y !== y) {
-          owner.y = y
-          owner.update()
+        if ($.y !== y) {
+          $.y = y
+          $.update()
         }
       }
     }

@@ -15,14 +15,14 @@ export default class extends Plugin {
       $mousedown: this.onMousedown,
       $mousemove: this.onMousemove,
       $mouseup: this.onMouseup,
-      $mouseoutside: this.onMouseup,
+      $mouseupoutside: this.onMouseup,
     }
   }
 
   onMousedown (e) {
     let info = app.mouseEvent(e)
     if (info.leftButton) {
-      this.owner._pressed.down = info
+      this.$._pressed.down = info
     }
   }
 
@@ -30,7 +30,7 @@ export default class extends Plugin {
   }
 
   onMouseup (e) {
-    this.owner._pressed = {}
+    this.$._pressed = {}
   }
 
 }

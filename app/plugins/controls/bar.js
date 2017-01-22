@@ -11,13 +11,15 @@ export default class Bar extends Plugin {
   }
 
   addSection (container) {
-    this.owner.addChild(container)
-    return this.owner.update()
+    this.$.addChild(container)
+    this.$.update()
+    return this
   }
 
   removeSection (container) {
-    this.owner.removeChild(container)
-    return this.owner.update()
+    this.$.removeChild(container)
+    this.$.update()
+    return this
   }
 
 }

@@ -18,7 +18,7 @@ export default class Splitter extends Plugin {
     }
   }
 
-  init (owner, options = {}) {
+  init ($, options = {}) {
     this._layout = this.layout.bind(this)
     if (this._container) {
       this._container.on('updatetransform', this._layout)
@@ -26,7 +26,7 @@ export default class Splitter extends Plugin {
     this.layout()
   }
 
-  destroy (owner) {
+  destroy ($) {
     if (this._container) {
       this._container.off('updatetransform', this._layout)
     }
@@ -44,49 +44,49 @@ export default class Splitter extends Plugin {
   }
 
   layout () {
-    let owner = this.owner
+    let $ = this.$
     let c = this._container
     let size = this._size
     switch (this._side) {
       case 'l':
-        owner.x = c.x - size
-        owner.y = c.y
-        owner.width = size
-        owner.height = c.height
-        owner.defaultCursor = 'ew-resize'
+        $.x = c.x - size
+        $.y = c.y
+        $.width = size
+        $.height = c.height
+        $.defaultCursor = 'ew-resize'
         break
       case 'r':
-        owner.x = c.right
-        owner.y = c.y
-        owner.width = size
-        owner.height = c.height
-        owner.defaultCursor = 'ew-resize'
+        $.x = c.right
+        $.y = c.y
+        $.width = size
+        $.height = c.height
+        $.defaultCursor = 'ew-resize'
         break
       case 't':
-        owner.x = c.x
-        owner.y = c.y - size
-        owner.width = c.width
-        owner.height = size
-        owner.defaultCursor = 'ns-resize'
+        $.x = c.x
+        $.y = c.y - size
+        $.width = c.width
+        $.height = size
+        $.defaultCursor = 'ns-resize'
         break
       case 'b':
-        owner.x = c.x
-        owner.y = c.bottom
-        owner.width = c.width
-        owner.height = size
-        owner.defaultCursor = 'ns-resize'
+        $.x = c.x
+        $.y = c.bottom
+        $.width = c.width
+        $.height = size
+        $.defaultCursor = 'ns-resize'
         break
     }
-    return owner.update()
+    return $.update()
   }
 
   onMousemove (e) {
-    let owner = this.owner
+    let $ = this.$
     let info = app.mouseEvent(e)
-    if (info.target === owner) {
-      if (owner._pressed.down) {
-        let x = info.sx - owner._pressed.down.x
-        let y = info.sy - owner._pressed.down.y
+    if (info.target === $) {
+      if ($._pressed.down) {
+        let x = info.sx - $._pressed.down.x
+        let y = info.sy - $._pressed.down.y
         let c = this._container
         let old
         switch (this._side) {
@@ -94,21 +94,21 @@ export default class Splitter extends Plugin {
             old = c.right
             c.x = x
             c.right = old
-            owner.x = x
+            $.x = x
             break
           case 'r':
             c.right = x
-            owner.x = x
+            $.x = x
             break
           case 't':
             old = c.bottom
             c.y = y
             c.bottom = old
-            owner.y = y
+            $.y = y
             break
           case 'b':
             c.bottom = y
-            owner.y = y
+            $.y = y
             break
         }
         c.update()

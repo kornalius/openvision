@@ -10,97 +10,97 @@ export default class Align extends Plugin {
   }
 
   top () {
-    let owner = this.owner
-    let parent = owner.parent
+    let parent = this.$.parent
     if (parent) {
-      owner.y = 0
+      this.$.y = 0
     }
-    return owner.update()
+    this.$.update()
+    return this
   }
 
   bottom () {
-    let owner = this.owner
-    let parent = owner.parent
+    let parent = this.$.parent
     if (parent) {
-      owner.y = parent.height - owner.height
+      this.$.y = parent.height - this.$.height
     }
-    return owner.update()
+    this.$.update()
+    return this
   }
 
   left () {
-    let owner = this.owner
-    let parent = owner.parent
+    let parent = this.$.parent
     if (parent) {
-      owner.x = 0
+      this.$.x = 0
     }
-    return owner.update()
+    this.$.update()
+    return this
   }
 
   right () {
-    let owner = this.owner
-    let parent = owner.parent
+    let parent = this.$.parent
     if (parent) {
-      owner.x = parent.width - owner.width
+      this.$.x = parent.width - this.$.width
     }
-    return owner.update()
+    this.$.update()
+    return this
   }
 
   topLeft () {
-    let owner = this.owner
-    let parent = owner.parent
+    let parent = this.$.parent
     if (parent) {
-      owner.x = 0
-      owner.y = 0
+      this.$.x = 0
+      this.$.y = 0
     }
-    return owner.update()
+    this.$.update()
+    return this
   }
 
   topRight () {
-    let owner = this.owner
-    let parent = owner.parent
+    let parent = this.$.parent
     if (parent) {
-      owner.x = parent.width - owner.width
-      owner.y = 0
+      this.$.x = parent.width - this.$.width
+      this.$.y = 0
     }
-    return owner.update()
+    this.$.update()
+    return this
   }
 
   bottomLeft () {
-    let owner = this.owner
-    let parent = owner.parent
+    let parent = this.$.parent
     if (parent) {
-      owner.x = 0
-      owner.y = parent.height - owner.height
+      this.$.x = 0
+      this.$.y = parent.height - this.$.height
     }
-    return owner.update()
+    this.$.update()
+    return this
   }
 
   bottomRight () {
-    let owner = this.owner
-    let parent = owner.parent
+    let parent = this.$.parent
     if (parent) {
-      owner.x = parent.width - owner.width
-      owner.y = parent.height - owner.height
+      this.$.x = parent.width - this.$.width
+      this.$.y = parent.height - this.$.height
     }
-    return owner.update()
+    this.$.update()
+    return this
   }
 
   vcenter () {
-    let owner = this.owner
-    let parent = owner.parent
+    let parent = this.$.parent
     if (parent) {
-      owner.y = parent.height / 2 - owner.height / 2
+      this.$.y = parent.height / 2 - this.$.height / 2
     }
-    return owner.update()
+    this.$.update()
+    return this
   }
 
   hcenter () {
-    let owner = this.owner
-    let parent = owner.parent
+    let parent = this.$.parent
     if (parent) {
-      owner.x = parent.width / 2 - owner.width / 2
+      this.$.x = parent.width / 2 - this.$.width / 2
     }
-    return owner.update()
+    this.$.update()
+    return this
   }
 
   center () {

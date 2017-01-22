@@ -8,9 +8,9 @@ class Transition extends app.Emitter {
   constructor (instance, prop, value, type, duration) {
     super()
     this.instance = instance
-    this.owner = instance.owner
+    this.$ = instance.$
     this.prop = prop
-    this.oldValue = this.owner[prop]
+    this.oldValue = this.$[prop]
     this.newValue = value
     this.type = type
     this.duration = duration
@@ -100,7 +100,7 @@ class Transition extends app.Emitter {
         break
     }
 
-    this.owner[this.prop] += this.dist > 0 ? delta : -delta
+    this.$[this.prop] += this.dist > 0 ? delta : -delta
   }
 
   get isPlaying () { return this.status === TRANSITION_PLAYING }
@@ -145,7 +145,7 @@ class Transition extends app.Emitter {
   }
 
   cancel () {
-    this.owner[this.prop] = this.oldValue
+    this.$[this.prop] = this.oldValue
     return this.stop()
   }
 
@@ -191,7 +191,7 @@ export default class Transitions extends Plugin {
     if (t) {
       t.remove()
     }
-    return this.owner
+    return this
   }
 
   isPlaying (prop) {
@@ -209,7 +209,7 @@ export default class Transitions extends Plugin {
     if (t) {
       t.play()
     }
-    return this.owner
+    return this
   }
 
   pause (prop) {
@@ -217,7 +217,7 @@ export default class Transitions extends Plugin {
     if (t) {
       t.pause()
     }
-    return this.owner
+    return this
   }
 
   resume (prop) {
@@ -225,7 +225,7 @@ export default class Transitions extends Plugin {
     if (t) {
       t.resume()
     }
-    return this.owner
+    return this
   }
 
   cancel (prop) {
@@ -233,7 +233,7 @@ export default class Transitions extends Plugin {
     if (t) {
       this.cancel()
     }
-    return this.owner
+    return this
   }
 
   stop (prop) {
@@ -248,42 +248,42 @@ export default class Transitions extends Plugin {
     for (let k in this._transitions) {
       this._transitions[k].play()
     }
-    return this.owner
+    return this
   }
 
   pauseAll () {
     for (let k in this._transitions) {
       this._transitions[k].pause()
     }
-    return this.owner
+    return this
   }
 
   resumeAll () {
     for (let k in this._transitions) {
       this._transitions[k].resume()
     }
-    return this.owner
+    return this
   }
 
   stopAll () {
     for (let k in this._transitions) {
       this._transitions[k].stop()
     }
-    return this.owner
+    return this
   }
 
   cancelAll () {
     for (let k in this._transitions) {
       this._transitions[k].cancel()
     }
-    return this.owner
+    return this
   }
 
   removeAll () {
     for (let k in this._transitions) {
       this._transitions[k].remove()
     }
-    return this.owner
+    return this
   }
 
 }

@@ -10,53 +10,53 @@ export default class Size extends Plugin {
   }
 
   maximize () {
-    let owner = this.owner
-    if (owner.parent) {
-      owner.x = 0
-      owner.y = 0
-      owner.width = owner.parent.width
-      owner.height = owner.parent.height
-      owner.update()
+    let $ = this.$
+    if ($.parent) {
+      $.x = 0
+      $.y = 0
+      $.width = $.parent.width
+      $.height = $.parent.height
+      $.update()
     }
-    return owner
+    return $
   }
 
   bottom () {
-    let owner = this.owner
-    if (owner.parent) {
-      owner.height = owner.parent.height - owner.y
-      owner.update()
+    let $ = this.$
+    if ($.parent) {
+      $.height = $.parent.height - $.y
+      $.update()
     }
-    return owner
+    return $
   }
 
   right () {
-    let owner = this.owner
-    if (owner.parent) {
-      owner.width = owner.parent.width - owner.x
-      owner.update()
+    let $ = this.$
+    if ($.parent) {
+      $.width = $.parent.width - $.x
+      $.update()
     }
-    return owner
+    return $
   }
 
   fillWidth () {
-    let owner = this.owner
-    if (owner.parent) {
-      owner.x = 0
-      owner.width = owner.parent.width
-      owner.update()
+    let $ = this.$
+    if ($.parent) {
+      $.x = 0
+      $.width = $.parent.width
+      $.update()
     }
-    return owner
+    return $
   }
 
   fillHeight () {
-    let owner = this.owner
-    if (owner.parent) {
-      owner.y = 0
-      owner.height = owner.parent.height
-      owner.update()
+    let $ = this.$
+    if ($.parent) {
+      $.y = 0
+      $.height = $.parent.height
+      $.update()
     }
-    return owner
+    return $
   }
 
 }

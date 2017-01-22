@@ -13,14 +13,14 @@ export default class Button extends Plugin {
     }
   }
 
-  init (owner, options = {}) {
+  init ($, options = {}) {
     let t = this._displayObject = new app.Text(this._text, this._font)
     t.plug('align').center()
-    owner.addChild(t)
+    $.addChild(t)
   }
 
-  destroy (owner) {
-    owner.removeChild(this._displayObject)
+  destroy ($) {
+    $.removeChild(this._displayObject)
   }
 
   setText (value) {

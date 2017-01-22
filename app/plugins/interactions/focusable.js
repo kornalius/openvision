@@ -11,29 +11,29 @@ export default class Focusable extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['interactive', 'mouse', 'keyboard', 'focusrect']
     this.properties = {
-      enabled: { value: true, options: 'enabled' },
-      index: { value: -1, options: 'index' },
+      enabled: { value: true, options: 'enabled', set: this.setEnabled },
+      index: { value: 1, options: 'index', update: true },
     }
     this.listeners = {
       $mousedown: this.focus,
     }
   }
 
-  init (owner, options) {
+  init ($, options) {
     this._onKeydown = this.onKeydown.bind(this)
     window.addEventListener('keydown', this._onKeydown, false)
   }
 
-  destroy (owner) {
+  destroy ($) {
     window.removeEventListener('keydown', this._onKeydown, false)
   }
 
-  get focused () { return focused === this.owner }
+  get focused () { return focused === this.$ }
 
-  setIndex (value) {
-    if (this._index !== value) {
-      this._index = value
-      if (this.focused && value === -1) {
+  setEnabled (value) {
+    if (this._enabled !== value) {
+      this._enabled = value
+      if (focused && value === false) {
         this.focusPrev()
       }
     }
@@ -41,8 +41,8 @@ export default class Focusable extends Plugin {
 
   get focusableChildren () {
     let l = []
-    for (let c of this.children) {
-      let f = c.focusable
+    for (let c of this.$.parent.children) {
+      let f = c.__focusable
       if (f && f.enabled) {
         l.push(c)
       }
@@ -52,49 +52,45 @@ export default class Focusable extends Plugin {
 
   blur () {
     focused = null
-    let owner = this.owner
-    owner.focusrect.hide()
-    owner.emit('blur')
-    return owner
+    this.$.__focusrect.hide()
+    this.$.emit('blur')
+    return this
   }
 
   focus () {
-    let owner = this.owner
     if (this._enabled) {
-      if (focused) {
-        focused.focusable.blur()
+      if (focused && focused.__focusable) {
+        focused.__focusable.blur()
       }
-      focused = owner
-      owner.focusrect.show()
-      owner.emit('focus')
+      focused = this.$
+      this.$.__focusrect.show()
+      this.$.emit('focus')
     }
-    return owner
+    return this
   }
 
   focusPrev () {
-    let owner = this.owner
     let l = this._index
     for (let c of this.focusableChildren) {
-      let f = c.focusable
-      if (f && f.enabled && f.index <= l && c !== owner) {
+      let f = c.__focusable
+      if (f && f.enabled && f.index <= l && c !== this.$) {
         f.focus()
         return c
       }
     }
-    return owner
+    return this
   }
 
   focusNext () {
-    let owner = this.owner
     let l = this._index
     for (let c of this.focusableChildren) {
-      let f = c.focusable
-      if (f && f.enabled && f.index >= l && c !== owner) {
+      let f = c.__focusable
+      if (f && f.enabled && f.index >= l && c !== this.$) {
         f.focus()
         return c
       }
     }
-    return owner
+    return this
   }
 
   onKeydown (e) {
@@ -106,6 +102,7 @@ export default class Focusable extends Plugin {
         else {
           this.focusNext()
         }
+        e.stopImmediatePropagation()
       }
     }
   }

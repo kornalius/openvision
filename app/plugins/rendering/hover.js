@@ -14,20 +14,20 @@ export default class Hover extends Plugin {
     }
   }
 
-  init (owner, options = {}) {
+  init ($, options = {}) {
     let r = this.padding
-    let hr = this._rect = new app.Rectangle(owner.width + r.width, owner.height + r.height)
+    let hr = this._rect = new app.Rectangle($.width + r.width, $.height + r.height)
     hr.fill = false
     hr._alpha = _.get(options, 'alpha', 0.85)
     hr.borderSize = _.get(options, 'borderSize', 0.5)
     hr.borderColor = _.get(options, 'borderColor', 0xFFFFFF)
     hr.borderAlpha = _.get(options, 'borderAlpha', 0.15)
-    // owner._hover.padding = _.get(options, 'padding', new PIXI.Rectangle(-2, -2, 2, 2))
+    // $._hover.padding = _.get(options, 'padding', new PIXI.Rectangle(-2, -2, 2, 2))
     hr.visible = false
 
-    owner.addChild(hr)
+    $.addChild(hr)
 
-    owner.alpha = hr._alpha
+    $.alpha = hr._alpha
   }
 
   get padding () { return new PIXI.Rectangle(-2, -2, 2, 2) }
@@ -42,7 +42,7 @@ export default class Hover extends Plugin {
     hr.height = this.height + r.height
     hr.visible = true
     hr.update()
-    return this.owner
+    return this
   }
 
   hide () {
@@ -50,7 +50,7 @@ export default class Hover extends Plugin {
     this.alpha = hr._alpha
     hr.visible = false
     hr.update()
-    return this.owner
+    return this
   }
 
   isVisible () { return this._rect.visible }
@@ -58,12 +58,12 @@ export default class Hover extends Plugin {
   onUpdateTransform () {
     let r = this.padding
     let hr = this._rect
-    let owner = this.owner
-    if (hr.visible && (hr.x !== r.x || hr.y !== r.y || hr.width !== owner.width + r.width || hr.height !== owner.height + r.height)) {
+    let $ = this.$
+    if (hr.visible && (hr.x !== r.x || hr.y !== r.y || hr.width !== $.width + r.width || hr.height !== $.height + r.height)) {
       hr.x = r.x
       hr.y = r.y
-      hr.width = owner.width + r.width
-      hr.height = owner.height + r.height
+      hr.width = $.width + r.width
+      hr.height = $.height + r.height
       hr.update()
     }
   }
