@@ -152,7 +152,7 @@ export default class TextBuffer extends Plugin {
 
   insertAt (pos, s) {
     this.value = this.value.splice(pos, 0, s)
-    this.update()
+    this.$.update()
     return this
   }
 
@@ -179,13 +179,13 @@ export default class TextBuffer extends Plugin {
 
   newLine (s = '') {
     this.value += s + CR
-    this.update()
+    this.$.update()
     return this
   }
 
   deleteAt (pos, count = 1) {
     this.value = this.value.splice(pos, count)
-    this.update()
+    this.$.update()
     return this
   }
 

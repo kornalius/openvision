@@ -6,9 +6,9 @@ var ElectronConnectWebpackPlugin = require('electron-connect-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  debug: true,
+  debug: false,
 
-  devtool: 'eval',
+  devtool: 'source-map',
 
   target: 'electron-renderer',
 
