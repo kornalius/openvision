@@ -7,7 +7,7 @@ export default class TextEdit extends Plugin {
     this.desc = 'Allow text to be editable.'
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
-    this.dependencies = ['control', 'focusable', 'hover', 'editable', 'textbuffer', 'caret']
+    this.dependencies = ['control', 'focusable', 'focusrect', 'hover', 'editable', 'textbuffer', 'caret']
     this.properties = {
       multiline: { value: true, options: 'multiline' },
       acceptTab: { value: false, options: 'acceptTab', set: this.setAcceptTab },

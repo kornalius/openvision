@@ -58,19 +58,6 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
 
   isPluginLoaded ($, name) { return !_.isUndefined(this.plugins($)[name]) }
 
-  canLoad ($) {
-    let name = this.name
-
-    if (this.isPluginLoaded($, name)) {
-      if (this._showErrors()) {
-        console.error('Plugin', name, 'already loaded')
-      }
-      return false
-    }
-
-    return true
-  }
-
   _createProperty (obj, name, get, set, value) {
     if (value) {
       Object.defineProperty(obj, name, {
@@ -141,11 +128,16 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
           v.set || function (value) {
             if (value !== this[name]) {
               this[name] = value
-              if (_.isFunction(update)) {
-                update.call(this)
-              }
-              else {
-                this.$.update()
+              if (update) {
+                if (_.isFunction(update)) {
+                  update.call(this)
+                }
+                else if (this.$) {
+                  this.$.update()
+                }
+                else {
+                  this.update()
+                }
               }
             }
           }
@@ -249,6 +241,19 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
         console.error('Cannot apply overrides to', name, ', the plugin is either not loaded or does not exists')
       }
     }
+  }
+
+  canLoad ($) {
+    let name = this.name
+
+    if (this.isPluginLoaded($, name)) {
+      if (this._showErrors()) {
+        console.error('Plugin', name, 'already loaded')
+      }
+      return false
+    }
+
+    return true
   }
 
   load ($, options = {}) {
@@ -479,6 +484,8 @@ export let PluginMixin = Mixin(superclass => class PluginMixin extends superclas
     return this
   }
 
+  hasPlugin (name) { return !_.isUndefined(_.get(this, '__plugins.' + name)) }
+
 })
 
 
@@ -491,16 +498,21 @@ export var loadPlugins = (extraPaths = []) => {
         .then(files => {
           for (let file of files) {
             if (!file.stats.isDirectory() && path.extname(file.path) === '.js') {
-              console.log('    loading', path.basename(file.path) + '...')
+              console.log('  loading', path.basename(file.path) + '...')
 
               System.import(file.path).then(m => {
                 if (m.default) {
                   let p = new m.default()
-                  plugins[p.name] = p
+                  if (plugins[p.name]) {
+                    console.error('Plugin', p.name, 'already loaded in', file.path)
+                  }
+                  else {
+                    plugins[p.name] = p
+                  }
                   resolve()
                 }
                 else {
-                  reject(new Error('Could not find Class and/or Mixin exports in ' + file.path))
+                  console.error('Could not find Class and/or Mixin exports in', file.path)
                 }
               })
             }

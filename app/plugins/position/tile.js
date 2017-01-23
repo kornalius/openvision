@@ -3,7 +3,7 @@ export default class Tile extends Plugin {
 
   constructor () {
     super()
-    this.name = 'align'
+    this.name = 'tile'
     this.desc = 'Allow layouting a container to specific areas of parent container.'
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'

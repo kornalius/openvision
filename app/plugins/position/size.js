@@ -3,7 +3,7 @@ export default class Size extends Plugin {
 
   constructor () {
     super()
-    this.name = 'align'
+    this.name = 'size'
     this.desc = 'Allow sizing a container to specific sizes of a parent container.'
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'

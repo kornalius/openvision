@@ -289,10 +289,19 @@ export class App extends Base {
     this.stage.addChild(text2)
     text2.moveTo(50, 120)
 
-    this.screen.refresh()
-
     text.plug(['textedit'])
     text2.plug(['textedit'])
+
+    let win = new Rectangle(200, 150)
+    win.color = 0xb3b3b3
+    win.borderColor = 0xFFFFFF
+    win.borderAlpha = 1
+    win.borderSize = 0.5
+    win.moveTo(50, 150)
+    this.stage.addChild(win)
+    win.plug('window', { title: 'MyWindow' })
+
+    this.screen.refresh()
   }
 
 }

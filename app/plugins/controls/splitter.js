@@ -84,9 +84,9 @@ export default class Splitter extends Plugin {
     let $ = this.$
     let info = app.mouseEvent(e)
     if (info.target === $) {
-      if ($._pressed.down) {
-        let x = info.sx - $._pressed.down.x
-        let y = info.sy - $._pressed.down.y
+      if ($.pressed) {
+        let x = info.sx - $.pressed.x
+        let y = info.sy - $.pressed.y
         let c = this._container
         let old
         switch (this._side) {

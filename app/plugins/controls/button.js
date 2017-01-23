@@ -15,7 +15,7 @@ export default class Button extends Plugin {
 
   init ($, options = {}) {
     let t = this._displayObject = new app.Text(this._text, this._font)
-    t.plug('align').center()
+    t.plug('align').__align.center()
     $.addChild(t)
   }
 

@@ -8,6 +8,9 @@ export default class Movable extends Plugin {
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
     this.dependencies = ['interactive', 'mouse', 'keyboard']
+    this.properties = {
+      target: { value: null, options: 'target' },
+    }
     this.listeners = {
       $mousemove: this.onMousemove,
     }
@@ -17,16 +20,17 @@ export default class Movable extends Plugin {
     let $ = this.$
     let info = app.mouseEvent(e)
     if (info.target === $) {
-      if ($._pressed.down) {
-        let x = info.sx - $._pressed.down.x
-        let y = info.sy - $._pressed.down.y
-        if ($.x !== x) {
-          $.x = x
-          $.update()
+      if ($.pressed) {
+        let x = info.sx - $.pressed.x
+        let y = info.sy - $.pressed.y
+        let t = this.target || $
+        if (t.x !== x) {
+          t.x = x
+          t.update()
         }
-        if ($.y !== y) {
-          $.y = y
-          $.update()
+        if (t.y !== y) {
+          t.y = y
+          t.update()
         }
       }
     }

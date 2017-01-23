@@ -225,7 +225,7 @@ export default class Caret extends Plugin {
   onMousedown (e) {
     let info = app.mouseEvent(e)
     if (info.target === this.$) {
-      if (this.$._pressed.down) {
+      if (this.$.pressed) {
         let { x, y } = this.fromPixel(info.x, info.y)
         this.set(x, y)
       }
@@ -235,7 +235,7 @@ export default class Caret extends Plugin {
   onMousemove (e) {
     let info = app.mouseEvent(e)
     if (info.target === this.$) {
-      if (this.$._pressed.down) {
+      if (this.$.pressed) {
         let { x, y } = this.fromPixel(info.x, info.y)
         this.set(x, y)
       }

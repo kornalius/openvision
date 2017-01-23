@@ -9,7 +9,7 @@ export default class Focusable extends Plugin {
     this.desc = 'Allow container to be focused with mouse and tab key.'
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
-    this.dependencies = ['interactive', 'mouse', 'keyboard', 'focusrect']
+    this.dependencies = ['interactive', 'mouse', 'keyboard']
     this.properties = {
       enabled: { value: true, options: 'enabled', set: this.setEnabled },
       index: { value: 1, options: 'index', update: true },
@@ -52,7 +52,9 @@ export default class Focusable extends Plugin {
 
   blur () {
     focused = null
-    this.$.__focusrect.hide()
+    if (this.$.__focusrect) {
+      this.$.__focusrect.hide()
+    }
     this.$.emit('blur')
     return this
   }
@@ -63,7 +65,9 @@ export default class Focusable extends Plugin {
         focused.__focusable.blur()
       }
       focused = this.$
-      this.$.__focusrect.show()
+      if (this.$.__focusrect) {
+        this.$.__focusrect.show()
+      }
       this.$.emit('focus')
     }
     return this

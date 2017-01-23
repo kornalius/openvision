@@ -9,7 +9,7 @@ export default class extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['interactive']
     this.properties = {
-      $pressed: { value: {} },
+      $pressed: { value: null },
     }
     this.listeners = {
       $mousedown: this.onMousedown,
@@ -22,7 +22,7 @@ export default class extends Plugin {
   onMousedown (e) {
     let info = app.mouseEvent(e)
     if (info.leftButton) {
-      this.$._pressed.down = info
+      this.$.pressed = info
     }
   }
 
@@ -30,7 +30,7 @@ export default class extends Plugin {
   }
 
   onMouseup (e) {
-    this.$._pressed = {}
+    this.$.pressed = null
   }
 
 }

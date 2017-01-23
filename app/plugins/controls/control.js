@@ -31,13 +31,13 @@ export default class Control extends Plugin {
   }
 
   destroy ($) {
-    this.clear()
+    this.clearSplitters()
   }
 
-  get (side = 'r') { return this._splitters[side] }
+  getSplitter (side = 'r') { return this._splitters[side] }
 
-  add (side = 'r', size = 2, color = 0xFFFFFF) {
-    let s = this.get(side)
+  addSplitter (side = 'r', size = 2, color = 0xFFFFFF) {
+    let s = this.getSplitter(side)
     if (!s) {
       s = new app.Rectangle()
       s.color = color
@@ -49,8 +49,8 @@ export default class Control extends Plugin {
     return this
   }
 
-  remove (side = 'r') {
-    let s = this.get(side)
+  removeSplitter (side = 'r') {
+    let s = this.getSplitter(side)
     if (s) {
       this.$.parent.removeChild(s)
       delete this._splitters[side]
@@ -59,7 +59,7 @@ export default class Control extends Plugin {
     return this
   }
 
-  clear () {
+  clearSplitters () {
     for (let side in this._splitters) {
       this.remove(side)
     }
