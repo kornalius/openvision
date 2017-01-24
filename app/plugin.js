@@ -217,7 +217,7 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
 
     for (let name in overrides) {
       let ownerPlugin = $.__plugins[name]
-      if (plugins[name] && plugin) {
+      if (plugins[name] && ownerPlugin) {
         for (let k in overrides[name]) {
           let getter
           let setter
@@ -307,14 +307,6 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
 
     this._createOverrides(proto, plugin, $, options)
 
-    // import plugins
-    for (let n of this.imports) {
-      let p = plugins[n]
-      if (p && p.canLoad($)) {
-        p.load($, options)
-      }
-    }
-
     // tell this plugin instance that it's been loaded into $ instance
     this.__loaded.push($)
 
@@ -345,12 +337,6 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
         if (_.includes(p.dependencies, name)) {
           if (this._showErrors()) {
             console.error(name, 'is a dependency of plugin', k)
-          }
-          return false
-        }
-        else if (_.includes(p.imports, name)) {
-          if (this._showErrors()) {
-            console.error(name, 'is required by plugin', k)
           }
           return false
         }
@@ -417,14 +403,6 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
 
     // delete the plugin getter from the owner's instance
     delete $[name]
-
-    // unload imported plugins
-    for (let n of this.imports.reverse()) {
-      let p = plugins[n]
-      if (p && p.canUnload($)) {
-        p.unload($)
-      }
-    }
 
     // try to unload plugin's dependencies
     for (let n of this.dependencies.reverse()) {

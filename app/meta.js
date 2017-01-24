@@ -22,9 +22,6 @@ export let MetaMixin = Mixin(superclass => class MetaMixin extends superclass {
   get dependencies () { return this._dependencies }
   set dependencies (value) { this._dependencies = value }
 
-  get imports () { return this._imports }
-  set imports (value) { this._imports = value }
-
   get properties () { return this._properties }
   set properties (value) { this._properties = value }
 
@@ -48,7 +45,6 @@ export var extractMetaFromOptions = (instance, options) => {
   instance._version = _.get(options, 'version', '1.0.0')
   instance._tags = _.get(options, 'tags', [])
   instance._dependencies = _.get(options, 'dependencies', [])
-  instance._imports = _.get(options, 'imports', [])
   instance._properties = _.get(options, 'properties', {})
   instance._listeners = _.get(options, 'listeners', {})
   instance._overrides = _.get(options, 'overrides', {})

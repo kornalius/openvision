@@ -281,25 +281,18 @@ export class App extends Base {
     let t = new Sprite(this.loadTexture('test.png'))
     this.stage.addChild(t)
 
-    let text = new Text('This is a pixi text\nHere is another line\nAnd another!', { font: '20px "Glass TTY VT220"', fill: 0xFFFFFF })
+    let text = this.TextEdit({ text: 'This is a pixi text\nHere is another line\nAnd another!' })
     this.stage.addChild(text)
     text.moveTo(50, 50)
 
     let text2 = new Text('Cool another box of text', { font: '20px "Glass TTY VT220"', fill: 0xffcc66 })
     this.stage.addChild(text2)
     text2.moveTo(50, 120)
+    text2.plug('textedit')
 
-    text.plug(['textedit'])
-    text2.plug(['textedit'])
-
-    let win = new Rectangle(200, 150)
-    win.color = 0xb3b3b3
-    win.borderColor = 0xFFFFFF
-    win.borderAlpha = 1
-    win.borderSize = 0.5
-    win.moveTo(50, 150)
-    this.stage.addChild(win)
-    win.plug('window', { title: 'MyWindow' })
+    let w = this.Window({ title: 'My Window', alpha: 0.95, width: 200, height: 150, x: 50, y: 150 })
+    this.stage.addChild(w)
+    w.moveTo(25, 150)
 
     this.screen.refresh()
   }

@@ -7,7 +7,7 @@ export default class TextEdit extends Plugin {
     this.desc = 'Allow text to be editable.'
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
-    this.dependencies = ['control', 'focusable', 'focusrect', 'hover', 'editable', 'textbuffer', 'caret']
+    this.dependencies = ['control', 'focusable', 'focusrect', 'hover', 'editable', 'textbuffer', 'font', 'caret']
     this.properties = {
       multiline: { value: true, options: 'multiline' },
       acceptTab: { value: false, options: 'acceptTab', set: this.setAcceptTab },
@@ -19,6 +19,15 @@ export default class TextEdit extends Plugin {
         maxX: function maxX (y) { return this.$.__textbuffer.validLine(y) ? this.$.__textbuffer.lineLength(y) : 0 },
         maxY: function maxY (x) { return this.$.__textbuffer.lineCount - 1 },
       },
+    }
+
+    app.TextEdit = (options = {}) => {
+      let t = new app.Text(_.get(options, 'text', ''))
+      t.plug('textedit', options)
+      t.style = t.__font.fontObject
+      t.updateText()
+      t.__caret.reshape()
+      return t
     }
   }
 
