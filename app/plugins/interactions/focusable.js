@@ -59,7 +59,8 @@ export default class Focusable extends Plugin {
     return this
   }
 
-  focus () {
+  focus (e) {
+    console.log('focus', this);
     if (this._enabled) {
       if (focused && focused.__focusable) {
         focused.__focusable.blur()
@@ -69,6 +70,9 @@ export default class Focusable extends Plugin {
         this.$.__focusrect.show()
       }
       this.$.emit('focus')
+    }
+    if (e) {
+      e.stopPropagation()
     }
     return this
   }

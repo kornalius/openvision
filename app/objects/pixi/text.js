@@ -51,7 +51,7 @@ export let TextMixin = Mixin(superclass => class TextMixin extends superclass {
   get charWidth () { return this.getTextWidth(' ') }
 
   get charHeight () {
-    let p = this.determineFontProperties(this._style.font)
+    let p = PIXI.Text.calculateFontProperties(this._style.font)
     return this._style.lineHeight || p.fontSize + this._style.strokeThickness
   }
 
@@ -60,7 +60,7 @@ export let TextMixin = Mixin(superclass => class TextMixin extends superclass {
   }
 
   updateText () {
-    super.updateText()
+    super.updateText(...arguments)
     // this.updateTexture()
     // this.width += this.charWidth * this.resolution
     // this.updateTransform()

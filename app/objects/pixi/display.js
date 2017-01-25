@@ -114,9 +114,9 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
         if (_.get(this, '__plugins.renderable')) {
           this.draw()
         }
-        if (this.parent) {
-          this.updateTransform()
-        }
+        // if (this.parent) {
+          // this.updateTransform()
+        // }
       }
     }))
     this.emit('update', options)

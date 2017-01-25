@@ -30,7 +30,7 @@
     "mixwith": "^0.1.1",
     "multimatch": "^2.1.0",
     "performance-now": "^0.2.0",
-    "pixi.js": "^3.0.9",
+    "pixi.js": "^4.0.0",
     "pouchdb-adapter-memory": "^6.1.0",
     "pouchdb-browser": "^6.1.0",
     "pouchdb-collections": "^6.1.0",

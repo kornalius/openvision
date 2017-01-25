@@ -69,14 +69,16 @@ export class Shape extends Graphics {
   }
 
   _drawShape () {
-    this.clear()
-    if (this._fill) {
-      this.beginFill(this._color, this._alpha)
-    }
-    this.lineStyle(this._borderSize, this._borderColor, this._borderAlpha)
-    this.draw()
-    if (this._fill) {
-      this.endFill()
+    if (this.graphicsData) {
+      this.clear()
+      if (this._fill) {
+        this.beginFill(this._color, this._alpha)
+      }
+      this.lineStyle(this._borderSize, this._borderColor, this._borderAlpha)
+      this.draw()
+      if (this._fill) {
+        this.endFill()
+      }
     }
   }
 }
