@@ -8,40 +8,47 @@ export default class Font extends Plugin {
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
     this.properties = {
-      size: { value: 20, options: 'font.size' },
-      name: { value: 'Glass TTY VT220', options: 'font.name' },
-      color: { value: 0xFFFFFF, options: 'font.color' },
-      align: { value: 'left', options: 'font.align' },
-      stroke: { value: null, options: 'font.stroke' },
-      strokeThickness: { value: 0, options: 'font.strokeThickness' },
-      wordWrap: { value: false, options: 'font.wordWrap' },
-      wordWrapWidth: { value: 100, options: 'font.wordWrapWidth' },
-      letterSpacing: { value: 0, options: 'font.letterSpacing' },
-      breakWords: { value: false, options: 'font.breakWords' },
-      lineHeight: { value: 0, options: 'font.lineHeight' },
-      dropShadow: { value: false, options: 'font.dropShadow' },
-      dropShadowColor: { value: 0x000000, options: 'font.dropShadowColor' },
-      dropShadowAngle: { value: Math.PI / 4, options: 'font.dropShadowAngle' },
-      dropShadowDistance: { value: 5, options: 'font.dropShadowDistance' },
-      dropShadowBlur: { value: 0, options: 'font.dropShadowBlur' },
-      padding: { value: 0, options: 'font.padding' },
-      textBaseline: { value: 'alphabetic', options: 'font.textBaseline' },
-      lineJoin: { value: 'miter', options: 'font.lineJoin' },
-      miterLimit: { value: 10, options: 'font.miterLimit' },
+      size: { value: 20, options: 'size' },
+      name: { value: 'Glass TTY VT220', options: 'name' },
+      style: { value: 'normal', options: 'style' },
+      variant: { value: 'normal', options: 'variant' },
+      weight: { value: 'normal', options: 'weight' },
+      color: { value: 0xFFFFFF, options: 'color' },
+      align: { value: 'left', options: 'align' },
+      stroke: { value: null, options: 'stroke' },
+      strokeThickness: { value: 0, options: 'strokeThickness' },
+      wordWrap: { value: false, options: 'wordWrap' },
+      wordWrapWidth: { value: 100, options: 'wordWrapWidth' },
+      letterSpacing: { value: 0, options: 'letterSpacing' },
+      breakWords: { value: false, options: 'breakWords' },
+      lineHeight: { value: 0, options: 'lineHeight' },
+      dropShadow: { value: false, options: 'dropShadow' },
+      dropShadowColor: { value: 0x000000, options: 'dropShadowColor' },
+      dropShadowAngle: { value: Math.PI / 4, options: 'dropShadowAngle' },
+      dropShadowDistance: { value: 5, options: 'dropShadowDistance' },
+      dropShadowBlur: { value: 0, options: 'dropShadowBlur' },
+      padding: { value: 0, options: 'padding' },
+      textBaseline: { value: 'alphabetic', options: 'textBaseline' },
+      lineJoin: { value: 'miter', options: 'lineJoin' },
+      miterLimit: { value: 10, options: 'miterLimit' },
     }
   }
 
   get fontObject () {
-    return {
-      font: this.size + 'px "' + this.name + '"',
+    return new PIXI.TextStyle({
+      fontFamily: this.name,
+      fontSize: this.size,
+      fontStyle: this.style,
+      fontWeight: this.weight,
+      fontVariant: this.variant,
       fill: this.color,
       align: this.align,
       stroke: this.stroke,
       strokeThickness: this.strokeThickness,
+      breakWords: this.breakWords,
       wordWrap: this.wordWrap,
       wordWrapWidth: this.wordWrapWidth,
       letterSpacing: this.letterSpacing,
-      breakWords: this.breakWords,
       lineHeight: this.lineHeight,
       dropShadow: this.dropShadow,
       dropShadowColor: this.dropShadowColor,
@@ -52,7 +59,7 @@ export default class Font extends Plugin {
       textBaseline: this.textBaseline,
       lineJoin: this.lineJoin,
       miterLimit: this.miterLimit,
-    }
+    })
   }
 
 }

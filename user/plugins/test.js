@@ -1,25 +1,17 @@
 
 export default class extends Plugin {
 
-  constructor (options = {}) {
-    super(options)
-    this._name = 'test'
+  constructor () {
+    super()
+    this.name = 'test'
   }
 
-  destroy () {
-    super.destroy()
+  attach ($, options = {}) {
+    $._test = true
   }
 
-  load (obj, options = {}) {
-    if (super.load(obj, options)) {
-      obj._test = true
-    }
-  }
-
-  unload (obj) {
-    if (super.unload(obj)) {
-      delete obj._test
-    }
+  detach ($) {
+    delete $._test
   }
 
   test () {

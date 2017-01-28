@@ -14,12 +14,12 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
   constructor () {
     super(...arguments)
     this.on('mouseover', this.onMouseOver)
-    this.on('mouseout', this.onMouseOver)
+    this.on('mouseout', this.onMouseOut)
   }
 
   destroy () {
     this.off('mouseover', this.onMouseOver)
-    this.off('mouseout', this.onMouseOver)
+    this.off('mouseout', this.onMouseOut)
     super.destroy()
   }
 
@@ -29,6 +29,7 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
 
   onMouseOver (e) {
     app.screen.currentOver = this
+    e.stopPropagation()
   }
 
   onMouseOut (e) {

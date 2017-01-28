@@ -13,9 +13,9 @@ export default class Titlebar extends Plugin {
     }
   }
 
-  init ($, options = {}) {
+  attach ($, options = {}) {
     let w = $.eachParent(c => c.hasPlugin('window'))
-    if (w) {
+    if (w && $.__movable) {
       $.__movable.target = w
     }
     this._titleText = new app.Text(this._title, $.__font.fontObject)
@@ -24,7 +24,7 @@ export default class Titlebar extends Plugin {
     this._titleText.plug('textedit')
   }
 
-  destroy ($) {
+  detach ($) {
     $.removeChild(this._titleText)
   }
 

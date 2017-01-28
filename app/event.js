@@ -10,6 +10,7 @@ export class Event {
     this.bubbles = bubbles
     this.stopped = false
     this.stoppedImmediate = false
+    this.defaultPrevented = false
   }
 
   stop () {
@@ -32,6 +33,9 @@ export class Event {
     this.bubbles = false
   }
 
+  preventDefault () {
+    this.defaultPrevented = true
+  }
 }
 
 
@@ -82,8 +86,11 @@ export let EmitterMixin = Mixin(superclass => class EmitterMixin extends supercl
   emit (name, data) {
     this._listeners = this._listeners || {}
 
+    let origEventData
+
     if (!data || data.__eventObject !== true) {
       if (data && data.data && data.type) {
+        origEventData = data
         data = data.data
       }
       data = new Event(this, name, data)
@@ -98,6 +105,10 @@ export let EmitterMixin = Mixin(superclass => class EmitterMixin extends supercl
         }
       }
       if (data.stopped) {
+        if (origEventData) {
+          origEventData.stopped = true
+          data.cancelBubble()
+        }
         return this
       }
     }
@@ -106,7 +117,7 @@ export let EmitterMixin = Mixin(superclass => class EmitterMixin extends supercl
       this.parent.emit(name, data)
     }
 
-    return this
+    return this.defaultPrevented
   }
 
 })

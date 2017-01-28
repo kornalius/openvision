@@ -4,21 +4,21 @@ export default class Splitter extends Plugin {
   constructor () {
     super()
     this.name = 'splitter'
-    this.desc = 'A splitter attached to a container.'
+    this.desc = 'A splitter attach to a container.'
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
     this.dependencies = ['interactive', 'mouse']
     this.properties = {
-      container: { value: null, options: 'container', set: this.setContainer },
-      size: { value: 2, options: 'size', update: this.layout },
-      side: { value: 'r', options: 'side', update: this.layout },
+      container: { value: null, options: true, set: this.setContainer },
+      size: { value: 2, options: true, update: this.layout },
+      side: { value: 'r', options: true, update: this.layout },
     }
     this.listeners = {
       $mousemove: this.onMousemove,
     }
   }
 
-  init ($, options = {}) {
+  attach ($, options = {}) {
     this._layout = this.layout.bind(this)
     if (this._container) {
       this._container.on('updatetransform', this._layout)
@@ -26,7 +26,7 @@ export default class Splitter extends Plugin {
     this.layout()
   }
 
-  destroy ($) {
+  detach ($) {
     if (this._container) {
       this._container.off('updatetransform', this._layout)
     }

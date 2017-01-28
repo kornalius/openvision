@@ -12,7 +12,7 @@ export default class Shape extends Plugin {
     }
   }
 
-  init ($, options = {}) {
+  attach ($, options = {}) {
     let c = this._shape = new app.Shape($.width, $.height)
     c.fill = _.get(options, 'fill', true)
     c.color = _.get(options, 'color', 0xFFFFFF)
@@ -25,7 +25,7 @@ export default class Shape extends Plugin {
     $.addChild(c)
   }
 
-  destroy ($) {
+  detach ($) {
     $.removeChild(this._shape)
     $.update()
   }

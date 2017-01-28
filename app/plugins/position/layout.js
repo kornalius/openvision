@@ -16,7 +16,7 @@ export default class Layout extends Plugin {
     }
   }
 
-  init ($, options) {
+  attach ($, options) {
     this.exec()
   }
 

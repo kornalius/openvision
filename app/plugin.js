@@ -92,6 +92,40 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     }
   }
 
+  _getPropertyInfos (k, options) {
+    let _properties = this.properties
+    let v = _properties[k]
+
+    // check if must be added to owner's or plugin's instance
+    let ownerProp = false
+    if (k.startsWith('$')) {
+      k = k.substring(1)
+      ownerProp = true
+    }
+
+    // get default value or options arg value
+    let vo = v.options
+    if (_.isBoolean(vo)) {
+      vo = vo === true ? k : undefined
+    }
+    let value = vo ? _.get(options, this.name + '.' + vo) : undefined
+    if (_.isUndefined(value)) {
+      value = _.get(options, vo, v.value)
+    }
+
+    return { name: k, ownerProp, value }
+  }
+
+  _assignOptions ($, options) {
+    let _properties = this.properties
+    for (let k in _properties) {
+      let { value, name } = this._getPropertyInfos(k, options)
+      if (!_.isUndefined(value)) {
+        $['_' + name] = value
+      }
+    }
+  }
+
   // create properties on proto or $ instance
   _createProperties (proto, $, options) {
     let _properties = this.properties
@@ -99,20 +133,12 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     for (let k in _properties) {
       let v = _properties[k]
 
-      // check if must be added to owner's or plugin's instance
-      let ownerProp = false
-      if (k.startsWith('$')) {
-        k = k.substring(1)
-        ownerProp = true
-      }
-
-      // get default value or options arg value
-      let value = v.options ? _.get(options, v.options, v.value) : v.value
+      let { name, ownerProp, value } = this._getPropertyInfos(k, options)
 
       // property declaration
       if (!_.isUndefined(value)) {
         // private property name
-        let name = '_' + k
+        let privateName = '_' + name
 
         // should the owner's instance call the update() method after the setter
         let update = v.update
@@ -120,19 +146,28 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
         let p = ownerProp ? $ : proto
         let props = ownerProp ? '__ownerProps' : '__props'
 
-        proto[props][name] = value
+        proto[props][privateName] = value
 
-        // create getter and setter
-        this._createProperty(p, k,
-          v.get || function () { return this[name] },
-          v.set || function (value) {
-            if (value !== this[name]) {
-              this[name] = value
-              if (update) {
-                if (_.isFunction(update)) {
-                  update.call(this)
-                }
-                else if (this.$) {
+        let setter = function (value) {
+          if (value !== this[privateName]) {
+            this[privateName] = value
+          }
+        }
+
+        if (update) {
+          if (_.isFunction(update)) {
+            setter = function (value) {
+              if (value !== this[privateName]) {
+                this[privateName] = value
+                update.call(this)
+              }
+            }
+          }
+          else {
+            setter = function (value) {
+              if (value !== this[privateName]) {
+                this[privateName] = value
+                if (this.$) {
                   this.$.update()
                 }
                 else {
@@ -141,6 +176,12 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
               }
             }
           }
+        }
+
+        // create getter and setter
+        this._createProperty(p, name,
+          v.get || function () { return this[privateName] },
+          v.set || setter
         )
       }
     }
@@ -243,27 +284,17 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     }
   }
 
-  canLoad ($) {
-    let name = this.name
-
-    if (this.isPluginLoaded($, name)) {
-      if (this._showErrors()) {
-        console.error('Plugin', name, 'already loaded')
-      }
-      return false
-    }
-
-    return true
-  }
+  canLoad ($) { return !this.isPluginLoaded($, this.name) }
 
   load ($, options = {}) {
     let name = this.name
 
-    if (this._showMessages()) {
-      console.log(_.repeat('  ', loadLevel) + 'Loading', name)
-    }
+    // if (this._showMessages()) {
+      // console.log(_.repeat('  ', loadLevel) + 'Loading', name)
+    // }
 
     if (!this.canLoad($)) {
+      this._assignOptions($, options)
       return false
     }
 
@@ -310,9 +341,9 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     // tell this plugin instance that it's been loaded into $ instance
     this.__loaded.push($)
 
-    // call new instance init method
-    if (_.isFunction(plugin.init)) {
-      plugin.init($, options)
+    // call new instance attach method
+    if (_.isFunction(plugin.attach)) {
+      plugin.attach($, options)
     }
 
     loadLevel--
@@ -349,9 +380,9 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
   unload ($) {
     let name = this.name
 
-    if (this._showMessages()) {
-      console.log(_.repeat('  ', loadLevel) + 'Unloading', name)
-    }
+    // if (this._showMessages()) {
+      // console.log(_.repeat('  ', loadLevel) + 'Unloading', name)
+    // }
 
     if (!this.canUnload($)) {
       return false
@@ -362,9 +393,9 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
     let __plugins = this.plugins($)
     let plugin = __plugins[name]
 
-    // call plugin instance destroy method
-    if (_.isFunction(plugin.destroy)) {
-      plugin.destroy($)
+    // call plugin instance detach method
+    if (_.isFunction(plugin.detach)) {
+      plugin.detach($)
     }
 
     // delete owner's instance properties created by the plugin
@@ -435,12 +466,12 @@ export let PluginMixin = Mixin(superclass => class PluginMixin extends superclas
 
     if (_.isObject(name)) {
       options = name
-      name = _.get(options, 'name')
+      name = _.get(options, '__name')
     }
 
     let p = plugins[name]
     if (p) {
-      p.load(this, _.extend(options, { name }))
+      p.load(this, _.extend(options, { __name: name }))
     }
 
     return this

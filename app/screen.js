@@ -28,9 +28,10 @@ export class Screen extends Display {
     this._scale = scale
 
     this._renderer = new PIXI.autoDetectRenderer(this._width * this._scale, this._height * this._scale, {})
+    this._renderer.view.style.display = 'block'
     this._renderer.view.style.position = 'absolute'
-    this._renderer.view.style.cursor = 'none'
     this._renderer.view.id = 'screen'
+    document.body.style.overflow = 'hidden'
     document.body.appendChild(this._renderer.view)
 
     this._stage = new Container()
@@ -52,11 +53,13 @@ export class Screen extends Display {
     stage.on('mouseupoutside', this.onMouseUp.bind(this))
     stage.on('touchendoutside', this.onMouseUp.bind(this))
 
-    this._renderer.view.addEventListener('wheel', this.onScroll.bind(this), { capture: false, passive: true })
+    this._onScroll = this.onScroll.bind(this)
+    this._renderer.view.addEventListener('wheel', this._onScroll, { capture: false, passive: true })
 
     this.resize()
 
-    window.addEventListener('resize', this.resize.bind(this))
+    this._resize = this.resize.bind(this)
+    window.addEventListener('resize', this.resize)
 
     this.test()
   }
@@ -75,6 +78,9 @@ export class Screen extends Display {
       this._canvas.remove()
       this._canvas = null
     }
+
+    this._renderer.view.removeEventListener('wheel', this._onScroll)
+    window.removeEventListener('resize', this.resize)
 
     super.destroy()
   }
@@ -249,12 +255,12 @@ export class Screen extends Display {
 
   onScroll (e) {
     let t = this.currentOver
-    if (t && _.get(t, '__plugins.scrollable')) {
+    if (t && t.hasPlugin && t.hasPlugin('scrollable')) {
       let res = -120
       let deltaX = 0
       let deltaY = 0
 
-      if (t.scrollHorizontal) {
+      if (t.__scrollable.horizontal) {
         deltaX = e.wheelDeltaX * res
         if (deltaX <= res) {
           deltaX = -1
@@ -264,7 +270,7 @@ export class Screen extends Display {
         }
       }
 
-      if (t.scrollVertical) {
+      if (t.__scrollable.vertical) {
         deltaY = e.wheelDeltaY * res
         if (deltaY <= res) {
           deltaY = -1
@@ -274,7 +280,7 @@ export class Screen extends Display {
         }
       }
 
-      if (t.scrollHorizontal || t.scrollVertical) {
+      if (t.__scrollable.horizontal || t.__scrollable.vertical) {
         t.emit('scroll', {
           delta: new PIXI.Point(deltaX, deltaY),
           wheelDelta: new PIXI.Point(e.wheelDeltaX, e.wheelDeltaY)

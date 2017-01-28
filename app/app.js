@@ -24,7 +24,9 @@ import { Settings, sysSettings, usrSettings } from './lib/settings.js'
 import { Checkpoint, Change, Changes } from './lib/change.js'
 import { Range, Ranges, RANGE_NORMAL, RANGE_RECT } from './lib/range.js'
 import { Emitter } from './event.js'
+import { templatize, templates, registerTemplate } from './template.js'
 
+window.$t = templatize
 
 window.Plugin = Plugin
 window.q = utils.q
@@ -107,6 +109,8 @@ export class App extends Base {
   get sysSettings () { return sysSettings }
   get usrSettings () { return usrSettings }
 
+  get updates () { return updates }
+
   get Emitter () { return Emitter }
 
   get Base () { return Base }
@@ -149,6 +153,9 @@ export class App extends Base {
   get shortcuts () { return shortcuts }
   get keyboard () { return keyboard }
   get vm () { return vm }
+
+  get templates () { return templates }
+  get registerTemplate () { return registerTemplate }
 
   get p () { return utils.p }
   get name () { return utils.name }
@@ -281,18 +288,35 @@ export class App extends Base {
     let t = new Sprite(this.loadTexture('test.png'))
     this.stage.addChild(t)
 
-    let text = this.TextEdit({ text: 'This is a pixi text\nHere is another line\nAnd another!' })
+    let text = this.TextEdit({ text: 'This is a pixi text\nHere is another line\nAnd another!', multiline: true })
     this.stage.addChild(text)
     text.moveTo(50, 50)
 
-    let text2 = new Text('Cool another box of text', { font: '20px "Glass TTY VT220"', fill: 0xffcc66 })
+    let text2 = new Text('Cool another box of text', { fontSize: 20, fontFamily: 'Glass TTY VT220', fill: 0xffcc66 })
     this.stage.addChild(text2)
     text2.moveTo(50, 120)
     text2.plug('textedit')
 
-    let w = this.Window({ title: 'My Window', alpha: 0.95, width: 200, height: 150, x: 50, y: 150 })
+    let l = this.List({
+      x: 50,
+      y: 150,
+      width: 200,
+      height: 150,
+    })
+    for (let i = 0; i <= 25; i++) {
+      l.addChild($t('text', 'Item #' + i, { fontSize: 20, fontFamily: 'Glass TTY VT220', fill: 0xffcc66 }))
+    }
+    this.stage.addChild(l)
+
+    let w = this.Window({
+      title: 'My Window',
+      alpha: 0.95,
+      x: 25,
+      y: 150,
+      width: 200,
+      height: 150,
+    })
     this.stage.addChild(w)
-    w.moveTo(25, 150)
 
     this.screen.refresh()
   }

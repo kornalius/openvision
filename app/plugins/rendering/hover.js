@@ -14,7 +14,7 @@ export default class Hover extends Plugin {
     }
   }
 
-  init ($, options = {}) {
+  attach ($, options = {}) {
     let r = this.padding
     let hr = this._rect = new app.Rectangle($.width + r.width, $.height + r.height)
     hr.fill = false

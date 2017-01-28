@@ -45,7 +45,8 @@
     "Mixin": false,
     "mix": false,
     "Plugin": false,
-    "app": false
+    "app": false,
+    "$t": false
   },
 
   "extends": [

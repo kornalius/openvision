@@ -39,18 +39,6 @@ _.templateSettings.interpolate = /#{([\s\S]+?)}/g
 window.is = is
 
 
-PIXI.Point.prototype.distance = function (target) {
-  return Math.sqrt((this.x - target.x) * (this.x - target.x) + (this.y - target.y) * (this.y - target.y))
-}
-
-PIXI.Point.prototype.toString = function () {
-  return _.template('(#{x}, #{y})')(this)
-}
-
-PIXI.Rectangle.prototype.toString = function () {
-  return _.template('(#{x}, #{y}, #{x + width}, #{y + height})(#{width}, #{height})')(this)
-}
-
 let userPath = path.join(app.getAppPath(), '/user')
 if (!fs.existsSync(userPath)) {
   fs.mkdirs(userPath)

@@ -51,20 +51,20 @@ export let TextMixin = Mixin(superclass => class TextMixin extends superclass {
   get charWidth () { return this.getTextWidth(' ') }
 
   get charHeight () {
-    let p = PIXI.Text.calculateFontProperties(this._style.font)
-    return this._style.lineHeight || p.fontSize + this._style.strokeThickness
+    let p = PIXI.Text.calculateFontProperties(this._font)
+    return p.fontSize
   }
 
   getTextWidth (s) {
-    return this.context.measureText(s).width + (s.length - 1) * this._style.letterSpacing
+    return this.context.measureText(s).width + (s.length - 1) * this.style.letterSpacing
   }
 
-  updateText () {
-    super.updateText(...arguments)
-    // this.updateTexture()
+  updateText (respectDirty) {
     // this.width += this.charWidth * this.resolution
-    // this.updateTransform()
-    return this.update()
+    super.updateText(respectDirty)
+    if (this.dirty) {
+      this.update()
+    }
   }
 
 })
@@ -81,7 +81,6 @@ Encoder.register('Text', {
     let doc = {}
     doc.text = e('text', obj, doc)
     doc.style = e('style', obj, doc)
-    doc.resolution = e('resolution', obj, doc)
     return doc
   },
 
@@ -89,10 +88,9 @@ Encoder.register('Text', {
     if (obj) {
       obj.text = d('text', doc, obj)
       obj.style = d('style', doc, obj)
-      obj.resolution = d('resolution', doc, obj)
     }
     else {
-      obj = new Text(d('text', doc, obj), d('style', doc, obj), d('resolution', doc, obj))
+      obj = new Text(d('text', doc, obj), d('style', doc, obj))
     }
     return obj
   },

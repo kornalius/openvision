@@ -26,7 +26,7 @@ export default class Caret extends Plugin {
     }
   }
 
-  init ($, options = {}) {
+  attach ($, options = {}) {
     let c = this._shape = new app.Rectangle(this.viewWidth, this.viewHeight)
     c.color = this._color
     c.alpha = this._alpha
@@ -39,7 +39,7 @@ export default class Caret extends Plugin {
     this.set(this._x, this._y)
   }
 
-  destroy ($) {
+  detach ($) {
     clearInterval(this._interval)
     $.removeChild(this._shape)
     $.update()

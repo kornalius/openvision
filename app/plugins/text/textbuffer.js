@@ -43,7 +43,7 @@ export default class TextBuffer extends Plugin {
     }
   }
 
-  init ($, options = {}) {
+  attach ($, options = {}) {
     this.value = $.text || this._value
   }
 

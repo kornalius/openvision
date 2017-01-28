@@ -10,14 +10,14 @@ export default class Interactive extends Plugin {
     this.nolink = true
   }
 
-  init ($, options = {}) {
+  attach ($, options = {}) {
     $.interactive = true
     $.buttonMode = true
     this._oldDefaultCursor = $.defaultCursor
     $.defaultCursor = 'default'
   }
 
-  destroy ($) {
+  detach ($) {
     $.interactive = false
     $.buttonMode = false
     $.defaultCursor = this._oldDefaultCursor

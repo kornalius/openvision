@@ -13,7 +13,7 @@ export default class FocusRect extends Plugin {
     }
   }
 
-  init ($, options = {}) {
+  attach ($, options = {}) {
     let r = this.padding
     let fr = this._rect = new app.Rectangle($.width + r.width, $.height + r.height)
     fr.fill = false
@@ -23,12 +23,14 @@ export default class FocusRect extends Plugin {
     fr.visible = false
     $.addChild(fr)
 
+    this.onUpdateTransform()
+
     if (this.$.__focusable.focused) {
       this.show()
     }
   }
 
-  destroy ($) {
+  detach ($) {
     $.removeChild(this._rect)
     $.update()
   }
@@ -58,12 +60,19 @@ export default class FocusRect extends Plugin {
     let $ = this.$
     let fr = this._rect
     let r = this.padding
-    if (fr.visible && (fr.x !== r.x || fr.y !== r.y || fr.width !== $.width + r.width || fr.height !== $.height + r.height)) {
+    if (fr.x !== r.x || fr.y !== r.y || fr.width !== $.width + r.width || fr.height !== $.height + r.height) {
       fr.x = r.x
       fr.y = r.y
       fr.width = $.width + r.width
       fr.height = $.height + r.height
       fr.update()
+      let m = $.mask
+      if (m) {
+        m.x = fr.x
+        m.y = fr.y
+        m.width = fr.width
+        m.height = fr.height
+      }
     }
   }
 

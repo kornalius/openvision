@@ -19,12 +19,12 @@ export default class Focusable extends Plugin {
     }
   }
 
-  init ($, options) {
+  attach ($, options) {
     this._onKeydown = this.onKeydown.bind(this)
     window.addEventListener('keydown', this._onKeydown, false)
   }
 
-  destroy ($) {
+  detach ($) {
     window.removeEventListener('keydown', this._onKeydown, false)
   }
 
@@ -60,7 +60,6 @@ export default class Focusable extends Plugin {
   }
 
   focus (e) {
-    console.log('focus', this);
     if (this._enabled) {
       if (focused && focused.__focusable) {
         focused.__focusable.blur()

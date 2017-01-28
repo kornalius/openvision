@@ -11,25 +11,25 @@ export default class Window extends Plugin {
 
     app.Window = (options = {}) => {
       let w = new app.Rectangle(_.get(options, 'width', 200), _.get(options, 'height', 150))
+      w.fill = _.get(options, 'fill', true)
       w.color = _.get(options, 'color', 0xb3b3b3)
-      w.alpha = _.get(options, 'alpha', 1)
       w.borderColor = _.get(options, 'borderColor', 0xFFFFFF)
       w.borderAlpha = _.get(options, 'borderAlpha', 1)
       w.borderSize = _.get(options, 'borderSize', 0.5)
-      w.plug('window', { title: _.get(options, 'title', '') })
+      w.plug('window', options)
       return w
     }
   }
 
-  init ($, options = {}) {
+  attach ($, options = {}) {
     this._titlebar = new app.Rectangle($.width, 24)
     this._titlebar.color = 0xffcc66
-    this._titlebar.alpha = 1 + (1.0 - $.alpha)
+    this._titlebar.alpha = 1
     $.addChild(this._titlebar)
     this._titlebar.plug('titlebar', { title: options.title || 'Untitled', font: { color: 0x333333 } })
   }
 
-  destroy ($) {
+  detach ($) {
     $.removeChild(this._titlebar)
   }
 

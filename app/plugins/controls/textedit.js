@@ -7,10 +7,12 @@ export default class TextEdit extends Plugin {
     this.desc = 'Allow text to be editable.'
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
-    this.dependencies = ['control', 'focusable', 'focusrect', 'hover', 'editable', 'textbuffer', 'font', 'caret']
+    this.dependencies = ['control', 'focusable', 'focusrect', 'hover', 'editable', 'textbuffer', 'font', 'caret', 'scrollable']
     this.properties = {
-      multiline: { value: true, options: 'multiline' },
+      multiline: { value: false, options: 'multiline' },
       acceptTab: { value: false, options: 'acceptTab', set: this.setAcceptTab },
+      maxWidth: { value: -1, options: true },
+      maxHeight: { value: -1, options: true },
     }
     this.overrides = {
       caret: {
@@ -31,7 +33,7 @@ export default class TextEdit extends Plugin {
     }
   }
 
-  init ($, options = {}) {
+  attach ($, options = {}) {
     this._oldTabIndex = $.__focusable.index
 
     this._oldDefaultCursor = $.defaultCursor
@@ -43,7 +45,7 @@ export default class TextEdit extends Plugin {
     this.$.__caret.reshape()
   }
 
-  destroy ($) {
+  detach ($) {
     window.removeEventListener('keydown', this._onKeydown, false)
     $.defaultCursor = this._oldDefaultCursor
   }

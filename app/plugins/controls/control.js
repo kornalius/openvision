@@ -13,11 +13,13 @@ export default class Control extends Plugin {
     }
   }
 
-  init ($, options = {}) {
+  attach ($, options = {}) {
     $.x = _.get(options, 'x', $.x)
     $.y = _.get(options, 'y', $.y)
-    $.width = _.get(options, 'width', $.width)
-    $.height = _.get(options, 'height', $.height)
+    if (!($ instanceof PIXI.Text)) {
+      $.width = _.get(options, 'width', $.width)
+      $.height = _.get(options, 'height', $.height)
+    }
     $.alpha = _.get(options, 'alpha', $.alpha)
     $.scale.x = _.get(options, 'scaleX', $.scale.x)
     $.scale.y = _.get(options, 'scaleY', $.scale.y)
@@ -27,11 +29,21 @@ export default class Control extends Plugin {
     $.skew.y = _.get(options, 'skewY', $.skew.y)
     $.rotation = _.get(options, 'rotation', $.rotation)
     $.visible = _.get(options, 'visible', $.visible)
+
+    let mask = new app.Rectangle($.width, $.height)
+    mask.isMask = true
+    $.mask = mask
+    $.addChild(mask)
+
     $.update()
   }
 
-  destroy ($) {
+  detach ($) {
     this.clearSplitters()
+    if ($.mask) {
+      $.mask.destroy()
+      $.mask = null
+    }
   }
 
   getSplitter (side = 'r') { return this._splitters[side] }
