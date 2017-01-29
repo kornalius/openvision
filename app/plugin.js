@@ -135,55 +135,52 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
 
       let { name, ownerProp, value } = this._getPropertyInfos(k, options)
 
-      // property declaration
-      if (!_.isUndefined(value)) {
-        // private property name
-        let privateName = '_' + name
+      // private property name
+      let privateName = '_' + name
 
-        // should the owner's instance call the update() method after the setter
-        let update = v.update
+      // should the owner's instance call the update() method after the setter
+      let update = v.update
 
-        let p = ownerProp ? $ : proto
-        let props = ownerProp ? '__ownerProps' : '__props'
+      let p = ownerProp ? $ : proto
+      let props = ownerProp ? '__ownerProps' : '__props'
 
-        proto[props][privateName] = value
+      proto[props][privateName] = value
 
-        let setter = function (value) {
-          if (value !== this[privateName]) {
-            this[privateName] = value
-          }
+      let setter = function (value) {
+        if (value !== this[privateName]) {
+          this[privateName] = value
         }
-
-        if (update) {
-          if (_.isFunction(update)) {
-            setter = function (value) {
-              if (value !== this[privateName]) {
-                this[privateName] = value
-                update.call(this)
-              }
-            }
-          }
-          else {
-            setter = function (value) {
-              if (value !== this[privateName]) {
-                this[privateName] = value
-                if (this.$) {
-                  this.$.update()
-                }
-                else {
-                  this.update()
-                }
-              }
-            }
-          }
-        }
-
-        // create getter and setter
-        this._createProperty(p, name,
-          v.get || function () { return this[privateName] },
-          v.set || setter
-        )
       }
+
+      if (update) {
+        if (_.isFunction(update)) {
+          setter = function (value) {
+            if (value !== this[privateName]) {
+              this[privateName] = value
+              update.call(this)
+            }
+          }
+        }
+        else {
+          setter = function (value) {
+            if (value !== this[privateName]) {
+              this[privateName] = value
+              if (this.$) {
+                this.$.update()
+              }
+              else {
+                this.update()
+              }
+            }
+          }
+        }
+      }
+
+      // create getter and setter
+      this._createProperty(p, name,
+        v.get || function () { return this[privateName] },
+        v.get && v.set ? v.set : setter
+      )
     }
   }
 

@@ -7,61 +7,104 @@ export default class Layout extends Plugin {
     this.desc = 'Allow automating layouting children of a container.'
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
+    this.dependencies = []
     this.properties = {
-      enabled: { value: true, options: 'enabled', update: this.exec },
-      dir: { value: true, options: 'dir', update: this.exec },
-      size: { value: true, options: 'size', update: this.exec },
-      wrap: { value: true, options: 'wrap', update: this.exec },
-      align: { value: true, options: 'align', update: this.exec },
+      enabled: { value: true, options: true, update: this.layout },
+      dir: { value: 'v', options: true, update: this.layout },
+      size: { value: true, options: true, update: this.layout },
+      wrap: { value: { width: Number.MAX_SAFE_INTEGER, height: 180, padding: 8 }, options: true, update: this.layout },
+      align: { value: true, options: true, update: this.layout },
     }
   }
 
   attach ($, options) {
-    this.exec()
+    this.layout()
   }
 
-  get isHorizontal () { return this._dir === 'h' }
+  get horizontal () { return this.dir === 'h' }
 
-  get isVertical () { return this._dir === 'v' }
+  get vertical () { return this.dir === 'v' }
 
-  create (dir = 'h', size = 0, align = 0, wrap = false) {
-    this.dir = dir
-    this.size = size
-    this.align = align
-    this.wrap = wrap
-    return this.exec()
+  create (dir = 'h', size = 0, align = 0, wrap) {
+    this._dir = dir
+    this._size = size
+    this._align = align
+    this._wrap = wrap
+    return this.layout()
   }
 
-  exec () {
-    let x = 0
-    let y = 0
-
+  layout () {
     if (this.enabled) {
-      for (var c of this.$.children) {
-        c.x = x
-        c.y = y
+      let $ = this.$
 
-        if (c.layout && c.layout.enabled) {
-          let size = c.layout.size
+      let topPadding = $.topPadding
+      let leftPadding = $.leftPadding
 
-          if (this.isHorizontal && size > 0) {
+      let horizontal = this.horizontal
+      let vertical = this.vertical
+
+      let x = leftPadding
+      let y = topPadding
+
+      let wrapWidth = _.get(this, 'wrap.width', Number.MAX_SAFE_INTEGER)
+      let wrapHeight = _.get(this, 'wrap.height', Number.MAX_SAFE_INTEGER)
+      let wrapPadding = _.get(this, 'wrap.padding', 0)
+
+      let group = []
+
+      debugger;
+
+      let nx
+      let ny
+      let w
+      let h
+      for (let c of $.children) {
+        if (!c.isMask) {
+          if (vertical) {
+            ny = y + c.height
+            if (wrapHeight !== -1 && ny > wrapHeight) {
+              w = 0
+              for (let gc of group) {
+                if (!gc.isMask && gc.width > w) {
+                  w = gc.width
+                }
+              }
+              x += w + wrapPadding
+              y = topPadding
+              ny = y + c.height
+              group = []
+            }
+            y = ny
           }
-          else if (this.isVertical && size > 0) {
+
+          else if (horizontal) {
+            nx = x + c.width
+            if (wrapWidth !== -1 && nx > wrapWidth) {
+              h = 0
+              for (let gc of group) {
+                if (!gc.isMask && gc.height > h) {
+                  h = gc.height
+                }
+              }
+              x = leftPadding
+              nx = x + c.width
+              y += h + wrapPadding
+              group = []
+            }
+            x = nx
           }
 
+          group.push(c)
+
+          c.x = x
+          c.y = y
           c.update()
         }
-
-        if (this.isHorizontal) {
-          x += c.width
-        }
-        else if (this.isVertical) {
-          y += c.height
-        }
       }
+
+      $.update()
     }
 
-    this.$.update()
     return this
   }
 

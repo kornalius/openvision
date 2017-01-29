@@ -22,9 +22,7 @@ export default class Window extends Plugin {
   }
 
   attach ($, options = {}) {
-    this._titlebar = new app.Rectangle($.width, 24)
-    this._titlebar.color = 0xffcc66
-    this._titlebar.alpha = 1
+    this._titlebar = app.Bar({ width: $.width, height: 24, color: 0xffcc66 })
     $.addChild(this._titlebar)
     this._titlebar.plug('titlebar', { title: options.title || 'Untitled', font: { color: 0x333333 } })
   }

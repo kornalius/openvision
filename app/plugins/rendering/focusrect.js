@@ -15,6 +15,7 @@ export default class FocusRect extends Plugin {
 
   attach ($, options = {}) {
     let r = this.padding
+    this.$.padding = { }
     let fr = this._rect = new app.Rectangle($.width + r.width, $.height + r.height)
     fr.fill = false
     fr.borderSize = _.get(options, 'size', 1)

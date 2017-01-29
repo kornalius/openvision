@@ -32,6 +32,30 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
   get bottom () { return this.y + this.height }
   set bottom (value) { this.height = value - this.y }
 
+  get topLeft () { return { x: this.x, y: this.y } }
+  set topLeft (value) {
+    this.x = value.x
+    this.y = value.y
+  }
+
+  get topRight () { return { x: this.right, y: this.y } }
+  set topRight (value) {
+    this.right = value.x
+    this.y = value.y
+  }
+
+  get bottomLeft () { return { x: this.x, y: this.bottom } }
+  set bottomLeft (value) {
+    this.x = value.x
+    this.bottom = value.y
+  }
+
+  get bottomRight () { return { x: this.right, y: this.bottom } }
+  set bottomRight (value) {
+    this.right = value.x
+    this.bottom = value.y
+  }
+
   get centerX () { return this.x + this.halfWidth }
   set centerX (value) { this.x = value - this.halfWidth }
 
@@ -64,6 +88,10 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
       return Math.random(this.y, this.height)
     }
   }
+
+  get randomWidth () { return Math.random(0, this.width) }
+
+  get randomHeight () { return Math.random(0, this.height) }
 
   moveTo (x, y) {
     this.position.set(x, y)
@@ -124,27 +152,44 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
   }
 
   updateTransform () {
+    let o = this._oldTransform
     if (this._trackUpdateEvents) {
-      if (this._oldTransform) {
-        if (this.x !== this._oldTransform.x || this.y !== this._oldTransform.y) {
-          this.emit('move', { x: this._oldTransform.x, y: this._oldTransform.y })
+      if (o) {
+        if (this.x !== o.x || this.y !== o.y) {
+          this.emit('move', { x: o.x, y: o.y })
         }
-        if (this.width !== this._oldTransform.width || this.height !== this._oldTransform.height) {
-          this.emit('size', { width: this._oldTransform.width, height: this._oldTransform.height })
+        if (this.z !== o.z) {
+          this.emit('z-order', { z: o.z })
         }
-        if (this.scale.x !== this._oldTransform.scaleX || this.scale.y !== this._oldTransform.scaleY) {
-          this.emit('scale', { x: this._oldTransform.scale.x, y: this._oldTransform.scale.y })
+        if (this.width !== o.width || this.height !== o.height) {
+          this.emit('size', { width: o.width, height: o.height })
         }
-        if (this.skew.x !== this._oldTransform.skewX || this.skew.y !== this._oldTransform.skewY) {
-          this.emit('skew', { x: this._oldTransform.skew.x, y: this._oldTransform.skew.y })
+        if (this.scale.x !== o.scaleX || this.scale.y !== o.scaleY) {
+          this.emit('scale', { x: o.scale.x, y: o.scale.y })
         }
-        if (this.pivot.x !== this._oldTransform.pivotX || this.pivot.y !== this._oldTransform.pivotY) {
-          this.emit('pivot', { x: this._oldTransform.pivot.x, y: this._oldTransform.pivot.y })
+        if (this.skew.x !== o.skewX || this.skew.y !== o.skewY) {
+          this.emit('skew', { x: o.skew.x, y: o.skew.y })
+        }
+        if (this.pivot.x !== o.pivotX || this.pivot.y !== o.pivotY) {
+          this.emit('pivot', { x: o.pivot.x, y: o.pivot.y })
+        }
+        if (this.alpha !== o.alpha) {
+          this.emit('alpha', { alpha: o.alpha })
+        }
+        if (this.visible !== o.visible) {
+          this.emit('visible', { visible: o.visible })
+        }
+        if (this.renderable !== o.renderable) {
+          this.emit('renderable', { renderable: o.renderable })
+        }
+        if (this.rotation !== o.rotation) {
+          this.emit('rotation', { rotation: o.rotation })
         }
       }
       this._oldTransform = {
         x: this.x,
         y: this.y,
+        z: this.z,
         width: this.width,
         height: this.height,
         scaleX: this.scale.x,
@@ -153,6 +198,10 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
         skewY: this.skew.y,
         pivotX: this.pivot.x,
         pivotY: this.pivot.y,
+        alpha: this.alpha,
+        rotation: this.rotation,
+        visible: this.visible,
+        renderable: this.renderable,
       }
     }
     this.emit('updatetransform')

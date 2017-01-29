@@ -30,20 +30,11 @@ export default class Control extends Plugin {
     $.rotation = _.get(options, 'rotation', $.rotation)
     $.visible = _.get(options, 'visible', $.visible)
 
-    let mask = new app.Rectangle($.width, $.height)
-    mask.isMask = true
-    $.mask = mask
-    $.addChild(mask)
-
     $.update()
   }
 
   detach ($) {
     this.clearSplitters()
-    if ($.mask) {
-      $.mask.destroy()
-      $.mask = null
-    }
   }
 
   getSplitter (side = 'r') { return this._splitters[side] }
