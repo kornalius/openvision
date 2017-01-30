@@ -14,18 +14,25 @@ export default class Button extends Plugin {
   }
 
   attach ($, options = {}) {
-    let t = this._displayObject = new app.Text(this._text, this._font)
+    let t = this._labelText = new app.Text(this._text, this._font)
     t.align()
     $.addChild(t)
   }
 
   detach ($) {
-    $.removeChild(this._displayObject)
+    $.removeChild(this._labelText)
   }
 
   setText (value) {
     this._text = value
-    this._displayObject.update()
+    this._labelText.update()
+  }
+
+  get content () { return this._text }
+  set content (value) {
+    if (this._text !== value) {
+      this.setText(value)
+    }
   }
 
 }

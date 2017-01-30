@@ -7,8 +7,9 @@ export default class List extends Plugin {
     this.desc = 'Allow a container to act as a list.'
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
-    this.dependencies = ['control', 'scrollable', 'layout']
+    this.dependencies = ['control', 'scrollable', 'layout', 'font']
     this.properties = {
+      items: { value: [], options: true, update: this.updateItems },
     }
 
     app.List = (options = {}) => {
@@ -23,12 +24,37 @@ export default class List extends Plugin {
   }
 
   attach ($, options = {}) {
-    this._layout = this.$.__layout.layout.bind(this.$.__layout)
+    this._layout = $.__layout.layout.bind($.__layout)
     $.on('childrenchange', this._layout)
   }
 
   detach ($) {
     $.off('childrenchange', this._layout)
+  }
+
+  updateItems () {
+    let $ = this.$
+
+    $.off('childrenchange', this._layout)
+
+    for (let c of _.clone($.children)) {
+      if (!c.isMask) {
+        $.removeChild(c)
+        c.destroy()
+      }
+    }
+
+    let f = $.__font
+
+    for (let i of this.items) {
+      $.addChild($t('text', i, { fontSize: f.size, fontFamily: f.name, fill: f.color }))
+    }
+
+    $.on('childrenchange', this._layout)
+
+    this._layout()
+
+    return this
   }
 
 }

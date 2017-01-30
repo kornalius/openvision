@@ -24,7 +24,7 @@ export default class Scrollable extends Plugin {
               }
             }
           }
-          this._width = w + this.$.paddingWidth
+          this._width = w + this.$.rightPadding
         }
         return this._width
       } },
@@ -39,7 +39,7 @@ export default class Scrollable extends Plugin {
               }
             }
           }
-          this._height = h + this.$.paddingHeight
+          this._height = h + this.$.bottomPadding
         }
         return this._height
       } },

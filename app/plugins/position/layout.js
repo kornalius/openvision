@@ -52,8 +52,6 @@ export default class Layout extends Plugin {
 
       let group = []
 
-      debugger;
-
       let nx
       let ny
       let w
@@ -74,6 +72,8 @@ export default class Layout extends Plugin {
               ny = y + c.height
               group = []
             }
+            c.x = x
+            c.y = y
             y = ny
           }
 
@@ -91,13 +91,13 @@ export default class Layout extends Plugin {
               y += h + wrapPadding
               group = []
             }
+            c.x = x
+            c.y = y
             x = nx
           }
 
           group.push(c)
 
-          c.x = x
-          c.y = y
           c.update()
         }
       }

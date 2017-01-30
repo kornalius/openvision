@@ -58,6 +58,13 @@ export default class TextBuffer extends Plugin {
     return this.lines // to update text on Text container
   }
 
+  get content () { return this._value }
+  set content (value) {
+    if (this._value !== value) {
+      this.set(value)
+    }
+  }
+
   get length () { return this._value.length }
 
   refresh () {

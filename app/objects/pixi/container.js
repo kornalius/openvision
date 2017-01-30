@@ -28,6 +28,9 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
 
   get padding () { return this._padding }
   set padding (value) {
+    if (_.isNumber(value)) {
+      value = { left: value, top: value, right: value, bottom: value }
+    }
     if (!_.isEqual(this._padding, value)) {
       this._padding = value
       this.update()
@@ -97,19 +100,11 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
   maxBottom (group) { return _.maxBy(group || this.children, 'bottom') }
   minBottom (group) { return _.minBy(group || this.children, 'bottom') }
 
-  maximize () {
-    this.x = this.parent.leftPadding
-    this.y = this.parent.topPadding
-    this.width = this.parent.innerWidth
-    this.height = this.parent.innerHeight
-    return this.update()
-  }
-
   get innerWidth () { return this.width - this.paddingWidth }
   get innerHeight () { return this.height - this.paddingHeight }
 
-  get topPadding () { return this.padding.top }
   get leftPadding () { return this.padding.left }
+  get topPadding () { return this.padding.top }
   get rightPadding () { return this.padding.right }
   get bottomPadding () { return this.padding.bottom }
 
@@ -268,6 +263,14 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
     this.x = x
     this.y = y
 
+    return this.update()
+  }
+
+  maximize () {
+    this.x = this.parent.leftPadding
+    this.y = this.parent.topPadding
+    this.width = this.parent.innerWidth
+    this.height = this.parent.innerHeight
     return this.update()
   }
 

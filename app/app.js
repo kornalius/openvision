@@ -303,9 +303,11 @@ export class App extends Base {
       width: 200,
       height: 150,
     })
+    let items = []
     for (let i = 0; i <= 25; i++) {
-      l.addChild($t('text', 'Item #' + i, { fontSize: 20, fontFamily: 'Glass TTY VT220', fill: 0xffcc66 }))
+      items.push('Item #' + i)
     }
+    l.__list.items = items
     this.stage.addChild(l)
 
     let w = this.Window({

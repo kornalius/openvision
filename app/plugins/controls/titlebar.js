@@ -28,4 +28,12 @@ export default class Titlebar extends Plugin {
     $.removeChild(this._titleText)
   }
 
+  get content () { return this._titleText.text }
+  set content (value) {
+    if (this._titleText.text !== value) {
+      this._titleText.text = value
+      this._titleText.update()
+    }
+  }
+
 }
