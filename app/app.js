@@ -25,6 +25,7 @@ import { Checkpoint, Change, Changes } from './lib/change.js'
 import { Range, Ranges, RANGE_NORMAL, RANGE_RECT } from './lib/range.js'
 import { Emitter } from './event.js'
 import { templatize, templates, registerTemplate } from './template.js'
+import { maxChildrenX, minChildrenX, maxChildrenY, minChildrenY, maxChildrenZ, minChildrenZ, maxChildrenWidth, minChildrenWidth, maxChildrenHeight, minChildrenHeight, maxChildrenRight, minChildrenRight, maxChildrenBottom, minChildrenBottom } from './objects/pixi/utils.js'
 
 window.$t = templatize
 
@@ -327,3 +328,18 @@ export class App extends Base {
 
 export let app = new App()
 window.app = app
+
+app.maxChildrenX = maxChildrenX
+app.minChildrenX = minChildrenX
+app.maxChildrenY = maxChildrenY
+app.minChildrenY = minChildrenY
+app.maxChildrenZ = maxChildrenZ
+app.minChildrenZ = minChildrenZ
+app.maxChildrenWidth = maxChildrenWidth
+app.minChildrenWidth = minChildrenWidth
+app.maxChildrenHeight = maxChildrenHeight
+app.minChildrenHeight = minChildrenHeight
+app.maxChildrenRight = maxChildrenRight
+app.minChildrenRight = minChildrenRight
+app.maxChildrenBottom = maxChildrenBottom
+app.minChildrenBottom = minChildrenBottom

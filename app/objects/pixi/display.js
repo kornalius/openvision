@@ -7,8 +7,31 @@ import { updates } from '../../lib/updates.js'
 import { DBMixin } from '../db.js'
 import { Encoder, e, d } from '../../lib/encoder.js'
 
-
 export let DisplayMixin = Mixin(superclass => class DisplayMixin extends superclass {
+
+  constructor () {
+    super(...arguments)
+
+    this._margin = { left: 0, top: 0, right: 0, bottom: 0 }
+
+    this._autoSize = '' // w, h
+    this._autoAlign = '' // t, l, r, b, c, m
+
+    this._constrains = {
+      min: {
+        x: undefined,
+        y: undefined,
+        width: undefined,
+        height: undefined,
+      },
+      max: {
+        x: undefined,
+        y: undefined,
+        width: undefined,
+        height: undefined,
+      }
+    }
+  }
 
   destroy () {
     if (updates) {
@@ -16,6 +39,8 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
     }
     super.destroy()
   }
+
+  get layout () { return this._layout }
 
   get trackUpdateEvents () { return this._trackUpdateEvents }
   set trackUpdateEvents (value) { this._trackUpdateEvents = value }
@@ -62,6 +87,31 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
   get centerY () { return this.y + this.halfHeight }
   set centerY (value) { this.y = value - this.halfHeight }
 
+  constrainsValue (prop) {
+    let v = _.get(this.constrains, prop, NaN)
+    return v
+  }
+
+  get minX () { return this.constrainsValue('min.x') }
+  get maxX () { return this.constrainsValue('max.x') }
+
+  get minY () { return this.constrainsValue('min.y') }
+  get maxY () { return this.constrainsValue('max.y') }
+
+  get minWidth () { return this.constrainsValue('min.width') }
+  get maxWidth () { return this.constrainsValue('max.width') }
+
+  get minHeight () { return this.constrainsValue('min.height') }
+  get maxHeight () { return this.constrainsValue('max.height') }
+
+  get leftMargin () { return this.margin.left }
+  get topMargin () { return this.margin.top }
+  get rightMargin () { return this.margin.right }
+  get bottomMargin () { return this.margin.bottom }
+
+  get marginWidth () { return this.leftMargin + this.rightMargin }
+  get marginHeight () { return this.topMargin + this.bottomMargin }
+
   centerOn (x, y) {
     this.centerX = x
     this.centerY = y
@@ -92,6 +142,8 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
   get randomWidth () { return Math.random(0, this.width) }
 
   get randomHeight () { return Math.random(0, this.height) }
+
+  get constrains () { return this._constrains }
 
   moveTo (x, y) {
     this.position.set(x, y)
@@ -206,6 +258,11 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
     }
     this.emit('updatetransform')
     super.updateTransform(...arguments)
+  }
+
+  layoutChildren (children) {
+    // sort by children order
+    children = _.sortBy(_.filter(children, c => !c.isMask), 'layout.order')
   }
 
 })

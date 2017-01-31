@@ -41,10 +41,11 @@ export class Event {
 
 export let EmitterMixin = Mixin(superclass => class EmitterMixin extends superclass {
 
-  on (name, fn) {
+  on (name, fn, order = 0) {
     this._listeners = this._listeners || {}
     this._listeners[name] = this._listeners[name] || []
-    this._listeners[name].push(fn)
+    this._listeners[name].push({ fn, order })
+    this._listeners[name] = _.sortBy(this._listeners[name], 'order')
     return this
   }
 
@@ -71,7 +72,7 @@ export let EmitterMixin = Mixin(superclass => class EmitterMixin extends supercl
     let i = fn ? list.length : 0
 
     while (i-- > 0) {
-      if (list[i] === fn || list[i]._originalHandler === fn) {
+      if (list[i].fn === fn || list[i]._originalHandler === fn) {
         list.splice(i, 1)
       }
     }
@@ -99,7 +100,7 @@ export let EmitterMixin = Mixin(superclass => class EmitterMixin extends supercl
     if (this._listeners[name]) {
       let listeners = _.clone(this._listeners[name])
       for (let l of listeners) {
-        l.call(this, data)
+        l.fn.call(this, data)
         if (data.stoppedImmediate) {
           return this
         }
