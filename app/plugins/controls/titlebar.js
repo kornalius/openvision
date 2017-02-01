@@ -9,7 +9,7 @@ export default class Titlebar extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['bar', 'movable', 'font']
     this.properties = {
-      title: { value: 'Untitled', options: 'title' },
+      title: { value: 'Untitled' },
     }
   }
 
@@ -20,7 +20,7 @@ export default class Titlebar extends Plugin {
     }
     this._titleText = new app.Text(this._title, $.__font.fontObject)
     $.addChild(this._titleText)
-    this._titleText.align()
+    this._titleText.alignToParent()
     this._titleText.plug('textedit')
   }
 

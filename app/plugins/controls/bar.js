@@ -7,7 +7,7 @@ export default class Bar extends Plugin {
     this.desc = 'Container that has sections.'
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
-    this.dependencies = ['control', 'layout']
+    this.dependencies = ['control', 'flow']
 
     app.Bar = (options = {}) => {
       let b = new app.Rectangle(_.get(options, 'width', 0), _.get(options, 'height', 24))

@@ -9,9 +9,9 @@ export default class Splitter extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['interactive', 'mouse']
     this.properties = {
-      container: { value: null, options: true, set: this.setContainer },
-      size: { value: 2, options: true, update: this.layout },
-      side: { value: 'r', options: true, update: this.layout },
+      container: { value: null, set: this.setContainer },
+      size: { value: 2, update: this.layout },
+      side: { value: 'r', update: this.layout },
     }
     this.listeners = {
       $mousemove: this.onMousemove,

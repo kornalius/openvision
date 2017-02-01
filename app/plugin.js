@@ -103,11 +103,10 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
       ownerProp = true
     }
 
+    // get options arg value
+    let vo = _.isUndefined(v.options) || v.options === true ? k : _.isString(v.options) ? v.options : undefined
+
     // get default value or options arg value
-    let vo = v.options
-    if (_.isBoolean(vo)) {
-      vo = vo === true ? k : undefined
-    }
     let value = vo ? _.get(options, this.name + '.' + vo) : undefined
     if (_.isUndefined(value)) {
       value = _.get(options, vo, v.value)
@@ -179,7 +178,7 @@ export class Plugin extends mix(EmptyClass).with(EmitterMixin, MetaMixin) {
       // create getter and setter
       this._createProperty(p, name,
         v.get || function () { return this[privateName] },
-        v.get && v.set ? v.set : setter
+        v.set || setter
       )
     }
   }
@@ -520,6 +519,9 @@ export var loadPlugins = (extraPaths = []) => {
                 else {
                   console.error('Could not find Class and/or Mixin exports in', file.path)
                 }
+              }).catch(err => {
+                console.error(err, file.path)
+                resolve()
               })
             }
           }

@@ -9,13 +9,13 @@ export default class Button extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['control']
     this.properties = {
-      text: { value: 'BUTTON', options: 'text', set: this.setText },
+      text: { value: 'BUTTON', set: this.setText },
     }
   }
 
   attach ($, options = {}) {
     let t = this._labelText = new app.Text(this._text, this._font)
-    t.align()
+    t.alignToParent()
     $.addChild(t)
   }
 

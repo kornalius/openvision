@@ -9,9 +9,9 @@ export default class Selectable extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['interactive', 'mouse', 'keyboard']
     this.properties = {
-      enabled: { value: true, options: 'enabled' },
-      selector: { value: null, options: 'selector' },
-      selected: { value: false, options: 'selected' },
+      enabled: { value: true },
+      selector: { value: null },
+      selected: { value: false },
     }
     this.listeners = {
       'selected-changed': this.dispatchEvent,

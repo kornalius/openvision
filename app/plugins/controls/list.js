@@ -7,9 +7,9 @@ export default class List extends Plugin {
     this.desc = 'Allow a container to act as a list.'
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
-    this.dependencies = ['control', 'scrollable', 'layout', 'font']
+    this.dependencies = ['control', 'scrollable', 'flow', 'font']
     this.properties = {
-      items: { value: [], options: true, update: this.updateItems },
+      items: { value: [], update: this.updateItems },
     }
 
     app.List = (options = {}) => {
@@ -24,18 +24,18 @@ export default class List extends Plugin {
   }
 
   attach ($, options = {}) {
-    this._layout = $.__layout.layout.bind($.__layout)
-    $.on('childrenchange', this._layout)
+    this._flow = $.__flow.reflow.bind($.__flow)
+    $.on('childrenchange', this._flow)
   }
 
   detach ($) {
-    $.off('childrenchange', this._layout)
+    $.off('childrenchange', this._flow)
   }
 
   updateItems () {
     let $ = this.$
 
-    $.off('childrenchange', this._layout)
+    $.off('childrenchange', this._flow)
 
     for (let c of _.clone($.children)) {
       if (!c.isMask) {
@@ -50,9 +50,9 @@ export default class List extends Plugin {
       $.addChild($t('text', i, { fontSize: f.size, fontFamily: f.name, fill: f.color }))
     }
 
-    $.on('childrenchange', this._layout)
+    $.on('childrenchange', this._flow)
 
-    this._layout()
+    this._flow()
 
     return this
   }

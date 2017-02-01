@@ -8,10 +8,10 @@ export default class Collapsable extends Plugin {
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
     this.properties = {
-      enabled: { value: true, options: 'enabled' },
-      dir: { value: 'h', options: 'dir' },
-      size: { value: 0, options: 'size' },
-      active: { value: false, options: 'active' },
+      enabled: { value: true },
+      dir: { value: 'h' },
+      size: { value: 0 },
+      active: { value: false },
     }
   }
 

@@ -8,8 +8,8 @@ export default class Grid extends Plugin {
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
     this.properties = {
-      width: { value: 8, options: true },
-      height: { value: 8, options: true },
+      width: { value: 8 },
+      height: { value: 8 },
     }
     this.listeners = {
       $move: this.exec,

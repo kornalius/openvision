@@ -9,14 +9,14 @@ export default class Caret extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['editable']
     this.properties = {
-      x: { value: 0, options: 'x' },
-      y: { value: 0, options: 'y' },
-      style: { value: 'vline', options: 'style', set: this.setStyle },
-      color: { value: 0xFFFFFF, options: 'color', set: this.setColor },
-      alpha: { value: 1, options: 'alpha', set: this.setAlpha },
-      visible: { value: true, options: 'visible', set: this.setVisible },
-      speed: { value: 500, options: 'speed', set: this.setSpeed },
-      wrap: { value: true, options: 'wrap' },
+      x: { value: 0 },
+      y: { value: 0 },
+      style: { value: 'vline', set: this.setStyle },
+      color: { value: 0xFFFFFF, set: this.setColor },
+      alpha: { value: 1, set: this.setAlpha },
+      visible: { value: true, set: this.setVisible },
+      speed: { value: 500, set: this.setSpeed },
+      wrap: { value: true },
     }
     this.listeners = {
       $mousedown: this.onMousedown,

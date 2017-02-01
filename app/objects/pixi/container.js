@@ -15,9 +15,28 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
     super(...arguments)
 
     this._padding = { left: 0, top: 0, right: 0, bottom: 0 }
+    this._margin = { left: 0, top: 0, right: 0, bottom: 0 }
 
-    this._autoArrange = '' // h, v
-    this._wrap = false
+    this._align = '' // 'l', 't', 'r', 'b', 'f', 'c'
+
+    this._anchors = 'lt' // 'l', 't', 'r', 'b'
+    this._anchorRules = { x: 0, y: 0 }
+    this._parentSize = { x: 0, y: 0 }
+
+    this._constrains = {
+      min: {
+        x: undefined,
+        y: undefined,
+        width: undefined,
+        height: undefined,
+      },
+      max: {
+        x: undefined,
+        y: undefined,
+        width: undefined,
+        height: undefined,
+      }
+    }
 
     this.on('mouseover', this.onMouseOver)
     this.on('mouseout', this.onMouseOut)
@@ -26,8 +45,113 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
   destroy () {
     this.off('mouseover', this.onMouseOver)
     this.off('mouseout', this.onMouseOut)
+
     super.destroy()
   }
+
+  get right () { return this.x + this.width }
+  set right (value) { this.width = value - this.x }
+
+  get bottom () { return this.y + this.height }
+  set bottom (value) { this.height = value - this.y }
+
+  get topRight () { return { x: this.right, y: this.y } }
+  set topRight (value) {
+    this.right = value.x
+    this.y = value.y
+  }
+
+  get bottomLeft () { return { x: this.x, y: this.bottom } }
+  set bottomLeft (value) {
+    this.x = value.x
+    this.bottom = value.y
+  }
+
+  get bottomRight () { return { x: this.right, y: this.bottom } }
+  set bottomRight (value) {
+    this.right = value.x
+    this.bottom = value.y
+  }
+
+  get bounds () {
+    return {
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height,
+      right: this.right,
+      bottom: this.bottom
+    }
+  }
+
+  setBounds (x, y, width, height) {
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+    this.update()
+  }
+
+  get halfWidth () { return this.width / 2 }
+  get halfHeight () { return this.height / 2 }
+
+  get centerX () { return this.x + this.halfWidth }
+  set centerX (value) { this.x = value - this.halfWidth }
+
+  get centerY () { return this.y + this.halfHeight }
+  set centerY (value) { this.y = value - this.halfHeight }
+
+  // random
+
+  get randomX () { return Math.random(this.x, this.width - (this.x < 0 ? Math.abs(this.x) : 0)) }
+  get randomY () { return Math.random(this.y, this.height - (this.y < 0 ? Math.abs(this.y) : 0)) }
+  get randomWidth () { return Math.random(0, this.width) }
+  get randomHeight () { return Math.random(0, this.height) }
+
+  // margins
+
+  get margin () { return this._margin }
+  set margin (value) {
+    if (_.isNumber(value)) {
+      value = { left: value, top: value, right: value, bottom: value }
+    }
+    if (!_.isEqual(this._margin, value)) {
+      this._margin = value
+      this.update()
+      this._updateAnchorRules()
+      this._realign()
+    }
+  }
+
+  get leftMargin () { return this.margin.left }
+  get topMargin () { return this.margin.top }
+  get rightMargin () { return this.margin.right }
+  get bottomMargin () { return this.margin.bottom }
+
+  get marginWidth () { return this.leftMargin + this.rightMargin }
+  get marginHeight () { return this.topMargin + this.bottomMargin }
+
+  get outerBounds () {
+    return {
+      x: this.x - this.leftMargin,
+      y: this.y - this.topMargin,
+      width: this.width + this.marginWidth,
+      height: this.height + this.marginHeight,
+      right: this.right + this.rightMargin,
+      bottom: this.bottom + this.bottomMargin
+    }
+  }
+
+  get outerX () { return this.x - this.leftMargin }
+  get outerY () { return this.y - this.topMargin }
+  get outerLeft () { return this.x - this.leftMargin }
+  get outerTop () { return this.y - this.topMargin }
+  get outerRight () { return this.right + this.rightMargin }
+  get outerBottom () { return this.bottom + this.bottomMargin }
+  get outerWidth () { return this.width + this.marginWidth }
+  get outerHeight () { return this.height + this.marginHeight }
+
+  // padding
 
   get padding () { return this._padding }
   set padding (value) {
@@ -37,11 +161,45 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
     if (!_.isEqual(this._padding, value)) {
       this._padding = value
       this.update()
+      this._updateAnchorRules()
+      this._realign()
     }
   }
 
+  get leftPadding () { return this.padding.left }
+  get topPadding () { return this.padding.top }
+  get rightPadding () { return this.padding.right }
+  get bottomPadding () { return this.padding.bottom }
+
+  get paddingWidth () { return this.leftPadding + this.rightPadding }
+  get paddingHeight () { return this.topPadding + this.bottomPadding }
+
+  get innerBounds () {
+    return {
+      x: this.x + this.leftPadding,
+      y: this.y + this.topPadding,
+      width: this.width - this.paddingWidth,
+      height: this.height - this.paddingHeight,
+      right: this.right - this.rightPadding,
+      bottom: this.bottom - this.bottomPadding
+    }
+  }
+
+  get innerX () { return this.x + this.leftPadding }
+  get innerY () { return this.y + this.topPadding }
+  get innerLeft () { return this.x + this.leftPadding }
+  get innerTop () { return this.y + this.topPadding }
+  get innerRight () { return this.right - this.rightPadding }
+  get innerBottom () { return this.bottom - this.bottomPadding }
+  get innerWidth () { return this.width - this.paddingWidth }
+  get innerHeight () { return this.height - this.paddingHeight }
+
+  // constrains
+
+  get constrains () { return this._constrains }
+
   constrainsValue (prop) {
-    let v = super.constrainsValue(prop)
+    let v = _.get(this.constrains, prop, NaN)
     let parent = this.parent
     if (parent) {
       if (prop.endsWith('.width')) {
@@ -52,6 +210,63 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
       }
     }
     return v
+  }
+
+  get minX () { return this.constrainsValue('min.x') }
+  get maxX () { return this.constrainsValue('max.x') }
+
+  get minY () { return this.constrainsValue('min.y') }
+  get maxY () { return this.constrainsValue('max.y') }
+
+  get minWidth () { return this.constrainsValue('min.width') }
+  get maxWidth () { return this.constrainsValue('max.width') }
+
+  get minHeight () { return this.constrainsValue('min.height') }
+  get maxHeight () { return this.constrainsValue('max.height') }
+
+  // alignment
+
+  get align () { return this._align }
+  set align (value) {
+    if (this._align !== value) {
+      this._align = value
+      this.update()
+      this._realign()
+    }
+  }
+
+  get anchors () { return this._anchors }
+  set anchors (value) {
+    if (this._anchors !== value) {
+      this._anchors = value
+      this.update()
+      this._updateAnchorRules()
+      this._realign()
+    }
+  }
+
+  // utils
+
+  floorAll () {
+    this.x = Math.floor(this.x)
+    this.y = Math.floor(this.y)
+    this.width = Math.floor(this.width)
+    this.height = Math.floor(this.height)
+    return this
+  }
+
+  ceilAll () {
+    this.x = Math.ceil(this.x)
+    this.y = Math.ceil(this.y)
+    this.width = Math.ceil(this.width)
+    this.height = Math.ceil(this.height)
+    return this
+  }
+
+  resize (width, height) {
+    this.width = width
+    this.height = height
+    return this
   }
 
   onChildrenChange () {
@@ -117,17 +332,6 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
   maxChildrenBottom () { return app.maxChildrenBottom(this.children) }
   minChildrenBottom () { return app.minChildrenBottom(this.children) }
 
-  get innerWidth () { return this.width - this.paddingWidth }
-  get innerHeight () { return this.height - this.paddingHeight }
-
-  get leftPadding () { return this.padding.left }
-  get topPadding () { return this.padding.top }
-  get rightPadding () { return this.padding.right }
-  get bottomPadding () { return this.padding.bottom }
-
-  get paddingWidth () { return this.leftPadding + this.rightPadding }
-  get paddingHeight () { return this.topPadding + this.bottomPadding }
-
   relWidth (value) {
     return _.isInteger(value) ? value : value * this.innerWidth
   }
@@ -136,7 +340,7 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
     return _.isInteger(value) ? value : value * this.innerHeight
   }
 
-  align (side = 'c', stretch = false) {
+  alignToParent (side = 'c', stretch = false) {
     let topPadding = this.topPadding
     let leftPadding = this.leftPadding
 
@@ -212,7 +416,7 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
     return this.update()
   }
 
-  snap (containers = this.parent.children, sides = 'tlbrc', padding = 8) {
+  snapTo (containers = this.parent.children, sides = 'tlbrc', padding = 8) {
     let x = this.x
     let y = this.y
 
@@ -283,218 +487,230 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
     return this.update()
   }
 
-  layout () {
-    let autoSize = this.autoSize
-    let leftMargin = this.leftMargin
-    let topMargin = this.topMargin
-    let maxWidth = this.maxWidth
-    let maxHeight = this.maxHeight
-    let innerWidth = this.innerWidth
-    let innerHeight = this.innerHeight
+  _hasAnchors (anchors, sameLength = false) {
+    if (sameLength && anchors.length !== this.anchors.length) {
+      return false
+    }
+    for (let a of anchors.split('')) {
+      if (this.anchors.indexOf(a) === -1) {
+        return false
+      }
+    }
+    return true
+  }
 
-    let aktX = 0
-    let aktY = 0
-    let newX = 0
-    let newY = 0
-    let maxY = 0
-    let newMaxX = 0
-    let controlMaxX = 0
-    let controlMaxY = 0
-    let tmpWidth = 0
-    let tmpHeight = 0
-    let oldHeight = 0
-    let oldWidth = 0
-    let offsetX = 0
-    let offsetY = 0
-    let perLine = 0
-    let rects = []
-    let offsets = []
-    let lineCount = 0
-    let len = 0
-
-    if (this._autoArrange) {
-      this._arrangeWidth = 0
-      this._arrangeHeight = 0
-      this._arranging = true
-
-      oldHeight = this.height
-      oldWidth = this.width
-      tmpHeight = this.height
-      tmpWidth = this.width
-      aktY = topMargin
-      aktX = leftMargin
-      maxY = -1
-
-      controlMaxX = autoSize in ['w', 'wh'] ? tmpWidth - 2 * leftMargin : -1
-      controlMaxY = autoSize in ['h', 'wh'] ? tmpHeight - 2 * topMargin : -1
-
-      let children = _.sortBy(_.filter(this.children, c => !c.isMask && c.visible), 'layout.order')
-
-      rects = new Array(children.length)
-
-      for (let c of children) {
-        if (c instanceof Container) {
-          c.layout()
-        }
-        if (c.width + 2 * leftMargin > tmpWidth) {
-          tmpWidth = c.width + 2 * leftMargin
-        }
+  _updateAnchorRules () {
+    if (!this._anchorMove) {
+      if (this._hasAnchors('lt', true)) {
+        return
       }
 
-      if (tmpWidth > maxWidth && maxWidth > 0) {
-        tmpWidth = maxWidth
+      if (this._hasAnchors('r')) {
+        this._anchorRules.x = this._hasAnchors('l') ? this.width : this.x
+      }
+      else {
+        this._anchorRules.x = this.x + this.width / 2
       }
 
-      perLine = 0
-      lineCount = 0
-      for (let i = 0; i < children.length; i++) {
-        let c = children[i]
-        rects[i].control = null
-        rects[i].lineBreak = false
-        newMaxX = leftMargin + aktX + c.width + c.rightMargin
-
-        if (((newMaxX > tmpWidth && !(autoSize in ['w', 'wh']) || newMaxX > maxWidth && maxWidth > 0)) &&
-            aktX > leftMargin && this.wrap) {
-          aktX = leftMargin + c.leftMargin
-          aktY = aktY + maxY + c.topMargin
-          maxY = -1
-          newX = aktX
-          newY = aktY
-          perLine = 1
-          rects[i].lineBreak = true
-          lineCount++
-        }
-        else {
-          newX = aktX
-          newY = aktY
-          perLine++
-        }
-
-        aktX += c.width
-        if (aktX > controlMaxX) {
-          controlMaxX = aktX
-        }
-        aktX += c.rightMargin
-
-        rects[i].control = c
-        rects[i].boundsRect = { x: newX, y: newY, width: newX + c.width, height: newY + c.height }
-        if (c.height > maxY) {
-          maxY = c.height
-        }
-
-        controlMaxY = aktY + maxY
+      if (this._hasAnchors('b')) {
+        this._anchorRules.y = this._hasAnchors('t') ? this.height : this.y
+      }
+      else {
+        this._anchorRules.y = this.y + this.height / 2
       }
 
-      if (rects.length > 0 && !_.last(rects).lineBreak) {
-        lineCount++
-      }
-
-      // Vertical / Horizontal alignment
-      let offsetX = 0
-      let offsetY = 0
-      if (!(autoSize in ['wh', 'h'])) {
-        switch (layout.VerticalAlignment) {
-          case 'm':
-            offsetY = (innerHeight - controlMaxY) / 2
-            break
-          case 'b':
-            offsetY = innerHeight - controlMaxY
-            break
-        }
-      }
-
-      if (!(autoSize in ['wh', 'w'])) {
-        switch (layout.HorizontalAlignment) {
-          case 'c':
-            offsetX = (innerWidth - controlMaxX) / 2
-            break
-          case 'r':
-            offsetX = innerWidth - controlMaxX
-            break
-        }
-      }
-
-      // Calculate the horizontal line alignment
-      if (layout.HorizontalAlignLines) {
-        offsets = new Array(lineCount)
-        len = rects.length
-        i = 0
-        lineCount = 0
-        while (i < len) {
-          // Skip unused slots
-          while (i < len && rects[i].control === null) {
-            i++
-          }
-          if (i < len) {
-            offsets[lineCount] = rects[i].boundsRect.x
-            // Find last control in the line
-            while (i + 1 < len && !rects[i + 1].lineBreak) {
-              i++
-            }
-            offsets[lineCount] = (controlMaxX - (rects[i].boundsRect.x + rects[i].boundsRect.width - offsets[lineCount])) / 2
-            lineCount++
-          }
-          i++
-        }
-      }
-
-      // Apply the new BoundRects to the controls
-      lineCount = 0
-      for (let i = 0; i < rects.length; i++) {
-        if (rects[i].control !== null) {
-          OffsetRect(rects[i].boundsRect, offsetX, offsetY)
-          if (layout.HorizontalAlignLines) {
-            if (rects[i].lineBreak) {
-              lineCount++
-            }
-            OffsetRect(rects[i].boundsRect, offsets[lineCount], 0)
-          }
-          SetControlBounds(rects[i].control, rects[i].boundsRect)
-        }
-      }
-
-      // Adjust panel bounds
-      if (autoSize in ['w', 'wh']) {
-        if (controlMaxX >= 0) {
-          if (maxWidth > 0 && controlMaxX >= maxWidth) {
-            tmpWidth = maxWidth
-          }
-          else {
-            tmpWidth = controlMaxX + leftMargin
-          }
-        }
-        else {
-          tmpWidth = 0
-        }
-      }
-
-      if (autoSize in ['h', 'wh']) {
-        if (controlMaxY >= 0) {
-          tmpHeight = controlMaxY + topMargin
-        }
-        else {
-          tmpHeight = 0
-        }
-      }
-
-      if (this.width !== tmpWidth) {
-        this.width = tmpWidth
-      }
-
-      if (this.height !== tmpHeight) {
-        this.height = tmpHeight
-      }
-
-      this._arrangeWidth = controlMaxX + 2 * leftMargin
-      this._arrangeHeight = controlMaxY + 2 * topMargin
-
-      if (oldWidth !== tmpWidth || oldHeight !== this.height) {
-        this.UpdateWindow(Handle)
-      }
-
-      this._arranging = false
+      this._parentSize.x = this.parent.width
+      this._parentSize.y = this.parent.height
     }
   }
+
+  _shouldInsertBefore (c1, c2, align) {
+    switch (align) {
+      case 't':
+        return c1.top < c2.top
+      case 'b':
+        return c1.top + c1.Height >= c2.top + c2.Height
+      case 'l':
+        return c1.left < c2.left
+      case 'r':
+        return c1.left + c1.Width >= c2.left + c2.Width
+    }
+    return false
+  }
+
+  get _hasChildWithAlign () {
+    for (let i = this.children.length - 1; i > 0; i--) {
+      let c = this.children[i]
+      if (!c.isMask && (c.align !== '' || !c._hasAnchors('lt', true))) {
+        return true
+      }
+    }
+    return false
+  }
+
+  _realign (c) {
+    let rect = new PIXI.Rectangle()
+    if (c && c._hasChildWithAlign) {
+      rect = c._doAlignment('t', rect)
+      rect = c._doAlignment('b', rect)
+      rect = c._doAlignment('l', rect)
+      rect = c._doAlignment('r', rect)
+      rect = c._doAlignment('c', rect)
+      rect = c._doAlignment('f', rect)
+      rect = c._doAlignment('', rect)
+    }
+    return rect
+  }
+
+  _doPosition (align, rect) {
+    let x
+    let y
+    let w
+    let h
+    let anchorAlign = [
+      'lt',
+      'ltr',
+      'lrb',
+      'ltb',
+      'rtb',
+      'ltrb',
+    ]
+
+    if (align === '' || !this._hasAnchors(anchorAlign[align], true)) {
+      if (this._parentSize.x !== 0 && this._parentSize.y !== 0) {
+        x = this.x
+        y = this.y
+        w = this.width
+        h = this.height
+        let parentSize = new PIXI.Point(this.parent.width, this.parent.height)
+
+        if (this._hasAnchors('r')) {
+          if (this._hasAnchors('l')) {
+            w = parentSize.x - (this._parentSize.x - this._anchorRules.x)
+          }
+          else {
+            x = parentSize.x - (this._parentSize.x - this._anchorRules.x)
+          }
+        }
+        else if (!this._hasAnchors('l')) {
+          x = this._anchorRules.x * parentSize.x / this._parentSize.x - w / 2
+        }
+
+        if (this._hasAnchors('b')) {
+          if (this._hasAnchors('t')) {
+            h = parentSize.y - (this._parentSize.y - this._anchorRules.y)
+          }
+          else {
+            y = parentSize.y - (this._parentSize.y - this._anchorRules.y)
+          }
+        }
+        else if (!this._hasAnchors('t')) {
+          y = this._anchorRules.y * parentSize.y / this._parentSize.y - h / 2
+        }
+
+        this._anchorMove = true
+        this.setBounds(x, y, w, h)
+        this._anchorMove = false
+      }
+
+      if (align === '') {
+        return rect
+      }
+    }
+
+    if (align !== '') {
+      w = rect.right - rect.x
+
+      if (w < 0 || align === 'l' || align === 'r') {
+        w = this.width
+      }
+
+      h = rect.bottom - rect.y
+      if (h < 0 || align === 't' || align === 'b') {
+        h = this.height
+      }
+
+      x = rect.x
+      y = rect.y
+      switch (align) {
+        case 't':
+          rect.y += h
+          break
+        case 'b':
+          rect.bottom -= h
+          y = rect.bottom
+          break
+        case 'l':
+          rect.x += w
+          break
+        case 'r':
+          rect.right -= w
+          x = rect.right
+          break
+        case 'c':
+          rect.right -= w
+          x = rect.right
+          break
+      }
+
+      this._anchorMove = true
+      this.setBounds(x, y, w, h)
+      this._anchorMove = false
+
+      if (this.width !== w || this.height !== h) {
+        switch (align) {
+          case 't':
+            rect.y -= h - this.height
+            break
+          case 'b':
+            rect.bottom += h - this.height
+            break
+          case 'l':
+            rect.x -= w - this.width
+            break
+          case 'r':
+            rect.right += w - this.width
+            break
+          case 'f':
+            rect.right += w - this.width
+            rect.bottom += h - this.height
+            break
+          case 'c':
+            rect.x += w - this.width
+            rect.y += h - this.height
+            break
+        }
+      }
+    }
+
+    return rect
+  }
+
+  _doAlignment (align, rect) {
+    let l = []
+
+    if (!this.isMask && (align === '' || this.visible && this.align === align)) {
+      l.push(this)
+    }
+
+    for (let i = this.children.length - 1; i > 0; i--) {
+      let c = this.children[i]
+      if (!c.isMask && c.visible && c.align === align) {
+        let j = 0
+        while (j < l.length && this._shouldInsertBefore(c, l[j], align)) {
+          j++
+        }
+        l.splice(j, 0, this)
+      }
+    }
+
+    for (let c of l) {
+      rect = c._doPosition(align, rect)
+    }
+
+    return rect
+  }
+
   maximize () {
     this.x = this.parent.leftPadding
     this.y = this.parent.topPadding
@@ -504,6 +720,26 @@ export let ContainerMixin = Mixin(superclass => class ContainerMixin extends sup
   }
 
   q (expr) { return jsonquery(expr, { data: this.root, parent: this.parent, source: this.children, allowRegexp: true }).value }
+
+  updateTransform () {
+    let o = this._oldTransform
+    if (this._trackUpdateEvents) {
+      if (o) {
+        if (this.width !== o.width || this.height !== o.height) {
+          this.emit('size', { width: o.width, height: o.height })
+        }
+      }
+      _.extend(this._oldTransform, {
+        width: this.width,
+        height: this.height,
+      })
+    }
+
+    super.updateTransform(...arguments)
+
+    this._updateAnchorRules()
+    this._realign()
+  }
 
 })
 
@@ -518,6 +754,8 @@ Encoder.register('Container', {
     let doc = {
       children: new Array(obj.children.length)
     }
+    doc.width = e('width', obj, doc)
+    doc.height = e('height', obj, doc)
     for (let i = 0; i < obj.children.length; i++) {
       doc.children[i] = e(obj.children[i], obj, doc)
     }
@@ -526,6 +764,8 @@ Encoder.register('Container', {
 
   decode: (doc, obj) => {
     obj = obj || new Container()
+    obj.width = d('width', doc, obj)
+    obj.height = d('height', doc, obj)
     for (let c of doc.children) {
       obj.addChild(d(c, doc, obj))
     }

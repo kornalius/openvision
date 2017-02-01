@@ -37,9 +37,9 @@ export default class TextBuffer extends Plugin {
     this.version = '1.0.0'
     this.properties = {
       value: { value: '', set: this.set },
-      wordwrap: { value: false, options: 'wordwrap', set: this.setWordwrap },
-      wrapwidth: { value: 0, options: 'wrapwidth', set: this.setWrapwidth },
-      wordbreak: { value: false, options: 'wordbreak', set: this.setWordbreak },
+      wordwrap: { value: false, set: this.setWordwrap },
+      wrapwidth: { value: 0, set: this.setWrapwidth },
+      wordbreak: { value: false, set: this.setWordbreak },
     }
   }
 

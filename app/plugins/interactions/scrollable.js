@@ -9,10 +9,12 @@ export default class Scrollable extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['interactive', 'mouse', 'keyboard']
     this.properties = {
-      top: { value: 0, options: true, update: this._scroll },
-      left: { value: 0, options: true, update: this._scroll },
+      top: { value: 0, update: this._scroll },
+      left: { value: 0, update: this._scroll },
       right: { get: function right () { return this.left + this.$.width } },
       bottom: { get: function bottom () { return this.top + this.$.height } },
+      stepX: { value: 1, update: this._scroll },
+      stepY: { value: 1, update: this._scroll },
       width: { get: function width () {
         if (_.isUndefined(this._width)) {
           let w = 0
@@ -43,8 +45,6 @@ export default class Scrollable extends Plugin {
         }
         return this._height
       } },
-      stepX: { value: 1, options: true, update: this._scroll },
-      stepY: { value: 1, options: true, update: this._scroll },
     }
     this.listeners = {
       $scroll: this.onScroll,

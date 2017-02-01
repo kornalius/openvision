@@ -11,8 +11,8 @@ export default class Focusable extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['interactive', 'mouse', 'keyboard']
     this.properties = {
-      enabled: { value: true, options: 'enabled', set: this.setEnabled },
-      index: { value: 1, options: 'index', update: true },
+      enabled: { value: true, set: this.setEnabled },
+      index: { value: 1, update: true },
     }
     this.listeners = {
       $mousedown: this.focus,

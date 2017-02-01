@@ -9,7 +9,7 @@ export default class Movable extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['interactive', 'mouse', 'keyboard']
     this.properties = {
-      target: { value: null, options: 'target' },
+      target: { value: null },
     }
     this.listeners = {
       $mousemove: this.onMousemove,

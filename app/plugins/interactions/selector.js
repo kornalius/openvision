@@ -9,8 +9,8 @@ export default class Selector extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['interactive', 'mouse', 'keyboard']
     this.properties = {
-      enabled: { value: true, options: 'enabled' },
-      selectables: { value: [], options: 'selectables' },
+      enabled: { value: true },
+      selectables: { value: [] },
     }
   }
 

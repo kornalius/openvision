@@ -8,17 +8,17 @@ export default class Tile extends Plugin {
     this.author = 'Alain Deschenes'
     this.version = '1.0.0'
     this.properties = {
-      layout: { value: 'h', options: 'layout' },
-      zones: { value: 3, options: 'zones' },
+      layout: { value: 'h' },
+      zones: { value: 3 },
     }
     this.listeners = {
       $childrenchange: this.exec,
     }
   }
 
-  get isHorizontal () { return this._layout === 'h' }
+  get isHorizontal () { return this.layout === 'h' }
 
-  get isVertical () { return this._layout === 'v' }
+  get isVertical () { return this.layout === 'v' }
 
   top () {
     let $ = this.$

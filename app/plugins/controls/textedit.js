@@ -9,10 +9,10 @@ export default class TextEdit extends Plugin {
     this.version = '1.0.0'
     this.dependencies = ['control', 'focusable', 'focusrect', 'hover', 'editable', 'textbuffer', 'font', 'caret', 'scrollable']
     this.properties = {
-      multiline: { value: false, options: 'multiline' },
-      acceptTab: { value: false, options: 'acceptTab', set: this.setAcceptTab },
-      maxWidth: { value: -1, options: true },
-      maxHeight: { value: -1, options: true },
+      multiline: { value: false, },
+      acceptTab: { value: false, set: this.setAcceptTab },
+      maxWidth: { value: -1 },
+      maxHeight: { value: -1 },
     }
     this.overrides = {
       caret: {
