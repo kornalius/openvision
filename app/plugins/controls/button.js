@@ -15,7 +15,7 @@ export default class Button extends Plugin {
 
   attach ($, options = {}) {
     let t = this._labelText = new app.Text(this._text, this._font)
-    t.alignToParent()
+    $.plug('layout').__layout.alignToParent()
     $.addChild(t)
   }
 

@@ -16,9 +16,10 @@ export default class Scrollable extends Plugin {
       stepX: { value: 1, update: this._scroll },
       stepY: { value: 1, update: this._scroll },
       width: { get: function width () {
+        let $ = this.$
         if (_.isUndefined(this._width)) {
           let w = 0
-          for (let c of this.$.children) {
+          for (let c of $.children) {
             if (!c.isMask) {
               let r = c.right + this.left
               if (r > w) {
@@ -26,14 +27,15 @@ export default class Scrollable extends Plugin {
               }
             }
           }
-          this._width = w + this.$.rightPadding
+          this._width = w + $.rightPadding
         }
         return this._width
       } },
       height: { get: function height () {
+        let $ = this.$
         if (_.isUndefined(this._height)) {
           let h = 0
-          for (let c of this.$.children) {
+          for (let c of $.children) {
             if (!c.isMask) {
               let b = c.bottom + this.top
               if (b > h) {
@@ -41,7 +43,7 @@ export default class Scrollable extends Plugin {
               }
             }
           }
-          this._height = h + this.$.bottomPadding
+          this._height = h + $.bottomPadding
         }
         return this._height
       } },

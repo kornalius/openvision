@@ -154,6 +154,7 @@ export class Screen extends Display {
 
   get stage () { return this._stage }
   get renderer () { return this._renderer }
+  get view () { return this._renderer.view }
 
   get sprite () { return this._sprite }
   get texture () { return this._texture }

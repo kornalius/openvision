@@ -519,7 +519,7 @@ export var loadPlugins = (extraPaths = []) => {
                 else {
                   console.error('Could not find Class and/or Mixin exports in', file.path)
                 }
-              }).catch(err => {
+              }, err => {
                 console.error(err, file.path)
                 resolve()
               })

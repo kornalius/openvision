@@ -20,7 +20,7 @@ export default class Titlebar extends Plugin {
     }
     this._titleText = new app.Text(this._title, $.__font.fontObject)
     $.addChild(this._titleText)
-    this._titleText.alignToParent()
+    this._titleText.plug('layout').__layout.alignToParent()
     this._titleText.plug('textedit')
   }
 

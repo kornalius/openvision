@@ -46,8 +46,6 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
     return this.moveTo(this.x + bx, this.y + by)
   }
 
-  // utils
-
   floor () {
     this.x = Math.floor(this.x)
     this.y = Math.floor(this.y)
@@ -63,9 +61,9 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
   update (options = {}) {
     updates.add(this, _.extend(options, {
       cb: () => {
-        if (_.get(this, '__plugins.renderable')) {
-          this.draw()
-        }
+        // if (this.__renderable) {
+          // this.draw()
+        // }
         // if (this.parent) {
           // this.updateTransform()
         // }
@@ -84,9 +82,6 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
         }
         if (this.z !== o.z) {
           this.emit('z-order', { z: o.z })
-        }
-        if (this.width !== o.width || this.height !== o.height) {
-          this.emit('size', { width: o.width, height: o.height })
         }
         if (this.scale.x !== o.scaleX || this.scale.y !== o.scaleY) {
           this.emit('scale', { x: o.scale.x, y: o.scale.y })
@@ -115,8 +110,6 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
         x: this.x,
         y: this.y,
         z: this.z,
-        width: this.width,
-        height: this.height,
         scaleX: this.scale.x,
         scaleY: this.scale.y,
         skewX: this.skew.x,
@@ -129,7 +122,9 @@ export let DisplayMixin = Mixin(superclass => class DisplayMixin extends supercl
         renderable: this.renderable,
       }
     }
+
     this.emit('updatetransform')
+
     super.updateTransform(...arguments)
   }
 
